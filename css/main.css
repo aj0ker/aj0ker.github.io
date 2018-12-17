@@ -1873,7 +1873,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #362234;
+  background: #fbff98;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2712,7 +2712,7 @@ embed {
   display: inline-block;
 }
 body {
-  background: url("/images/gakki.png");
+  background: url("/images/white.gif");
 }
 .post-body p a {
   color: #0593d3;
