@@ -108,7 +108,7 @@
 <meta property="og:image" content="http://yoursite.com/images/adb%20shell%20pm%20list%20packages.PNG">
 <meta property="og:image" content="http://yoursite.com/images/dumpsys%20meminfo.PNG">
 <meta property="og:image" content="http://yoursite.com/images/monkey%2010.PNG">
-<meta property="og:updated_time" content="2019-04-09T14:10:41.777Z">
+<meta property="og:updated_time" content="2019-04-09T14:16:43.742Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android渗透测试（一）">
 <meta name="twitter:description" content="Android安全基础Dalvik虚拟机（DVM）；Android4.4版本之后，Android运行时（ART）。Android安全模型的核心是Linux特权分离。与Linux类似，用作命令的二进制文件位于/system/bin和/system/xbin；安装的应用程序位于/data/data；原始安装文件（.apk）存储在/data/app；从Play商店购买的应用程序存储在/data/app-">
@@ -391,9 +391,9 @@
 
       
         <h2 id="Android安全基础"><a href="#Android安全基础" class="headerlink" title="Android安全基础"></a>Android安全基础</h2><p>Dalvik虚拟机（DVM）；Android4.4版本之后，Android运行时（ART）。<br>Android安全模型的核心是Linux特权分离。<br>与Linux类似，用作命令的二进制文件位于/system/bin和/system/xbin；安装的应用程序位于/data/data；原始安装文件（.apk）存储在/data/app；从Play商店购买的应用程序存储在/data/app-private/。</p>
-<h2 id="Android虚拟环境配置"><a href="#Android虚拟环境配置" class="headerlink" title="Android虚拟环境配置"></a>Android虚拟环境配置</h2><h3 id="Android-Studio"><a href="#Android-Studio" class="headerlink" title="Android Studio"></a>Android Studio</h3><p>下载地址<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ https://developer.android.com/studio</span><br></pre></td></tr></table></figure></p>
+<h2 id="Android虚拟环境配置"><a href="#Android虚拟环境配置" class="headerlink" title="Android虚拟环境配置"></a>Android虚拟环境配置</h2><h3 id="Android-Studio"><a href="#Android-Studio" class="headerlink" title="Android Studio"></a>Android Studio</h3><p>下载地址<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://developer.android.com/studio</span><br></pre></td></tr></table></figure></p>
 <p><a href="/Downloads/resources_zh_CN_AndroidStudio_3.3_r1.jar">汉化文件下载</a><br>将汉化文件复制到X:\Android\Android Studio\lib\，重启生效。</p>
-<h3 id="Genymotion"><a href="#Genymotion" class="headerlink" title="Genymotion"></a>Genymotion</h3><p>下载地址<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ https://www.genymotion.com/download/</span><br></pre></td></tr></table></figure></p>
+<h3 id="Genymotion"><a href="#Genymotion" class="headerlink" title="Genymotion"></a>Genymotion</h3><p>下载地址<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://www.genymotion.com/download/</span><br></pre></td></tr></table></figure></p>
 <p>下载需要登录，分为包含virtualbox和不包含virtualbox两个版本。</p>
 <h3 id="Android-Studio关联Genymotion"><a href="#Android-Studio关联Genymotion" class="headerlink" title="Android Studio关联Genymotion"></a>Android Studio关联Genymotion</h3><p>Android Studio的File&gt;Setting&gt;Plugins&gt;Browse repositories，搜索Genymotion并安装，重启后生效。在工具栏出现Genymotion图标（如果找不到，打开视图勾选工具栏），点击提示关联Genymotion路径。</p>
 <h3 id="渗透测试实用工具"><a href="#渗透测试实用工具" class="headerlink" title="渗透测试实用工具"></a>渗透测试实用工具</h3><h4 id="Android-Debug-Bridge"><a href="#Android-Debug-Bridge" class="headerlink" title="Android Debug Bridge"></a>Android Debug Bridge</h4><p>Android Debug Bridge 是一个客户端 - 服务器程序，允许用户与模拟器器或连接的 Android 设备交互。 它包括客户端（在系统上运行），处理通信的服务器（也在系统上运行）以及作为后台进程在模拟器和设备上上运行的守护程序。 客户端用于 ADB 通信的默认端口始终是 5037，设备使用从 5555 到 5585 的端口。<br>使用cmd运行adb devices命令与已启动的模拟器交互。</p>
@@ -410,7 +410,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ monkey 10</span><br></pre></td></tr></table></figure>
 <p><img src="/images/monkey 10.PNG" alt=""></p>
 <h4 id="Burp-Suite"><a href="#Burp-Suite" class="headerlink" title="Burp Suite"></a>Burp Suite</h4><p>Burp Suite配置好之后，使用以下命令使用代理。</p>
-<p><code>`</code> bash<br>$ emulator -avd [name of the avd] -http-proxy 127.0.0.1:8080</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ emulator -avd [name of the avd] -http-proxy 127.0.0.1:8080</span><br></pre></td></tr></table></figure>
 <h4 id="APKTool"><a href="#APKTool" class="headerlink" title="APKTool"></a>APKTool</h4><p><a href="/Downloads/apktool.rar">APKTool下载</a></p>
 <p>将下载的文件解压保存在任一目录，并配置path环境变量，就可以在cmd中使用apktool命令。</p>
 
