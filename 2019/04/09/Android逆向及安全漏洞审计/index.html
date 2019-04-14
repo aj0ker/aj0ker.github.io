@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android安全,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="陋室" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Android应用程序文件结构apk程序文件结构一般.apk程序包括以下文件和文件夹：  Classes.dex （文件） AndroidManifest.xml （文件） META-INF （文件夹） resources.arsc （文件） res （文件夹） assets （文件夹） lib （文件夹）  Android 应用程序组件Android 应用程序由各种组件组成，它们一起创建可工作的">
+<meta name="keywords" content="Android安全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android逆向及安全漏洞审计">
+<meta property="og:url" content="http://yoursite.com/2019/04/09/Android逆向及安全漏洞审计/index.html">
+<meta property="og:site_name" content="陋室">
+<meta property="og:description" content="Android应用程序文件结构apk程序文件结构一般.apk程序包括以下文件和文件夹：  Classes.dex （文件） AndroidManifest.xml （文件） META-INF （文件夹） resources.arsc （文件） res （文件夹） assets （文件夹） lib （文件夹）  Android 应用程序组件Android 应用程序由各种组件组成，它们一起创建可工作的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/JD-GUI.PNG">
+<meta property="og:image" content="http://yoursite.com/images/drozer%20server.PNG">
+<meta property="og:image" content="http://yoursite.com/images/app_provider_read.PNG">
+<meta property="og:updated_time" content="2019-04-09T23:22:24.103Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android逆向及安全漏洞审计">
+<meta name="twitter:description" content="Android应用程序文件结构apk程序文件结构一般.apk程序包括以下文件和文件夹：  Classes.dex （文件） AndroidManifest.xml （文件） META-INF （文件夹） resources.arsc （文件） res （文件夹） assets （文件夹） lib （文件夹）  Android 应用程序组件Android 应用程序由各种组件组成，它们一起创建可工作的">
+<meta name="twitter:image" content="http://yoursite.com/images/JD-GUI.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/09/Android逆向及安全漏洞审计/">
+
+
+
+
+
+  <title>Android逆向及安全漏洞审计 | 陋室</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+  
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">陋室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/09/Android逆向及安全漏洞审计/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aJ0ker">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/image/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陋室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android逆向及安全漏洞审计</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-09T22:20:36+08:00">
+                2019-04-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android安全/" itemprop="url" rel="index">
+                    <span itemprop="name">Android安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/04/09/Android逆向及安全漏洞审计/" class="leancloud_visitors" data-flag-title="Android逆向及安全漏洞审计">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+				 <span>℃</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  11
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Android应用程序文件结构"><a href="#Android应用程序文件结构" class="headerlink" title="Android应用程序文件结构"></a>Android应用程序文件结构</h2><h3 id="apk程序文件结构"><a href="#apk程序文件结构" class="headerlink" title="apk程序文件结构"></a>apk程序文件结构</h3><p>一般.apk程序包括以下文件和文件夹：</p>
+<ul>
+<li>Classes.dex （文件）</li>
+<li>AndroidManifest.xml （文件）</li>
+<li>META-INF （文件夹）</li>
+<li>resources.arsc （文件）</li>
+<li>res （文件夹）</li>
+<li>assets （文件夹）</li>
+<li>lib （文件夹）</li>
+</ul>
+<h3 id="Android-应用程序组件"><a href="#Android-应用程序组件" class="headerlink" title="Android 应用程序组件"></a>Android 应用程序组件</h3><p>Android 应用程序由各种组件组成，它们一起创建可工作的应用程序。 这些组件是活动，服务，广播接收器，内容供应器和共享首选项。</p>
+<ul>
+<li>活动（Activity）：用户可以与之交互的可视界面。包括按钮，图像，TextView或任何其他可视组件。</li>
+<li>服务（Service）：这些 Android 组件在后台运行，并执行开发人员指定的特定任务。这些任务包括从 HTTP 下载文件到在后台播放音乐等任何内容。</li>
+<li>广播接收器（Broadcast Receiver）： Android 应用程序中的接收器，通过 Android 系统或设备中存在的其他应用程序，监听传入的广播消息。一旦它们接收到广播消息，就可以根据预定义的条件触发特定动作。条件可以为收到 SMS，来电呼叫，电量改变等等。</li>
+<li>共享首选项（Shared Preference）：应用程序使用这些首选项，以便为应用程序保存小型数据集。此数据存储在名为shared_prefs的文件夹中。这些小数据集可以包括名值对，例如游戏中的用户得分和登录凭证。不建议在共享首选项中存储敏感信息，因为它们可能易受数据窃取和泄漏的影响。</li>
+<li>意图（Intent）：这些组件用于将两个或多个不同的 Android 组件绑定在一起。意图可以用于执行各种任务，例如启动动作，切换活动和启动服务。</li>
+<li>内容供应器（Content Provider）：这些组件用于访问应用程序使用的结构化数据集。应用程序可以使用内容供应器访问和查询自己的数据或存储在手机中的数据。</li>
+</ul>
+<h2 id="Android应用程序逆向"><a href="#Android应用程序逆向" class="headerlink" title="Android应用程序逆向"></a>Android应用程序逆向</h2><h3 id="Dex2jar逆向Android应用程序"><a href="#Dex2jar逆向Android应用程序" class="headerlink" title="Dex2jar逆向Android应用程序"></a>Dex2jar逆向Android应用程序</h3><p>dex2jar将字节码（如Classes.dex）转换为可读文件的工具，将.dex文件转换为.jar文件。.dex文件是由java字节码转换的Dalvik字节码。<br>从cmd转到dex2jar文件夹，运行以下命令使用dex2jar工具。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ d2j-dex2jar.bat <span class="string">"X:\..\abc.apk"</span></span><br><span class="line">  dex2jar X:\..\abc.apk -&gt; abc-dex2jar.jar</span><br></pre></td></tr></table></figure></p>
+<p>dex2jar将.apk的.dex文件转换为.jar文件后，就可以使用Java图形查看器（如JD-GUI）打开.jar文件。<br>微信7.0.3 for Android的java源代码。</p>
+<p><img src="/images/JD-GUI.PNG" alt=""></p>
+<p>注意：如果应用程序开发人员使用一些防止反编译的保护，如 proguard 和 dex2jar，我们使用 dex2jar 或 Apktool 反编译应用程序时，不会看到准确的源代码，而是一堆不同的源文件，并不是原始源代码。</p>
+<h3 id="ApkTool逆向Android应用程序"><a href="#ApkTool逆向Android应用程序" class="headerlink" title="ApkTool逆向Android应用程序"></a>ApkTool逆向Android应用程序</h3><p>另一种Android逆向的方法是将.dex文件转换为smali文件，smali是一种文件格式，其语法跟Jasmine语言类似。<br>ApkTool的优点是操作是双向的，反编译一个程序后可以使用ApkTool重新编译，且编译生成一个新的.apk文件。</p>
+<p>ApkTool反编译apk程序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool d [app_name].apk</span><br></pre></td></tr></table></figure>
+<p>-d：表示反编译。<br>如果想重新编译一个应用程序，使用-b（build）参数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool b [folder name] [app_name].apk</span><br></pre></td></tr></table></figure>
+<p>网上有另外一款Virtuous Ten Studio（VTS）工具，其功能与ApkTool类似，只是提供了UI界面方便操作，但只能在windows下运行。下载地址：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.virtuous-ten-studio.com/</span><br></pre></td></tr></table></figure>
+<h2 id="Android应用安全漏洞审计"><a href="#Android应用安全漏洞审计" class="headerlink" title="Android应用安全漏洞审计"></a>Android应用安全漏洞审计</h2><p>由于开发人员未严格遵守安全编码规范，或开发过程中的错误代码，导致Android应用程序出现各种类型的安全漏洞，下面将学习Android漏洞的挖掘和利用。</p>
+<h3 id="内容供应器泄漏"><a href="#内容供应器泄漏" class="headerlink" title="内容供应器泄漏"></a>内容供应器泄漏</h3><p>许多应用程序使用内容供应器来存储和查询应用程序中的数据或来自电话的数据。 除非已经定义了内容提供者可以使用权限来访问，否则任何其他应用都可以使用应用所定义的内容供应器来访问应用的数据。 所有内容供应器具有唯一的统一资源标识符（URI）以便被识别和查询。 内容提供者的 URI 的命名标准惯例是以content://开始。<br>如果 Android API 版本低于 17，则内容供应器的默认属性是始终导出。 这意味着除非开发人员指定权限，否则任何应用程序都可以使用应用程序的内容供应器来访问和查询数据。 所有内容供应器都需要在AndroidManifest.xml中注册。 因此，我们可以对应用程序使用 Apktool，并通过查看AndroidManifest.xml文件检查内容供应器。<br>定义内容供应器的一般方法如下所示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;provider</span><br><span class="line">     android:name=<span class="string">"com.test.example.DataProvider"</span></span><br><span class="line">     android:authorities =<span class="string">"com.test.example.DataProvider"</span>&gt;</span><br><span class="line">&lt;/provider&gt;</span><br></pre></td></tr></table></figure>
+<p>下面查看一个内容供应器泄漏漏洞的例子，并尝试利用该漏洞。<br>1.使用ApkTool对应用程序反编译。<br>2.查看定义内容供应器的AndroidManifest.xml文件，也可以使用grep命令从代码中获取内容供应器.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ grep -R <span class="string">'content://'</span></span><br></pre></td></tr></table></figure></p>
+<p>3.为查询内容供应器并确认漏洞是可利用的，需要在Android设备或模拟器中安装该应用程序，使用以下命令在模拟器中安装该.apk文件。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ adb install [app_name].apk</span><br><span class="line">Perfirming Streamed Install</span><br><span class="line">Success</span><br></pre></td></tr></table></figure></p>
+<p>然后可以创建一个没有任何权限的应用程序来查询存在漏洞的应用程序的内容供应器，可以使用adb查询内容供应器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell content query --uri [URI of the content provider]</span><br></pre></td></tr></table></figure>
+<p>Drozer是一款针对Android系统的安全测试框架，通过分析AndroidManifest.xml看四大组件中有无可export的，如果有就详细查看可export的组件是否真存在漏洞。下载地址：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://labs.mwrinfosecurity.com/tools/drozer/</span><br></pre></td></tr></table></figure></p>
+<p>安装后需要将代理组件agent.apk安装到模拟器，还需要在启动模拟器时转发一个特定端口31415建立连接。可以使用以下命令完成操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ adb install agent.apk</span><br><span class="line"></span><br><span class="line">$ adb forward tcp:31415 tcp:31415</span><br></pre></td></tr></table></figure>
+<p>启动drozer agent代理程序，单击”Embedded Server”&gt;”Disabled”启动服务器。</p>
+<p><img src="/images/drozer server.PNG" alt=""></p>
+<p>在cmd启动Drozer终端连接到模拟器：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ drozer console connect</span><br></pre></td></tr></table></figure></p>
+<p>成功进入Drozer Console后，运行app.provider.finduri模块查找所有内容供应器。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dz&gt; run app.provider.finduri [URI of the content provider]</span><br></pre></td></tr></table></figure></p>
+<p>使用app.provider.query模块查询内容供应器URI，如果能够查询到来自内容供应器的数据，意味着内容供应器泄漏数据且存在漏洞，因为Drozer未被明确授予使用数据集的任何权限。</p>
+<p>漏洞修复建议：在创建内容供应器时指定参数<code>android:exported = false</code>，或创建一些新的权限，其他程序在访问供应器之前必须请求它。</p>
+<h3 id="不安全的文件存储"><a href="#不安全的文件存储" class="headerlink" title="不安全的文件存储"></a>不安全的文件存储</h3><p>开发人员对应用程序存储数据时未指定文件的正确操作权限，这些文件有时会被标记成全局可读，其他程序访问不需要请求权限，导致文件不安全存储问题。按照以下步骤对该漏洞进行检测：<br>1.通过<code>adb shell</code>使用cd命令进入<code>/data/data/[app_name]</code>。<br>2.使用<code>find</code>命令搜索特定权限的文件。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># find /data/data/ -perm [permossions value]</span></span><br></pre></td></tr></table></figure></p>
+<p>使用<code>cat</code>和<code>grep</code>等命令可查看文件存储的信息，如：密码，等。</p>
+<p>漏洞修复建议：开发人员设置正确的文件操作权限，对密码等敏感数据使用加密等手段处理。</p>
+<h3 id="目录遍历或本地文件包含漏洞"><a href="#目录遍历或本地文件包含漏洞" class="headerlink" title="目录遍历或本地文件包含漏洞"></a>目录遍历或本地文件包含漏洞</h3><p>应用程序中的目录遍历漏洞允许攻击者使用漏洞读取其他系统文件，该漏洞可使用Drozer进行检测。</p>
+<p>通过分析Adobe Reader 10.3.1版本中存在的目录遍历漏洞，可以清晰地理解该漏洞利用方法。<br>1.使用<code>adb install adobe_reader_x_10.3.1_64606.apk</code>安装.apk程序。<br>2.启动Drozer，使用app.provider.finduri模块查找内容供应器URI。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dz&gt; run app.provider.finduri com.adobe.reader</span><br><span class="line">Scanning com.adobe.reader...</span><br><span class="line">content://com.adobe.reader.fileprovider/</span><br><span class="line">content://com.adobe.reader.fileprovider</span><br></pre></td></tr></table></figure></p>
+<p>3.使用app.provider.read利用查找到的URI，如尝试读取/proc/cpuinfo文件内容，该文件默认存在所有Android实例中。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dz&gt; run app.provider.read content://com.adobe.reader.fileprovider/../../../../proc/cpuinfo</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/app_provider_read.PNG" alt=""></p>
+<h3 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h3><p>SQL注入与WEB端类似，都是因为开发人员未对用户输入和服务器端输出进行严格检查，Android使用的是SQLite数据库。<br>对SQL注入漏洞的利用，除与WEB端SQL注入漏洞类型利用方法外，还可以使用Drozer的app.provider.query模块利用SQL注入漏洞。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dz&gt; run app.provider.query [Content Provider URI] --projection <span class="string">"* FROM SQLITE_MASTER WHERE type='table';- -"</span></span><br></pre></td></tr></table></figure>
+<p>上述命令将返回SQLite数据库中全部表的列表，SQLITE_MASTER中保存数据库的基本信息。</p>
+<h3 id="OWASP-Mobile-TOP-10"><a href="#OWASP-Mobile-TOP-10" class="headerlink" title="OWASP Mobile TOP 10"></a>OWASP Mobile TOP 10</h3><ul>
+<li>脆弱的服务器端安全控制<br>  OWASP排名第一的漏洞“脆弱的服务器端安全控制”，就是没有以一个安全的方式从移动应用程序向服务器端发送数据，或在发送数据时暴露了某些敏感API。如：考虑对一个Android应用程序登录服务器的凭据进行身份验证，未对用户输入进行验证，可能被攻击者利用修改凭证来获得服务器敏感或未授权的区域。这是移动端和WEB端都存在的漏洞类型。</li>
+<li>不安全的数据存储<br>  即在设备上存储任意用户都能够访问的与应用程序相关的信息。许多Android应用在shared preferences、SQLite（明文形式）或外部存储器存储用户敏感信息或应用程序信息。</li>
+<li>传输层保护不足<br>  许多Android开发者使用了不安全方式进行数据传输，如HTTP协议，或未正确实现SSL，这使得程序容易受到各种类型攻击，如从应用向服务器发送数据时进行数据包拦截，参数操作，修改响应数据，以便获得应用锁定区域的访问权限。</li>
+<li>意外的数据泄露<br>  此漏洞是由于应用程序本身存储数据位置是脆弱的，如：剪切板、URL缓存、浏览器cookies、HTML5数据存储，等。</li>
+<li>弱授权和身份认证<br>  一个Android应用程序，如果试图在没有适当安全措施的情况下通过客户端检测进行用户验证或授权，那么就是存在风险的。应当指出的是，手机root后大多数客户端保护都是可以绕过的，因此建议开发人员使用适当的检测方法在服务器端进行身份验证和授权，并在移动端使用一个随机生成的令牌验证用户。</li>
+<li>密码破解<br>  使用不安全的加密函数加密数据组件，包括某些已知不安全加密算法，如MD5、SHA1、RC2等。</li>
+<li>客户端注入<br>  run app.provider.query [Content Provider URI] –projection “* FROM SQLITE_MASTER WHERE type=’table’;- -“</li>
+<li>通过不可信输入进行安全决策<br>  在移动应用程序中，开发人员应该清洗和检查用户输入或其他相关输入，不可信输入可能导致应用中其他安全风险，如客户端注入。</li>
+<li>Session会话处理不当<br>  在对一个应用程序的session进行处理时，开发人员需要关注很多因素，如合适的过期身份验证cookie，安全令牌创建，cookie生成和旋转，后台无效session等。在web应用和Android应用程序之间必须保存一个适当的安全同步。</li>
+<li>缺乏二进制文件保护<br>  不能有效阻止应用程序被逆向或反编译。apktool、dex2jar等工具对Android进行逆向，从而导致各种安全风险，为防止应用被逆向，开发人员可以使用proguardand和dasho等对应用进行加固。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+	
+	<div>
+      
+        
+      
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android安全/" rel="tag"># Android安全</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/06/Android安全基础及环境配置/" rel="next" title="Android安全基础及环境配置">
+                <i class="fa fa-chevron-left"></i> Android安全基础及环境配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/10/Android流量分析和取证/" rel="prev" title="Android流量分析和取证">
+                Android流量分析和取证 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/image/header.jpg" alt="aJ0ker">
+            
+              <p class="site-author-name" itemprop="name">aJ0ker</p>
+              <p class="site-description motion-element" itemprop="description">斯是陋室，惟吾德馨。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/aj0ker" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android应用程序文件结构"><span class="nav-number">1.</span> <span class="nav-text">Android应用程序文件结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#apk程序文件结构"><span class="nav-number">1.1.</span> <span class="nav-text">apk程序文件结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-应用程序组件"><span class="nav-number">1.2.</span> <span class="nav-text">Android 应用程序组件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android应用程序逆向"><span class="nav-number">2.</span> <span class="nav-text">Android应用程序逆向</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dex2jar逆向Android应用程序"><span class="nav-number">2.1.</span> <span class="nav-text">Dex2jar逆向Android应用程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ApkTool逆向Android应用程序"><span class="nav-number">2.2.</span> <span class="nav-text">ApkTool逆向Android应用程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android应用安全漏洞审计"><span class="nav-number">3.</span> <span class="nav-text">Android应用安全漏洞审计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内容供应器泄漏"><span class="nav-number">3.1.</span> <span class="nav-text">内容供应器泄漏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不安全的文件存储"><span class="nav-number">3.2.</span> <span class="nav-text">不安全的文件存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目录遍历或本地文件包含漏洞"><span class="nav-number">3.3.</span> <span class="nav-text">目录遍历或本地文件包含漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL注入"><span class="nav-number">3.4.</span> <span class="nav-text">SQL注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OWASP-Mobile-TOP-10"><span class="nav-number">3.5.</span> <span class="nav-text">OWASP Mobile TOP 10</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+	
+	<div id="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="280" height="86" src="//music.163.com/outchain/player?type=2&id=38358214&auto=0&height=66">
+    </iframe>
+	</div>
+
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aJ0ker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("NUQF1XBky3aovtMnldoBd4V8-gzGzoHsz", "SN4b6abObtg2PHmEWLX3bYLi");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
