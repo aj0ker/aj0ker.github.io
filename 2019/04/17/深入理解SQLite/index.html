@@ -85,7 +85,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Android安全,">
 
 
 
@@ -98,17 +98,22 @@
 
 
 
-<meta name="description" content="斯是陋室，惟吾德馨。">
-<meta name="keywords" content="python">
-<meta property="og:type" content="website">
-<meta property="og:title" content="陋室">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta name="description" content="SQLite是一款开源数据库，Android选择SQLite的原因是其内存占用较低。 深入理解SQLiteSQLite数据库在Android中默认存储在/data/data/[package name]/databases/位置，文件扩展名为.db。 分析使用SQLite的简单应用 运行应用程序，使其创建SQLite数据库。  使用adb shell访问数据库，可以使用SQLite浏览器访问SQL">
+<meta name="keywords" content="Android安全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解SQLite">
+<meta property="og:url" content="http://yoursite.com/2019/04/17/深入理解SQLite/index.html">
 <meta property="og:site_name" content="陋室">
-<meta property="og:description" content="斯是陋室，惟吾德馨。">
+<meta property="og:description" content="SQLite是一款开源数据库，Android选择SQLite的原因是其内存占用较低。 深入理解SQLiteSQLite数据库在Android中默认存储在/data/data/[package name]/databases/位置，文件扩展名为.db。 分析使用SQLite的简单应用 运行应用程序，使其创建SQLite数据库。  使用adb shell访问数据库，可以使用SQLite浏览器访问SQL">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/sqlite3.PNG">
+<meta property="og:image" content="http://yoursite.com/images/drozer.PNG">
+<meta property="og:image" content="http://yoursite.com/images/injection.PNG">
+<meta property="og:updated_time" content="2019-04-18T19:14:04.043Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="陋室">
-<meta name="twitter:description" content="斯是陋室，惟吾德馨。">
+<meta name="twitter:title" content="深入理解SQLite">
+<meta name="twitter:description" content="SQLite是一款开源数据库，Android选择SQLite的原因是其内存占用较低。 深入理解SQLiteSQLite数据库在Android中默认存储在/data/data/[package name]/databases/位置，文件扩展名为.db。 分析使用SQLite的简单应用 运行应用程序，使其创建SQLite数据库。  使用adb shell访问数据库，可以使用SQLite浏览器访问SQL">
+<meta name="twitter:image" content="http://yoursite.com/images/sqlite3.PNG">
 
 
 
@@ -138,13 +143,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/">
+  <link rel="canonical" href="http://yoursite.com/2019/04/17/深入理解SQLite/">
 
 
 
 
 
-  <title>归档 | 陋室</title>
+  <title>深入理解SQLite | 陋室</title>
   
 
 
@@ -165,7 +170,7 @@
     
   
   
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -301,212 +306,264 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/17/深入理解SQLite/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aJ0ker">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陋室">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">深入理解SQLite</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-17T23:12:22+08:00">
+                2019-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 5 篇日志。 继续努力。
-      </span>
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android安全/" itemprop="url" rel="index">
+                    <span itemprop="name">Android安全</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
+             <span id="/2019/04/17/深入理解SQLite/" class="leancloud_visitors" data-flag-title="深入理解SQLite">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+				 <span>℃</span>
+             </span>
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/04/17/深入理解SQLite/" itemprop="url">
+          
+
+          
+            <div class="post-wordcount">
               
-                <span itemprop="name">深入理解SQLite</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  744
+                </span>
               
-            </a>
-        
-      </h2>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-17T23:12:22+08:00" content="2019-04-17">
-          04-17
-        </time>
-      </div>
+              
+                <span class="post-meta-divider">|</span>
+              
 
-    </header>
-  </article>
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  2
+                </span>
+              
+            </div>
+          
 
+          
 
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/04/10/Android流量分析和取证/" itemprop="url">
-              
-                <span itemprop="name">Android流量分析和取证</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-10T07:20:42+08:00" content="2019-04-10">
-          04-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/04/09/Android逆向及安全漏洞审计/" itemprop="url">
-              
-                <span itemprop="name">Android逆向及安全漏洞审计</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-09T22:20:36+08:00" content="2019-04-09">
-          04-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>SQLite是一款开源数据库，Android选择SQLite的原因是其内存占用较低。</p>
+<h2 id="深入理解SQLite"><a href="#深入理解SQLite" class="headerlink" title="深入理解SQLite"></a>深入理解SQLite</h2><p>SQLite数据库在Android中默认存储在/data/data/[package name]/databases/位置，文件扩展名为<code>.db</code>。</p>
+<h3 id="分析使用SQLite的简单应用"><a href="#分析使用SQLite的简单应用" class="headerlink" title="分析使用SQLite的简单应用"></a>分析使用SQLite的简单应用</h3><ol>
+<li><p>运行应用程序，使其创建SQLite数据库。</p>
+</li>
+<li><p>使用<code>adb shell</code>访问数据库，可以使用SQLite浏览器访问SQLite文件，也可以使用命令<code>sqlite3</code>进行管理。</p>
+</li>
+<li><p>SQLite数据库文件格式一般为<code>.db</code>，<code>.sqlite</code>，<code>.sqlitedb</code>或开发人员指定的其他扩展名。</p>
+</li>
+<li><p>使用命令<code>sqlite3</code>打开数据库，然后就可以使用sql命令对数据库进行操作，使用<code>.help</code>查看命令帮助。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlite3 [dbname]</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><img src="/images/sqlite3.PNG" alt=""></p>
+<p>.databases：列出数据库名称。<br>.tables：列出数据库包含的表名称。<br>.schema：查看表。</p>
+<ol start="5">
+<li><p>使用<code>.output</code>命令将SQL查询输出自动保存至指定文件，方便后续将文件拉取到本地，如果设置<code>.output stdout</code>，查询输出将在终端打印结果并保存至文件。<code>.dump</code>命令将创建一个列表，该列表包含从数据库创建到现在所执行的全部SQL操作。</p>
+</li>
+<li><p>另外，使用<code>adb shell</code>可以直接在本地对数据库进行操作。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell sqlite3 -column -header /data/data/[package_name]/databases/[db_name] <span class="string">'select * from [table_name]'</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="安全漏洞"><a href="#安全漏洞" class="headerlink" title="安全漏洞"></a>安全漏洞</h3><p>跟WEB应用类似，Android应用程序中最常见的漏洞之一也是注入类漏洞。一般应用程序查询数据构造的SQL查询语句如下所示：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String getSQL = <span class="string">"SELECT * FROM "</span> + tableName + <span class="string">"WHERE "</span> + username + <span class="string">" = '"</span> + uname + <span class="string">"' AND "</span> + password + <span class="string">" = '"</span> + pword + <span class="string">"'"</span>;</span><br><span class="line"></span><br><span class="line">Cursor cursor = dataBase.rawQuery(getSQL,null)</span><br></pre></td></tr></table></figure></p>
+<p>以上SQL查询用于验证用户登录凭证，然后显示其注册填写的信息，如果验证通过则返回布尔值<code>TRUE</code>。该SQL查询中<code>uname</code>和<code>pword</code>字段从用户输入直接传递到SQL语句，然后使用<code>rawQuery</code>方法执行，<code>rawQuery</code>方法会执行传递过来的任何SQL查询，类似的方法还有<code>execSQL</code>。</p>
+<p>由于SQL查询未对用户端输入进行任何校验，如果用户端提交了不正常的输入，如密码框输入<code>pword&#39; or &#39;1&#39;=&#39;1</code>，从而使SQL查询结果始终为真，该用户将无需正确密码完成登录。同样的，SQLite可以使用<code>--</code>对后面部分进行注释。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM USER_RECORDS WHERE USERNAME = <span class="string">'uname'</span> AND PASSWORD = <span class="string">'pword'</span> or <span class="string">'1'</span>=<span class="string">'1'</span></span><br></pre></td></tr></table></figure>
+<h3 id="Drozer利用SQLite注入漏洞"><a href="#Drozer利用SQLite注入漏洞" class="headerlink" title="Drozer利用SQLite注入漏洞"></a>Drozer利用SQLite注入漏洞</h3><ol>
+<li>启动Drozer连接SQLite数据库。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb forward tcp:31415 tcp:31415</span><br><span class="line"></span><br><span class="line">drozer console connect</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>在Drozer控制台使用<code>finduri</code>扫描器模块查看所有内容URI和可访问的URI。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dz&gt; run scanner.provider.finduris -a [package_name]</span><br></pre></td></tr></table></figure>
+<p><img src="/images/drozer.PNG" alt=""></p>
+<p>3.使用Drozer中的注入扫描程序模块检查应用程序中的注入漏洞。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dz&gt; run scanner.provider.injection -a [package_name]</span><br></pre></td></tr></table></figure>
+<p><img src="/images/injection.PNG" alt=""></p>
+<ol start="4">
+<li>使用参数查询这些内容供应器，如<code>1 = 1</code>将永远为<code>TRUE</code>。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dz&gt; run app.provider.query [injection_uri] --selection <span class="string">"1=1"</span></span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>还可以使用Drozer的<code>app.provider.insert</code>模块将数据插入数据库表。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dz&gt; run app.provider.insert [injection_uri] --<span class="built_in">integer</span> _id 1 --string column <span class="string">"string"</span></span><br></pre></td></tr></table></figure>
+<p>执行完成将输出<code>Done.</code>。</p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/04/06/Android安全基础及环境配置/" itemprop="url">
-              
-                <span itemprop="name">Android安全基础及环境配置</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-06T17:11:24+08:00" content="2019-04-06">
-          04-06
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/04/06/Kali Linux无线渗透初探/" itemprop="url">
-              
-                <span itemprop="name">Kali Linux无线渗透初探</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-06T01:18:55+08:00" content="2019-04-06">
-          04-06
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+	
+	<div>
+      
+        
+      
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android安全/" rel="tag"># Android安全</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/10/Android流量分析和取证/" rel="next" title="Android流量分析和取证">
+                <i class="fa fa-chevron-left"></i> Android流量分析和取证
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -514,6 +571,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -534,8 +595,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -614,6 +684,25 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#深入理解SQLite"><span class="nav-number">1.</span> <span class="nav-text">深入理解SQLite</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分析使用SQLite的简单应用"><span class="nav-number">1.1.</span> <span class="nav-text">分析使用SQLite的简单应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安全漏洞"><span class="nav-number">1.2.</span> <span class="nav-text">安全漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Drozer利用SQLite注入漏洞"><span class="nav-number">1.3.</span> <span class="nav-text">Drozer利用SQLite注入漏洞</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+		
+		<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="110" src="//music.163.com/outchain/player?type=0&id=2756100143&auto=1&height=90"></iframe>
+
+      <!--/noindex-->
       
 
       
@@ -756,6 +845,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
