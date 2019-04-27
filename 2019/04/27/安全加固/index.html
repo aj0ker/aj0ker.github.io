@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 2px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="面试,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="陋室" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="主机安全加固Linux主机 系统账号安全  1.1 删除或禁用不必要的账号  删除不必要的账号：userdel &amp;#39;username&amp;#39; 锁定不必要的账号：passwd -l &amp;#39;username&amp;#39; 解锁账号：passwd -u &amp;#39;username&amp;#39;  1.2 特殊权限账号 检查空口令账号和root权限账号。  查看空口令账号：awk -F: &amp;#39;(">
+<meta name="keywords" content="面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安全加固">
+<meta property="og:url" content="http://yoursite.com/2019/04/27/安全加固/index.html">
+<meta property="og:site_name" content="陋室">
+<meta property="og:description" content="主机安全加固Linux主机 系统账号安全  1.1 删除或禁用不必要的账号  删除不必要的账号：userdel &amp;#39;username&amp;#39; 锁定不必要的账号：passwd -l &amp;#39;username&amp;#39; 解锁账号：passwd -u &amp;#39;username&amp;#39;  1.2 特殊权限账号 检查空口令账号和root权限账号。  查看空口令账号：awk -F: &amp;#39;(">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/services.PNG">
+<meta property="og:image" content="http://yoursite.com/images/secure.PNG">
+<meta property="og:updated_time" content="2019-04-27T18:18:20.876Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安全加固">
+<meta name="twitter:description" content="主机安全加固Linux主机 系统账号安全  1.1 删除或禁用不必要的账号  删除不必要的账号：userdel &amp;#39;username&amp;#39; 锁定不必要的账号：passwd -l &amp;#39;username&amp;#39; 解锁账号：passwd -u &amp;#39;username&amp;#39;  1.2 特殊权限账号 检查空口令账号和root权限账号。  查看空口令账号：awk -F: &amp;#39;(">
+<meta name="twitter:image" content="http://yoursite.com/images/services.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/27/安全加固/">
+
+
+
+
+
+  <title>安全加固 | 陋室</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+  
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">陋室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/27/安全加固/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="aJ0ker">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陋室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">安全加固</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-27T21:54:17+08:00">
+                2019-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全面试内容/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全面试内容</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/04/27/安全加固/" class="leancloud_visitors" data-flag-title="安全加固">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+				 <span>℃</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  5.5k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  22
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="主机安全加固"><a href="#主机安全加固" class="headerlink" title="主机安全加固"></a>主机安全加固</h2><h3 id="Linux主机"><a href="#Linux主机" class="headerlink" title="Linux主机"></a>Linux主机</h3><ol>
+<li>系统账号安全</li>
+</ol>
+<p>1.1 删除或禁用不必要的账号</p>
+<ul>
+<li>删除不必要的账号：<code>userdel &#39;username&#39;</code></li>
+<li>锁定不必要的账号：<code>passwd -l &#39;username&#39;</code></li>
+<li>解锁账号：<code>passwd -u &#39;username&#39;</code></li>
+</ul>
+<p>1.2 特殊权限账号</p>
+<p>检查空口令账号和root权限账号。</p>
+<ul>
+<li>查看空口令账号：<code>awk -F: &#39;($2==&quot;&quot;)&#39; /etc/shadow</code></li>
+<li>查看UID为0的账号：<code>awk -F: &#39;($3==0)&#39; /etc/passwd</code></li>
+</ul>
+<p>1.3 设置口令策略</p>
+<p>修改口令策略配置文件<code>vi /etc/login.defs</code>。</p>
+<ul>
+<li>PASS_MAX_DAYS 90 #用户密码最长使用天数</li>
+<li>PASS_MIN_DAYS 0 #用户密码最短使用天数</li>
+<li>PASS_WARN_AGE 7 #用户密码到期前n天提醒</li>
+</ul>
+<p>使用chage命令修改口令策略。</p>
+<ul>
+<li>chage -m 0 -M 30 -E 2020-01-01 -W 7 ‘username’ #密码最长使用30天，最短使用0天，2020年1月1日过期，过期前7天提醒用户。</li>
+</ul>
+<p>设置账号锁定策略，修改配置文件<code>vi /etc/pam.d/common-auth</code>添加以下内容：</p>
+<ul>
+<li><code>auth required pam_tally.so onerr=fail deny=3 unlock_time=300</code></li>
+</ul>
+<p>1.4 限制用户su策略</p>
+<p>修改配置文件<code>vi /etc/pam.d/su</code>，添加以下内容设置用户组可以su到root权限：</p>
+<ul>
+<li><code>auth required pam_wheel.so group=&#39;group_name&#39;</code></li>
+</ul>
+<p>1.5 禁止root账号登录</p>
+<p>修改配置文件<code>vi /etc/ssh/sshd_config</code>，将<code>PermitRootLogin</code>的值改为<code>no</code>，保存后重启SSH服务。</p>
+<ol start="2">
+<li>系统服务安全</li>
+</ol>
+<p>2.1 SSH服务策略</p>
+<p>修改配置文件<code>vi /etc/ssh/sshd_config</code></p>
+<ul>
+<li>禁止root账号登录。</li>
+<li>设置SSH协议版本：修改<code>Protocol</code>的值为2。</li>
+<li>修改允许密码错误次数：修改<code>MaxAuthTries</code>值为3。</li>
+</ul>
+<p>2.2 禁用不必要的服务</p>
+<p>CentOS7系统以上使用命令<code>systemctl disable &#39;service_name&#39;</code><br>CentOS6系统及以下使用命令<code>chkconfig --level &lt;init级别&gt; &#39;service_name&#39; off</code>设置服务在指定init级别下不自动启动。</p>
+<ol start="3">
+<li>文件系统</li>
+</ol>
+<p>3.1 设置登录超时</p>
+<p>修改配置文件<code>vi /etc/profile</code>，注释<code>TMOUT=</code>开头的行，设置<code>TMOUT=180</code>，超时时间为3分钟。</p>
+<p>3.2 设置umask值</p>
+<p>修改配置文件<code>vi /etc/profile</code>，添加行<code>umask 027</code>，设置新创建的文件属主拥有读写执行权限，同组用户拥有读和执行权限，其他用户无权限。</p>
+<ol start="4">
+<li>日志系统</li>
+</ol>
+<p>4.1 syslog日志</p>
+<p>Linux默认启用以下类型日志：</p>
+<ul>
+<li>系统日志（默认） <code>/var/log/messages</code></li>
+<li>crontab定期任务日志（默认） <code>/var/log/cron</code></li>
+<li>安全日志（默认） <code>/var/log/secure</code></li>
+<li>部分系统使用syslog-ng日志，配置文件为<code>/etc/syslog-ng/syslog-ng.conf</code></li>
+</ul>
+<p>4.2 记录所有用户登录和操作日志</p>
+<p>修改配置文件<code>vi /etc/profile</code>，在配置文件中添加以下内容：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">history</span></span><br><span class="line">USER=`whoami`</span><br><span class="line">USER_IP=`who -u am i 2&gt;/dev/null| awk <span class="string">'&#123;print $NF&#125;'</span>|sed -e <span class="string">'s/[()]//g'</span>`</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$USER_IP</span>"</span> = <span class="string">""</span> ]; <span class="keyword">then</span></span><br><span class="line">USER_IP=`hostname`</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ ! -d /var/<span class="built_in">log</span>/<span class="built_in">history</span> ]; <span class="keyword">then</span></span><br><span class="line">mkdir /var/<span class="built_in">log</span>/<span class="built_in">history</span></span><br><span class="line">chmod 777 /var/<span class="built_in">log</span>/<span class="built_in">history</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ ! -d /var/<span class="built_in">log</span>/<span class="built_in">history</span>/<span class="variable">$&#123;LOGNAME&#125;</span> ]; <span class="keyword">then</span></span><br><span class="line">mkdir /var/<span class="built_in">log</span>/<span class="built_in">history</span>/<span class="variable">$&#123;LOGNAME&#125;</span></span><br><span class="line">chmod 300 /var/<span class="built_in">log</span>/<span class="built_in">history</span>/<span class="variable">$&#123;LOGNAME&#125;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="built_in">export</span> HISTSIZE=4096</span><br><span class="line">DT=`date +<span class="string">"%Y%m%d_%H:%M:%S"</span>`</span><br><span class="line"><span class="built_in">export</span> HISTFILE=<span class="string">"/var/log/history/<span class="variable">$&#123;LOGNAME&#125;</span>/<span class="variable">$&#123;USER&#125;</span>@<span class="variable">$&#123;USER_IP&#125;</span>_<span class="variable">$DT</span>"</span></span><br><span class="line">chmod 600 /var/<span class="built_in">log</span>/<span class="built_in">history</span>/<span class="variable">$&#123;LOGNAME&#125;</span>/*<span class="built_in">history</span>* 2&gt;/dev/null</span><br></pre></td></tr></table></figure></p>
+<p>使用命令<code>source /etc/profile</code>加载配置生效，系统将在/var/log/history目录下以每个用户名创建一个文件夹，用户每次退出都会产生包括用户名、登录IP地址、登录时间的日志文件，及用户本次所有操作（root除外）。</p>
+<p>Linux基线检查脚本：<a href="https://github.com/myh0st/scripts/blob/master/linuxsec.sh" target="_blank" rel="noopener">https://github.com/myh0st/scripts/blob/master/linuxsec.sh</a></p>
+<h3 id="Windows主机"><a href="#Windows主机" class="headerlink" title="Windows主机"></a>Windows主机</h3><ol>
+<li>系统账号安全和认证</li>
+</ol>
+<p>1.1 系统账号策略</p>
+<ul>
+<li>禁用Guest账号。</li>
+<li>禁用或删除其他不必要账号。（建议先禁用一段时间，确认没问题后再删除）</li>
+<li>不显示最后登录的用户名：<code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;安全选项&gt;交互式登录：不显示最后的用户名&gt;已启用</code>。</li>
+</ul>
+<p>1.2 设置口令策略</p>
+<ul>
+<li>密码最短长度、复杂度。</li>
+<li>密码最长留存期应小于90天：<code>控制面板&gt;管理工具&gt;本地安全策略&gt;账户策略&gt;密码策略&gt;密码最常使用期限</code>设置90天</li>
+<li>密码最短使用期限设置7天。</li>
+<li>设置账号锁定策略：<code>控制面板&gt;管理工具&gt;本地安全策略&gt;账户策略&gt;帐户锁定策略&gt;帐户锁定阈值</code>设置5次无效登录</li>
+</ul>
+<p>1.3 授权</p>
+<ul>
+<li>设置只允许Administrators组有远程关机权限：<code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;用户权限分配&gt;从远端系统强制关机</code>权限只分配给Administrators组。</li>
+<li>设置只允许Administrators组有本地关机权限：<code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;用户权限分配&gt;关闭系统</code>权限只分配给Administrators组。</li>
+<li>设置取得文件或其他对象的所有权权限只分配给Administrators组：<code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;用户权限分配&gt;取得文件或其它对象的所有权</code>权限只分配给Administrators组。</li>
+<li>配置指定用户允许本地登录此计算机：<code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;用户权限分配&gt;允许本地登录</code>权限分配给指定用户。</li>
+<li>配置指定用户从网络访问此计算机：<code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;用户权限分配&gt;从网络访问此计算机</code>权限分配给指定用户。</li>
+</ul>
+<ol start="2">
+<li>日志系统</li>
+</ol>
+<ul>
+<li>配置日志记录用户登录，包括登录账号、时间、登录IP地址、登录是否成功等。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核登录事件</code></li>
+<li>启用对windows系统的审核策略更改。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核策略更改</code></li>
+<li>启用对windows系统的审核对象访问。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核对象访问</code></li>
+<li>启用对windows系统的审核目录服务访问，仅需要审核失败操作。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核目录服务器访问</code></li>
+<li>启用对windows系统的审核特权使用。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核特权使用</code></li>
+<li>启用对windows系统的审核系统事件。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核系统事件</code></li>
+<li>启用对windows系统的审核账户管理。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核账户管理</code></li>
+<li>启用对windows系统的审核进程追踪，仅失败操作需要审核。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核系统追踪</code></li>
+<li>设置日志文件大小，根据磁盘空间大小尽可能记录更多日志，设置达到最大日志大小时按需要轮询记录日志。<br><code>控制面板&gt;管理工具&gt;事件查看器</code>，配置应用日志、系统日志、安全日志属性中日志大小，设置达到最大日志大小时的策略。</li>
+</ul>
+<ol start="3">
+<li>IP协议安全配置</li>
+</ol>
+<p>启用SYN攻击保护：</p>
+<ul>
+<li>指定触发SYN攻击保护必须超过的TCP连接请求数阈值为5。</li>
+<li>指定处于SYN_RCVD状态的TCP连接数阈值为500。</li>
+<li>指定处于至少已发送一次重传的SYN_RCVD状态中的TCP连接数阈值为400。</li>
+</ul>
+<p>操作步骤：<br>Windows Server 2008</p>
+<ul>
+<li><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SynAttackProtect</code><br>推荐值：2</li>
+<li><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TcpMaxPortsExhausted</code><br>推荐值：5</li>
+<li><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TcpMaxHalfOpen</code><br>推荐值：500</li>
+<li><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TcpMaxHalfOpenRetried</code><br>推荐值：400</li>
+</ul>
+<p>Windows Server 2012</p>
+<ul>
+<li><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\SynAttackProtect</code><br>推荐值：2</li>
+<li><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\TcpMaxHalfOpen</code><br>推荐值：500</li>
+</ul>
+<ol start="4">
+<li>文件权限</li>
+</ol>
+<ul>
+<li>非域环境中关闭windows默认共享C$、D$<br>修改注册表<code>HKLM\System\CurrentControlSet\Services\LanmanServer\Parameters\AutoShareServer</code> 推荐值：0<br>windows server 2012已默认关闭windows共享。</li>
+<li>共享文件夹的共享权限只允许已授权用户访问。</li>
+</ul>
+<ol start="5">
+<li>系统服务</li>
+</ol>
+<ul>
+<li>禁用TCP/IP上的NetBIOS协议，关闭UDP137、UDP138、TCP139等端口。<br><code>计算机管理&gt;服务和应用程序&gt;服务</code>禁用TCP/IP NetBIOS Helper服务。<br>再网络连接<code>属性&gt;Internet协议版本4(TCP/IPv4)&gt;高级&gt;WINS&gt;禁用TCP/IP上的NetBIOS</code></li>
+<li>禁用不必要的服务<br><img src="/images/services.PNG" alt=""></li>
+</ul>
+<ol start="6">
+<li>安全选项</li>
+</ol>
+<p>6.1 启用安全选项</p>
+<p>打开<code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;安全选项</code>，进行以下设置：<br><img src="/images/secure.PNG" alt=""></p>
+<p>6.2 禁用未登录前关机</p>
+<p>服务器该项是默认禁用的，如果启用会导致服务器安全性大大降低。<br>打开<code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;安全选项&gt;关机：允许系统再未登录前关机</code>项禁用。</p>
+<ol start="7">
+<li>其它安全设置</li>
+</ol>
+<ul>
+<li>安装企业级防病毒软件并保持病毒库更新。</li>
+<li>设置屏幕保护密码和开启时间。</li>
+<li>限制远程登录空闲断开时间。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;安全选项&gt;Microsoft网络服务器：暂停会话前所需的空闲时间数量</code>设置为15分钟</li>
+<li>补丁管理，保持操作系统补丁更新和兼容性测试，对生产服务器安装补丁要慎重。</li>
+</ul>
+<h3 id="Apache安全加固"><a href="#Apache安全加固" class="headerlink" title="Apache安全加固"></a>Apache安全加固</h3><ol>
+<li>账号策略</li>
+</ol>
+<p>1.1 以专门的用户账号和用户组运行Apache服务。</p>
+<ul>
+<li>为Apache服务创建Apache用户组。<br><code>groupadd apache</code></li>
+<li>创建Apache用户并加入Apache用户组。<br><code>useradd apache -g apache</code><br>-将以下参数加入Apache配置文件<code>httpd.conf</code>中。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User apache</span><br><span class="line">Group apache</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>1.2 检查httpd.conf配置文件中是否允许使用非专用帐号（如root）运行apache服务。默认设置一般服务要求，Linux中默认使用apache或nobody用户，Unix系统中默认使用daemon用户。</p>
+<ol start="2">
+<li>授权设置</li>
+</ol>
+<p>2.1 严格控制Apache主目录的访问权限，设置只允许root权限修改该目录中的内容。Apache的主目录对应于Apache Server配置文件httpd.conf中的Server Root控制项。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Server Root /usr/<span class="built_in">local</span>/apache</span><br></pre></td></tr></table></figure></p>
+<p>该目录一般设置为/etc/httpd，默认情况下属主为root用户，其他用户不能修改该目录中的文件。</p>
+<p>2.2 严格设置配置文件和日志文件的权限，防止未授权访问。</p>
+<ul>
+<li>执行命令<code>chmod 600 /etc/httpd/conf/httpd.conf</code>，设置配置文件为属主可读写，其他用户无访问权限。（默认权限644）</li>
+<li>执行命令<code>chmod 644 /var/log/httpd/*.log</code>，设置日志文件为属主可读写，其他用户只读权限。（默认权限644）</li>
+</ul>
+<ol start="3">
+<li>日志系统</li>
+</ol>
+<p>启用Apache日志系统，修改httpd.conf配置文件，设置日志记录文件、记录内容、记录格式等。</p>
+<ul>
+<li><p>错误日志</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LogLevel notice <span class="comment">#日志的级别</span></span><br><span class="line">ErrorLog /.../logs/error_log <span class="comment">#日志的保存位置</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>访问日志</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LogFormat %h %l %u %t \<span class="string">"%r\" %&gt;s %b "</span>%&#123;Accept&#125;i\<span class="string">"%&#123;Referer&#125;i\" \"%&#123;User-Agent&#125;i\""</span></span><br><span class="line">combined</span><br><span class="line">CustomLog /.../logs/access_log combined (访问日志)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>ErrorLog</code>指令设置错误日志文件名和位置，错误日志是最重要的日志文件，Apache httpd程序将在这个文件中存放诊断信息和处理请求中出现的错误，使用命令<code>ErrorLog syslog</code>将错误日志传送到Syslog。<br><code>CustomLog</code>指令指定保存日志文件的具体位置和日志格式，访问日志会记录服务器处理的所有请求。<br><code>LogFormat</code>命令用于设置日志格式，建议设置为combined格式。<br><code>LogLevel</code>命令用于调整记录在错误日志中的信息的详细程度，建议设置为notice。日志级别默认是warn级别，notice更详细但占用空间更大。</p>
+<ol start="4">
+<li>禁止访问外部文件</li>
+</ol>
+<p>禁止Apache访问Web目录外的文件。<br>4.1 修改配置文件httpd.conf。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Order Deny,Allow</span><br><span class="line">Deny from all</span><br></pre></td></tr></table></figure></p>
+<p>4.2 设置可访问的目录<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Order Allow,Deny</span><br><span class="line">Allow from /web</span><br></pre></td></tr></table></figure></p>
+<p>4.3 默认配置如下，可根据业务需要进行设置。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Options FollowSymLinks</span><br><span class="line">AllowOverride None</span><br></pre></td></tr></table></figure></p>
+<ol start="5">
+<li>禁止目录列出</li>
+</ol>
+<p>修改配置文件/etc/httpd/httpd.conf，删除Options的Indexes设置，重启Apache服务生效。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Options Indexes FollowSymLinks #删掉Indexes</span></span><br><span class="line">Options FollowSymLinks</span><br><span class="line">AllowOverride None</span><br><span class="line">Order allow,deny</span><br><span class="line">Allow from all</span><br></pre></td></tr></table></figure></p>
+<p>将<code>Options Indexes FollowSymLinks</code>中的<code>Indexes</code>去掉就可以禁止Apache显示该目录结构，Indexes的作用就是当该目录下没有index.html文件时，自动显示目录结构。</p>
+<ol start="6">
+<li>错误页面重定向</li>
+</ol>
+<p>Apache错误页面重定向功能可以防止敏感信息泄露。修改配置文件httpd.conf，添加错误重定向页面，重启Apache服务生效。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ErrorDocument 400 /custom400.html</span><br><span class="line">ErrorDocument 401 /custom401.html</span><br><span class="line">ErrorDocument 403 /custom403.html</span><br><span class="line">ErrorDocument 404 /custom404.html</span><br><span class="line">ErrorDocument 405 /custom405.html</span><br><span class="line">ErrorDocument 500 /custom500.html</span><br></pre></td></tr></table></figure></p>
+<ol start="7">
+<li>拒绝服务防护</li>
+</ol>
+<p>根据业务需要合理设置session时间，防止拒绝服务攻击。修改配置文件httpd.conf并重启Apache服务。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Timeout 10 <span class="comment">#客户端与服务器端建立连接前的时间间隔</span></span><br><span class="line">KeepAlive On</span><br><span class="line">KeepAliveTimeout 15 <span class="comment">#限制每个session的保持时间是15秒，根据具体需要进行设置。</span></span><br></pre></td></tr></table></figure></p>
+<ol start="8">
+<li>隐藏Apache版本号</li>
+</ol>
+<p>修改配置文件httpd.conf。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ServerSignature Off ServerTokens Prod</span><br></pre></td></tr></table></figure></p>
+<p>9.关闭TRACE功能</p>
+<p>关闭TRACE功能可防止TRACE方法被恶意利用。在配置文件httpd.conf中添加参数<code>TraceEnable Off</code>，该参数适用于Apache2.0以上版本。</p>
+<ol start="10">
+<li>禁用CGI</li>
+</ol>
+<p>如果服务器上不需要运行CGI程序，建议禁用CGI。如果没有CGI程序，可以修改配置文件httpd.conf，把cgi-bin目录的配置和模块全部注释掉。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#LoadModule cgi_module modules/mod_cgi.so</span></span><br><span class="line"><span class="comment">#ScriptAlias /cgi-bin/ “/var/www/cgi-bin/”</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#AllowOverride None</span></span><br><span class="line"><span class="comment"># Options None</span></span><br><span class="line"><span class="comment">#Order allow,deny</span></span><br><span class="line"><span class="comment">#Allow from all</span></span><br><span class="line"><span class="comment">#</span></span><br></pre></td></tr></table></figure></p>
+<ol start="11">
+<li>绑定监听地址</li>
+</ol>
+<p>服务器有多个IP地址时，只监听提供服务的IP地址。</p>
+<ul>
+<li><p>查看是否绑定IP地址。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/httpd/conf/httpd.conf | grep Listen</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置文件httpd.conf，设置监听地址<code>Listen IP:80</code></p>
+</li>
+</ul>
+<p>监听功能默认监听所有地址，如果服务器只有一个IP地址可以不用修改该项。</p>
+<ol start="12">
+<li>删除缺省安装的无用文件</li>
+</ol>
+<ul>
+<li><p>删除缺省HTML文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># rm -rf /usr/local/apache2/htdocs/*</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除缺省CGI脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># rm -rf /usr/local/apache2/cgi-bin/*</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除Apache说明文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># rm -rf /usr/local/apache2/manual</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除源代码文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># rm -rf /path/to/httpd-2.2.4*</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除CGI，一般情况下<code>/var/www/html</code> <code>/var/www/cgi-bin</code>默认就是空的。</p>
+</li>
+</ul>
+<ol start="13">
+<li>禁用非法HTTP方法</li>
+</ol>
+<p>禁用PUT、DELETE等危险的HTTP方法，只允许get、post方法。修改配置文件httpd.conf。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;Location /&gt;  </span><br><span class="line">&lt;LimitExcept GET POST CONNECT OPTIONS&gt; </span><br><span class="line">  Order Allow,Deny </span><br><span class="line">  Deny from all </span><br><span class="line">&lt;/LimitExcept&gt; </span><br><span class="line">&lt;/Location&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Tomcat安全加固"><a href="#Tomcat安全加固" class="headerlink" title="Tomcat安全加固"></a>Tomcat安全加固</h3><p>Tomcat服务默认启用了管理后台功能，使用该后台可直接上传war文件包对站点进行部署和管理，管理后台可能存在弱口令，可通过上传webshell获取web服务器权限。<br>Tomcat管理后台URL地址一般为<code>http://ip:8080/manager/html</code>。</p>
+<ol>
+<li>网络访问控制</li>
+</ol>
+<ul>
+<li>如果业务不需要使用Tomcat管理后台管理业务代码，建议使用防火墙功能对管理后台URL地址进行拦截，或直接将Tomcat部署目录中webapps文件夹中的manager、host-manager文件夹全部删除，并注释Tomcat目录conf文件夹中的tomcat-users.xml文件中的所有代码。</li>
+<li>如果业务系统需要使用Tomcat管理后台进行业务代码管理发布，建议为管理后台设置强密码，并修改默认用户名<code>admin</code>。</li>
+</ul>
+<ol start="2">
+<li>开启Tomcat访问日志</li>
+</ol>
+<p>修改conf/server.xml文件，将以下代码取消注释：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;Valve className=<span class="string">"org.apache.catalina.valves.AccessLogValve"</span> directory=<span class="string">"logs"</span>   </span><br><span class="line">prefix=<span class="string">"localhost_access_log."</span> suffix=<span class="string">".txt"</span> pattern=<span class="string">"common"</span> resolveHosts=<span class="string">"false"</span>/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>启用访问日志功能，重启Tomcat服务后，在tomcat_home/logs文件夹中就可以看到访问日志。</p>
+<ol start="3">
+<li>Tomcat默认账号安全</li>
+</ol>
+<p>修改Tomcat安装目录conf下的tomcat-user.xml文件，重新设置复杂口令，并重启Tomcat服务生效。</p>
+<ol start="4">
+<li>修改默认访问端口</li>
+</ol>
+<p>修改conf/server.xml文件，把默认8080端口修改为其他端口。</p>
+<ol start="5">
+<li>重定向错误页面</li>
+</ol>
+<p>修改访问Tomcat错误页面的返回信息，在webapps\manager目录中创建相应的401.htm、404.htm、500.htm文件，并在conf/web.xml文件最后一行前添加以下代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;error-page&gt;      </span><br><span class="line">                           &lt;error-code&gt;401&lt;/error-code&gt;              </span><br><span class="line">                           &lt;location&gt;/401.htm&lt;/location&gt;          </span><br><span class="line">                   &lt;/error-page&gt;          </span><br><span class="line">                   &lt;error-page&gt;    </span><br><span class="line">                           &lt;error-code&gt;404&lt;/error-code&gt;        </span><br><span class="line">                           &lt;location&gt;/404.htm&lt;/location&gt;          </span><br><span class="line">                   &lt;/error-page&gt;  </span><br><span class="line">                   &lt;error-page&gt;    </span><br><span class="line">                           &lt;error-code&gt;500&lt;/error-code&gt;  </span><br><span class="line">                           &lt;location&gt;/500.htm&lt;/location&gt;      </span><br><span class="line">                    &lt;/error-page&gt;</span><br></pre></td></tr></table></figure></p>
+<ol start="6">
+<li>禁止列出目录</li>
+</ol>
+<p>防止直接访问目录时，由于找不到默认页面而列出目录下文件的情况。在web.xml中将<code>&lt;param-name&gt;listings&lt;/param-name&gt;</code>改成<code>&lt;param-name&gt;false&lt;/param-name&gt;</code>。</p>
+<ol start="7">
+<li>删除文档和示例程序</li>
+</ol>
+<p>删除webapps目录下的docs、examples、manager、ROOT、host-manager文件夹。</p>
+<h3 id="MySQL安全加固"><a href="#MySQL安全加固" class="headerlink" title="MySQL安全加固"></a>MySQL安全加固</h3><p>####漏洞发现</p>
+<ol>
+<li>判断Mysql数据库版本</li>
+</ol>
+<p>使用nmap的指纹识别可以精确判断数据库版本号，metasploit提供的模块特点是能够判断数据库是否允许外链。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">msf&gt; use auxiliary/scanner/mysql/mysql_version</span><br><span class="line">msf&gt; auxiliary(mysql_version)&gt; <span class="built_in">set</span> RHOSTS [IP]</span><br></pre></td></tr></table></figure></p>
+<p>如果数据库允许外链就能显示版本号，可以爆破密码。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">msf&gt; use auxiliary/scanner/mysql/mysql_login</span><br><span class="line"><span class="built_in">set</span> USERNAME root</span><br><span class="line"><span class="built_in">set</span> PASS_FILE [密码字典]</span><br></pre></td></tr></table></figure></p>
+<p>枚举数据库信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">msf&gt; use auxiliary/admin/mysql/mysql_enum</span><br><span class="line">show options</span><br></pre></td></tr></table></figure></p>
+<p>枚举的信息包括mysql版本号、操作系统架构、路径和密码hash等。</p>
+<ol start="2">
+<li>Mysql认证漏洞利用</li>
+</ol>
+<p>该漏洞编码为CVE-2012-2122，Mysql任意用户密码概率登录漏洞，按照公告说法大约256次就能蒙对一次。<br>MariaDB是为Mysql提供偶然替代功能的数据库服务器，Mysql是开源数据库。MariaDB 5.1.62、5.2.12、5.3.6、5.5.23之前版本和Mysql 5.1.63、5.5.24、5.6.6之前版本在用户验证的处理上存在安全漏洞，可能导致攻击者不需要正确密码就能登录到Mysql服务器。<br>用户连接到MariaDB/Mysql后，应用会计算和比较令牌值，由于错误的转换，即使memcmp()返回非零值，也可能出现错误的比较，造成MariaDB/Mysql误认为密码是正确的，因为协议使用的是随机字符串，该bug发生的机率为1/256.Mysql版本是否受影响取决于程序编译方式，很多版本并不受此漏洞影响。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">msf&gt; use auxiliary/admin/mysql/mysql_autobypass_hashdump</span><br><span class="line">show options</span><br><span class="line"><span class="built_in">set</span> RHOSTS [IP]</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure></p>
+<ol start="3">
+<li>UDF提权</li>
+</ol>
+<p>Metasploit提供的exploit适用于5.5.9以下。利用Mof提权，该模块可以通过用户名和密码直接返回一个meterpreter会话。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">msf&gt; use exploit/windows/mysql/mysql_mof</span><br><span class="line"><span class="built_in">set</span> rhost [IP]</span><br><span class="line"><span class="built_in">set</span> USERNAME root</span><br><span class="line"><span class="built_in">set</span> PASSWORD ***</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure></p>
+<h4 id="安全加固"><a href="#安全加固" class="headerlink" title="安全加固"></a>安全加固</h4><ol>
+<li>账号安全</li>
+</ol>
+<p>1.1 禁止Mysql以管理员权限运行</p>
+<p>修改配置文件/etc/my.cnf，禁止以管理员账号权限运行MYSQL服务。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[musql.server]</span><br><span class="line">user=mysql</span><br></pre></td></tr></table></figure></p>
+<p>1.2 避免不同用户间共享账号</p>
+<ul>
+<li>创建用户，执行以下命令将创建用户phplamp。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; mysql&gt; insert into mysql.user(Host,User,Password,ssl_cipher,x509_issuer,x509_subject) values(<span class="string">"localhost"</span>,<span class="string">"pppadmin"</span>,password(<span class="string">"passwd"</span>),<span class="string">''</span>,<span class="string">''</span>,<span class="string">''</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用该用户登录MySQL。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; <span class="built_in">exit</span>;</span><br><span class="line">@&gt;mysql -u phplamp -p</span><br><span class="line">@&gt;********(密码)</span><br><span class="line">mysql&gt; 登录成功</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>1.3 删除无关账号</p>
+<p>使用<code>DROP USER</code>删除Mysql账号时，必须确保当前账户拥有Mysql数据库全局CREATE或DELETE权限，账号名称的用户和主机部分分别与用户表记录的User和Host列值对应。</p>
+<ol start="2">
+<li>密码策略</li>
+</ol>
+<p>使用以下命令修改账号密码，确保密码复杂度并定期修改。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; update user <span class="built_in">set</span> password=password(<span class="string">'passwd'</span>) <span class="built_in">where</span> user=<span class="string">'root'</span>;</span><br><span class="line">mysql&gt; flush privileges;</span><br></pre></td></tr></table></figure></p>
+<ol start="3">
+<li>授权设置</li>
+</ol>
+<p>在数据库权限配置能力范围内，根据业务要求配置最小权限设置。</p>
+<p>3.1 查看数据库授权情况：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use mysql;</span><br><span class="line">mysql&gt; select * from user;</span><br><span class="line">mysql&gt; select * from db;</span><br><span class="line">mysql&gt; select * from host;</span><br><span class="line">mysql&gt; select * from tables_priv;</span><br><span class="line">mysql&gt; select * from columns_priv;</span><br></pre></td></tr></table></figure></p>
+<p>3.2 使用revoke命令回收不必要的授权。</p>
+<ol start="4">
+<li>开启日志审计功能</li>
+</ol>
+<p>Mysql日志类型有以下几种：</p>
+<ul>
+<li>错误日志：-log-err</li>
+<li>查询日志：-log（可选）</li>
+<li>慢查询日志：-log-slow-queries（可选）</li>
+<li>更新日志：-log-update<br>-二进制日志：-log-bin<br>在<code>my.ini</code>配置文件中增加上述需要的日志类型参数，重启Mysql服务即可启用日志功能。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Enter a name for the binary log. Otherwise a default name will be used. </span></span><br><span class="line"><span class="comment">#log-bin= </span></span><br><span class="line"><span class="comment">#Enter a name for the query log file. Otherwise a default name will be used. </span></span><br><span class="line"><span class="comment">#log= </span></span><br><span class="line"><span class="comment">#Enter a name for the error log file. Otherwise a default name will be used. </span></span><br><span class="line"><span class="built_in">log</span>-error= </span><br><span class="line"><span class="comment">#Enter a name for the update log file. Otherwise a default name will be used. </span></span><br><span class="line"><span class="comment">#log-update=</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>-执行命令<code>show variables like &#39;log_%&#39;;</code>可查看所有log。<br>-执行命令<code>show variables like &#39;log_bin&#39;;</code>可查看具体log。</p>
+<ol start="5">
+<li>补丁管理</li>
+</ol>
+<p>安装系统补丁前应进行兼容性测试，生产系统更新要慎重。</p>
+<ol start="6">
+<li>禁止数据库远程访问</li>
+</ol>
+<p>如果数据库不需要远程访问，应禁止远程TCP/IP连接，通过在Mysql服务器的启动参数中添加<code>--skip-networking</code>参数使Mysql服务器不监听任何TCP/IP连接，增加安全性。</p>
+<ol start="7">
+<li>设置可信IP访问控制</li>
+</ol>
+<p>通过数据库服务器的防火墙功能，限制特定IP通过监听器访问数据库。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON db.* TO 用户名@<span class="string">'IP子网/掩码'</span>；</span><br></pre></td></tr></table></figure></p>
+<ol start="8">
+<li>设置连接数</li>
+</ol>
+<p>在Mysql配置文件<code>my.conf</code>或<code>my.ini</code>的<code>[mysqld]</code>配置段中添加<code>max_connections = 1000</code>，保存配置文件并重启Mysql服务。</p>
+
+      
+    </div>
+    
+    
+    
+	
+	<div>
+      
+        
+      
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/17/深入理解SQLite/" rel="next" title="深入理解SQLite">
+                <i class="fa fa-chevron-left"></i> 深入理解SQLite
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="aJ0ker">
+            
+              <p class="site-author-name" itemprop="name">aJ0ker</p>
+              <p class="site-description motion-element" itemprop="description">斯是陋室，惟吾德馨。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/aj0ker" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主机安全加固"><span class="nav-number">1.</span> <span class="nav-text">主机安全加固</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux主机"><span class="nav-number">1.1.</span> <span class="nav-text">Linux主机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows主机"><span class="nav-number">1.2.</span> <span class="nav-text">Windows主机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache安全加固"><span class="nav-number">1.3.</span> <span class="nav-text">Apache安全加固</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tomcat安全加固"><span class="nav-number">1.4.</span> <span class="nav-text">Tomcat安全加固</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL安全加固"><span class="nav-number">1.5.</span> <span class="nav-text">MySQL安全加固</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安全加固"><span class="nav-number">1.5.1.</span> <span class="nav-text">安全加固</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+		
+		<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="110" src="//music.163.com/outchain/player?type=0&id=2756100143&auto=1&height=90"></iframe>
+
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">aJ0ker</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("NUQF1XBky3aovtMnldoBd4V8-gzGzoHsz", "SN4b6abObtg2PHmEWLX3bYLi");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
