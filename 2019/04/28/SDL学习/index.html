@@ -110,7 +110,7 @@
 <meta property="og:image" content="http://yoursite.com/images/sdl_02.gif">
 <meta property="og:image" content="http://yoursite.com/images/stride.PNG">
 <meta property="og:image" content="http://yoursite.com/images/Data_Flow_Diagrams.PNG">
-<meta property="og:updated_time" content="2019-04-29T15:01:26.203Z">
+<meta property="og:updated_time" content="2019-04-29T15:18:53.065Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微软SDL（可信赖计算安全开发生命周期）">
 <meta name="twitter:description" content="一、SDL简介SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程">
@@ -416,7 +416,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2.5k
+                  2.8k
                 </span>
               
 
@@ -432,7 +432,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  8
+                  9
                 </span>
               
             </div>
@@ -518,7 +518,9 @@
 </tr>
 </tbody>
 </table>
-<p>攻击面最小化在微软的应用实践示例：<br>| Windows | RPC需要认证、防火墙默认打开 |<br>| IIS6.0、7.0 | 使用Network Service权限运行，默认关闭 |<br>| SQL Server 2008 | xp_cmdshell存储过程默认关闭，默认不开放远程链接 |<br>| VS 2005/2008 | Web Server金额SQL Server默认仅本地访问 |</p>
+<p>攻击面最小化在微软的应用实践示例：</p>
+<hr>
+<p>| Windows | RPC需要认证、防火墙默认打开 |<br>| IIS6.0、7.0 | 使用Network Service权限运行，默认关闭 |<br>| SQL Server 2008 | xp_cmdshell存储过程默认关闭，默认不开放远程链接 |<br>| VS 2005/2008 | Web Server金额SQL Server默认仅本地访问 |</p>
 <h3 id="2-2-基本隐私"><a href="#2-2-基本隐私" class="headerlink" title="2.2 基本隐私"></a>2.2 基本隐私</h3><p>用户使用软件时可能需要授予软件收集个人隐私信息的权限，企业有责任完善对个人信息的保护措施，确保用户隐私的安全性，隐私安全是建立可信任应用程序的关键因素。<br>在软件设计时考虑用户基本隐私的必要性和意义：</p>
 <ul>
 <li>履行法律规定和义务</li>
@@ -572,7 +574,62 @@
 <p><img src="/images/Data_Flow_Diagrams.PNG" alt=""></p>
 <p>3.2.2 识别威胁</p>
 <p>STRIDE威胁建模方法明确了每个数据流图元素具有不同的威胁，其中外部实体只有仿冒和抵赖威胁，数据流只有篡改、信息泄露、拒绝服务威胁，处理过程有全部六种威胁，存储过程有篡改、信息泄露、拒绝服务威胁，但如果是日志类型存储则还有抵赖威胁。具体可以对照如下表格进行威胁识别：</p>
-
+<p>数据流图元素对应不同威胁</p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>元素</th>
+<th>S</th>
+<th>T</th>
+<th>R</th>
+<th>I</th>
+<th>D</th>
+<th>E</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>外部实体</td>
+<td>√</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>处理过程</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>数据存储</td>
+<td></td>
+<td>√</td>
+<td>?</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>数据流</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td>√</td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<p>3.2.3 缓解措施</p>
+<p>根据不同数据流图元素及威胁，相应的缓解措施也不相同。在提出缓解措施时，有时不仅要考虑安全问题，也要考虑软件的易用性。微软对于常见威胁给出了常用的标准缓解措施，并在具体实施时已将常用的缓解方案及措施集成为独立的解决方案或代码模块，方便同类型应用直接使用。</p>
+<p>微软给出的常见威胁类型的缓解措施：</p>
+<table><br>   <tr><br>      <td>威胁类型</td><br>      <td>缓解措施</td><br>      <td>技术方案</td><br>   </tr><br>   <tr><br>      <td>仿冒(S)</td><br>      <td>认证</td><br>      <td>Kerberos认证</td><br>   </tr><br>   <tr><br>      <td>PKI系统如SSL / TLS证书</td><br>   </tr><br>   <tr><br>      <td></td><br>   </tr><br>   <tr><br>      <td>数字签名</td><br>   </tr><br>   <tr><br>      <td></td><br>   </tr><br>   <tr><br>      <td>篡改(T)</td><br>      <td>完整性保护</td><br>      <td>访问控制</td><br>   </tr><br>   <tr><br>      <td>完整性校验</td><br>   </tr><br>   <tr><br>      <td></td><br>   </tr><br>   <tr><br>      <td>抵赖(R)</td><br>      <td>日志审计</td><br>      <td>强认证</td><br>   </tr><br>   <tr><br>      <td>安全日志、审计</td><br>   </tr><br>   <tr><br>      <td></td><br>   </tr><br>   <tr><br>      <td>信息泄露(I)</td><br>      <td>保密性</td><br>      <td>加密</td><br>   </tr><br>   <tr><br>      <td>访问控制列表</td><br>   </tr><br>   <tr><br>      <td></td><br>   </tr><br>   <tr><br>      <td>拒绝服务(D)</td><br>      <td>可用性</td><br>      <td>访问控制列表</td><br>   </tr><br>   <tr><br>      <td>过滤</td><br>   </tr><br>   <tr><br>      <td></td><br>   </tr><br>   <tr><br>      <td>热备份</td><br>   </tr><br>   <tr><br>      <td></td><br>   </tr><br>   <tr><br>      <td>权限提升(E)</td><br>      <td>授权认证</td><br>      <td>输入校验</td><br>   </tr><br>   <tr><br>      <td>用户组管理</td><br>   </tr><br>   <tr><br>      <td></td><br>   </tr><br>   <tr><br>      <td>访问控制列表</td><br>   </tr><br></table>
       
     </div>
     
