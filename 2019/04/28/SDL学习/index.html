@@ -110,7 +110,7 @@
 <meta property="og:image" content="http://yoursite.com/images/sdl_02.gif">
 <meta property="og:image" content="http://yoursite.com/images/stride.PNG">
 <meta property="og:image" content="http://yoursite.com/images/Data_Flow_Diagrams.PNG">
-<meta property="og:updated_time" content="2019-04-29T14:49:00.822Z">
+<meta property="og:updated_time" content="2019-04-29T15:01:26.203Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微软SDL（可信赖计算安全开发生命周期）">
 <meta name="twitter:description" content="一、SDL简介SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程">
@@ -482,7 +482,42 @@
 <li>限定可访问到代码的人员身份</li>
 <li>降低代码执行所需的权限</li>
 </ul>
-<p>攻击面分析常用技巧：<br>| 高风险攻击面 | 低风险攻击面      |<br>| :——–: | :————-: |<br>| 默认开启   | 默认关闭        |<br>| 接口开启   | 接口关闭        |<br>| UDP协议  | TCP协议       |<br>| 匿名访问   | 经过身份验证的用户访问 |<br>| 保持开启   | 需要时开启       |<br>| 可互联网访问 | 仅本地网络访问     |</p>
+<p>攻击面分析常用技巧：</p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>高风险攻击面</th>
+<th>低风险攻击面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认开启</td>
+<td>默认关闭</td>
+</tr>
+<tr>
+<td>接口开启</td>
+<td>接口关闭</td>
+</tr>
+<tr>
+<td>UDP协议</td>
+<td>TCP协议</td>
+</tr>
+<tr>
+<td>匿名访问</td>
+<td>经过身份验证的用户访问</td>
+</tr>
+<tr>
+<td>保持开启</td>
+<td>需要时开启</td>
+</tr>
+<tr>
+<td>可互联网访问</td>
+<td>仅本地网络访问</td>
+</tr>
+</tbody>
+</table>
 <p>攻击面最小化在微软的应用实践示例：<br>| Windows | RPC需要认证、防火墙默认打开 |<br>| IIS6.0、7.0 | 使用Network Service权限运行，默认关闭 |<br>| SQL Server 2008 | xp_cmdshell存储过程默认关闭，默认不开放远程链接 |<br>| VS 2005/2008 | Web Server金额SQL Server默认仅本地访问 |</p>
 <h3 id="2-2-基本隐私"><a href="#2-2-基本隐私" class="headerlink" title="2.2 基本隐私"></a>2.2 基本隐私</h3><p>用户使用软件时可能需要授予软件收集个人隐私信息的权限，企业有责任完善对个人信息的保护措施，确保用户隐私的安全性，隐私安全是建立可信任应用程序的关键因素。<br>在软件设计时考虑用户基本隐私的必要性和意义：</p>
 <ul>
