@@ -98,20 +98,22 @@
 
 
 
-<meta name="description" content="SDL简介SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程中进">
+<meta name="description" content="一、SDL简介SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程">
 <meta name="keywords" content="安全开发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微软SDL（可信赖计算安全开发生命周期）">
 <meta property="og:url" content="http://yoursite.com/2019/04/28/SDL学习/index.html">
 <meta property="og:site_name" content="陋室">
-<meta property="og:description" content="SDL简介SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程中进">
+<meta property="og:description" content="一、SDL简介SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/SDL.gif">
 <meta property="og:image" content="http://yoursite.com/images/sdl_02.gif">
-<meta property="og:updated_time" content="2019-04-29T10:49:01.147Z">
+<meta property="og:image" content="http://yoursite.com/images/stride.PNG">
+<meta property="og:image" content="http://yoursite.com/images/Data_Flow_Diagrams.PNG">
+<meta property="og:updated_time" content="2019-04-29T14:39:50.835Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微软SDL（可信赖计算安全开发生命周期）">
-<meta name="twitter:description" content="SDL简介SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程中进">
+<meta name="twitter:description" content="一、SDL简介SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程">
 <meta name="twitter:image" content="http://yoursite.com/images/SDL.gif">
 
 
@@ -414,7 +416,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.7k
+                  2.5k
                 </span>
               
 
@@ -430,7 +432,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  5
+                  8
                 </span>
               
             </div>
@@ -451,8 +453,8 @@
       
 
       
-        <h2 id="SDL简介"><a href="#SDL简介" class="headerlink" title="SDL简介"></a>SDL简介</h2><p>SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程中进行代码审核和安全测试。</p>
-<h2 id="SDL基本流程"><a href="#SDL基本流程" class="headerlink" title="SDL基本流程"></a>SDL基本流程</h2><p>Microsoft标准软件开发流程如下图所示，也是行业内的典型流程。该开发流程实际上是螺旋形的，在实施阶段可能需要经常重新考虑需求和设计问题。</p>
+        <h2 id="一、SDL简介"><a href="#一、SDL简介" class="headerlink" title="一、SDL简介"></a>一、SDL简介</h2><p>SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程中进行代码审核和安全测试。</p>
+<h3 id="SDL基本流程"><a href="#SDL基本流程" class="headerlink" title="SDL基本流程"></a>SDL基本流程</h3><p>Microsoft标准软件开发流程如下图所示，也是行业内的典型流程。该开发流程实际上是螺旋形的，在实施阶段可能需要经常重新考虑需求和设计问题。</p>
 <p><img src="/images/SDL.gif" alt=""></p>
 <p>实际实施中软件安全性方面的经验已经为构建更安全的软件建立了一套高标准的原则，Microsoft将这些原则称作SD3+C，即设计安全、默认安全、部署安全和通信。</p>
 <ul>
@@ -464,7 +466,7 @@
 <p>SD3+C每个要素都对开发流程提出了要求，但设计安全和默认安全对软件安全性提升作用最大，设计安全改进流程以防止在第一阶段引入漏洞，默认安全则要求软件默认状态下暴露的攻击面最小。</p>
 <p>在现有开发流程中引入继承SD3+C方法的安全措施后的改进流程结构如下图所示。</p>
 <p><img src="/images/sdl_02.gif" alt=""></p>
-<h2 id="安全设计核心原则"><a href="#安全设计核心原则" class="headerlink" title="安全设计核心原则"></a>安全设计核心原则</h2><p>SDL安全设计核心原则：</p>
+<h2 id="二、安全设计核心原则"><a href="#二、安全设计核心原则" class="headerlink" title="二、安全设计核心原则"></a>二、安全设计核心原则</h2><p>SDL安全设计核心原则：</p>
 <ul>
 <li>Attack Surface Reduction：攻击面最小化</li>
 <li>Basic Privacy：基本隐私</li>
@@ -473,16 +475,16 @@
 <li>Defense in Depth：纵深防御</li>
 <li>Threat Modeling：威胁建模</li>
 </ul>
-<h3 id="攻击面最小化"><a href="#攻击面最小化" class="headerlink" title="攻击面最小化"></a>攻击面最小化</h3><p>攻击面是指程序任何能被用户或其他程序访问到的部分，这些暴露给用户的地方往往是最可能被恶意攻击者攻击的地方。攻击面最小化是指尽量减少暴露恶意用户可能发现并试图利用的攻击面数量。软件产品的受攻击面包括代码、接口、服务以及包括对所有用户提供服务的协议，尤其是那些未被验证或远程用户都可以访问到的协议。供给面分析主要着重于：</p>
+<h3 id="2-1-攻击面最小化"><a href="#2-1-攻击面最小化" class="headerlink" title="2.1 攻击面最小化"></a>2.1 攻击面最小化</h3><p>攻击面是指程序任何能被用户或其他程序访问到的部分，这些暴露给用户的地方往往是最可能被恶意攻击者攻击的地方。攻击面最小化是指尽量减少暴露恶意用户可能发现并试图利用的攻击面数量。软件产品的受攻击面包括代码、接口、服务以及包括对所有用户提供服务的协议，尤其是那些未被验证或远程用户都可以访问到的协议。供给面分析主要着重于：</p>
 <ul>
 <li>降低默认执行的代码量</li>
 <li>限制可访问到代码的人员范围</li>
 <li>限定可访问到代码的人员身份</li>
 <li>降低代码执行所需的权限</li>
 </ul>
-<p>攻击面分析常用技巧：<br>| 高风险攻击面 | 低风险攻击面 |<br>| —— | —— |<br>| 默认开启 | 默认关闭 |<br>| 接口开启 | 接口关闭 |<br>| UDP协议 | TCP协议 |<br>| 匿名访问 | 经过身份验证的用户访问 |<br>| 保持开启 | 需要时开启 |<br>| 可互联网访问 | 仅本地网络访问 |</p>
+<p>攻击面分析常用技巧：<br>| 高风险攻击面 | 低风险攻击面      |<br>|——–|————-|<br>| 默认开启   | 默认关闭        |<br>| 接口开启   | 接口关闭        |<br>| UDP协议  | TCP协议       |<br>| 匿名访问   | 经过身份验证的用户访问 |<br>| 保持开启   | 需要时开启       |<br>| 可互联网访问 | 仅本地网络访问     |</p>
 <p>攻击面最小化在微软的应用实践示例：<br>| Windows | RPC需要认证、防火墙默认打开 |<br>| IIS6.0、7.0 | 使用Network Service权限运行，默认关闭 |<br>| SQL Server 2008 | xp_cmdshell存储过程默认关闭，默认不开放远程链接 |<br>| VS 2005/2008 | Web Server金额SQL Server默认仅本地访问 |</p>
-<h3 id="基本隐私"><a href="#基本隐私" class="headerlink" title="基本隐私"></a>基本隐私</h3><p>用户使用软件时可能需要授予软件收集个人隐私信息的权限，企业有责任完善对个人信息的保护措施，确保用户隐私的安全性，隐私安全是建立可信任应用程序的关键因素。<br>在软件设计时考虑用户基本隐私的必要性和意义：</p>
+<h3 id="2-2-基本隐私"><a href="#2-2-基本隐私" class="headerlink" title="2.2 基本隐私"></a>2.2 基本隐私</h3><p>用户使用软件时可能需要授予软件收集个人隐私信息的权限，企业有责任完善对个人信息的保护措施，确保用户隐私的安全性，隐私安全是建立可信任应用程序的关键因素。<br>在软件设计时考虑用户基本隐私的必要性和意义：</p>
 <ul>
 <li>履行法律规定和义务</li>
 <li>增加客户信赖</li>
@@ -493,7 +495,7 @@
 <li>只收集程序必需的隐私数据，明确告知用户并征得用户同意。</li>
 <li>微软对于用户隐私数据（密码、口令等）需要加密存储，最低要求是SHA256+salt，对于更高要求的需要使用PBKDF2算法加密存储。</li>
 </ul>
-<h3 id="权限最小化"><a href="#权限最小化" class="headerlink" title="权限最小化"></a>权限最小化</h3><p>在进行软件设计时，安全设计人员可以评估应用程序的行为和功能所需的最低权限和访问级别，从而合理分配相应的权限，如果程序特定情况必须需要更高权限，也可以考虑特权赋予及释放机制，即使程序遭到攻击，也可以将损失降到最低。<br>常见的权限最小化实践如下：</p>
+<h3 id="2-3-权限最小化"><a href="#2-3-权限最小化" class="headerlink" title="2.3 权限最小化"></a>2.3 权限最小化</h3><p>在进行软件设计时，安全设计人员可以评估应用程序的行为和功能所需的最低权限和访问级别，从而合理分配相应的权限，如果程序特定情况必须需要更高权限，也可以考虑特权赋予及释放机制，即使程序遭到攻击，也可以将损失降到最低。<br>常见的权限最小化实践如下：</p>
 <ul>
 <li>普通管理员/系统管理员等角色管理</li>
 <li>文件只读权限/文件访问权限等访问控制</li>
@@ -504,12 +506,38 @@
 <li>Windows系统中网络进程、本地服务、用户进程的权限都较低且互相独立，分别为NETWORK SERVICE、LOCAL SERVICE、user权限，只有核心的重要进程使用SYSTEM权限。</li>
 <li>最新版本的office程序打开不可信来源的文档时，默认是不可编辑的，同时也是默认不可执行代码的，即使存在缓冲区溢出漏洞，也不会执行shellcode等恶意代码。</li>
 </ul>
-<h3 id="默认安全"><a href="#默认安全" class="headerlink" title="默认安全"></a>默认安全</h3><p>默认安全配置在客户熟悉安全配置选项前不仅有利于更好的帮助客户掌握安全配置经验，同时也可以确保应用程序初始状态下处于较安全状态，用户可根据实际使用情况决定应用程序安全与隐私等级水平是否降低。<br>默认安全在微软的应用实践：</p>
+<h3 id="2-4-默认安全"><a href="#2-4-默认安全" class="headerlink" title="2.4 默认安全"></a>2.4 默认安全</h3><p>默认安全配置在客户熟悉安全配置选项前不仅有利于更好的帮助客户掌握安全配置经验，同时也可以确保应用程序初始状态下处于较安全状态，用户可根据实际使用情况决定应用程序安全与隐私等级水平是否降低。<br>默认安全在微软的应用实践：</p>
 <ul>
 <li>在Windows 7之后的Windows操作系统中，DEP（数据执行保护）默认开启，用户可根据需要选择DEP开启状态。</li>
 <li>Windows 10默认启用安全防护软件Windows Defender，用户可根据需要选择是否开启。</li>
 </ul>
-<h3 id="纵深防御"><a href="#纵深防御" class="headerlink" title="纵深防御"></a>纵深防御</h3>
+<h3 id="2-5-纵深防御"><a href="#2-5-纵深防御" class="headerlink" title="2.5 纵深防御"></a>2.5 纵深防御</h3><p>纵深防御包含两层含义：首先，要在各个不同层面、不同方面实施安全方案，避免出现疏漏，不同安全方案之间需要相互配合，构成一个整体；其次，要在解决根本问题的地方实施针对性的安全方案。<br>纵深防御在微软的应用实践：</p>
+<ul>
+<li>针对XSS防护，除了要对用户输入的特殊符号进行过滤，还要区分是否是富文本进而进行相应编码操作，在输入时过滤的同时在输出时也进行过滤操作。</li>
+<li>即使做了十足的过滤、编码等安全防护，为了进一步确保缓解XSS攻击，Web站点也可以对cookie启用HTTP-Only属性，确保即使发生XSS攻击，也可以阻止通过脚本访问cookie。</li>
+</ul>
+<h3 id="2-6-威胁建模"><a href="#2-6-威胁建模" class="headerlink" title="2.6 威胁建模"></a>2.6 威胁建模</h3><p>威胁建模是一种分析应用程序威胁的过程和方法，威胁是指恶意用户可能试图利用以破坏系统，漏洞是一个特定的可以被利用的威胁。<br>威胁建模的一般流程如下：</p>
+<ul>
+<li>与系统架构师及设计人员沟通，了解设计详情。</li>
+<li>使用成熟的威胁建模方法分析当前设计潜在的安全问题。</li>
+<li>提出安全建议及对潜在威胁的缓解措施。</li>
+<li>对安全设计进行验证并对整个设计方案进行回顾并再次确认。</li>
+</ul>
+<h2 id="三、STRIDE威胁建模"><a href="#三、STRIDE威胁建模" class="headerlink" title="三、STRIDE威胁建模"></a>三、STRIDE威胁建模</h2><h3 id="3-1-STRIDE介绍"><a href="#3-1-STRIDE介绍" class="headerlink" title="3.1 STRIDE介绍"></a>3.1 STRIDE介绍</h3><p>STRIDE威胁建模是微软提出的一种威胁建模方法，该方法将威胁类型分为Spoofing（仿冒）、Tampering（篡改）、Repudiation（抵赖）、Information Disclosure（信息泄露）、Denial of Service（拒绝服务）和Elevation of Privilege（权限提升）。六种威胁的首字母缩写就是STRIDE，STRIDE威胁模型几乎涵盖目前大部分安全问题。</p>
+<h3 id="3-2-STRIDE威胁建模流程"><a href="#3-2-STRIDE威胁建模流程" class="headerlink" title="3.2 STRIDE威胁建模流程"></a>3.2 STRIDE威胁建模流程</h3><p>STRIDE威胁建模一般流程如下：</p>
+<ul>
+<li>绘制数据流图</li>
+<li>识别威胁</li>
+<li>提出缓解措施</li>
+<li>安全验证</li>
+</ul>
+<p><img src="/images/stride.PNG" alt=""></p>
+<p>3.2.1 数据流图</p>
+<p>数据流图（Data Flow Diagrams）包含外部实体（External Entity）、处理过程（Process）、数据流（Data Flow）、数据存储（Data Store），安全人员与系统架构师及设计人员沟通，了解设计详情并画出数据流图后还需要标注信任边界（Trust Boundary），针对简单Web应用的数据流图如下：</p>
+<p><img src="/images/Data_Flow_Diagrams.PNG" alt=""></p>
+<p>3.2.2 识别威胁</p>
+<p>STRIDE威胁建模方法明确了每个数据流图元素具有不同的威胁，其中外部实体只有仿冒和抵赖威胁，数据流只有篡改、信息泄露、拒绝服务威胁，处理过程有全部六种威胁，存储过程有篡改、信息泄露、拒绝服务威胁，但如果是日志类型存储则还有抵赖威胁。具体可以对照如下表格进行威胁识别：</p>
+
       
     </div>
     
@@ -704,7 +732,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SDL简介"><span class="nav-number">1.</span> <span class="nav-text">SDL简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SDL基本流程"><span class="nav-number">2.</span> <span class="nav-text">SDL基本流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全设计核心原则"><span class="nav-number">3.</span> <span class="nav-text">安全设计核心原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#攻击面最小化"><span class="nav-number">3.1.</span> <span class="nav-text">攻击面最小化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本隐私"><span class="nav-number">3.2.</span> <span class="nav-text">基本隐私</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#权限最小化"><span class="nav-number">3.3.</span> <span class="nav-text">权限最小化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#默认安全"><span class="nav-number">3.4.</span> <span class="nav-text">默认安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#纵深防御"><span class="nav-number">3.5.</span> <span class="nav-text">纵深防御</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、SDL简介"><span class="nav-number">1.</span> <span class="nav-text">一、SDL简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SDL基本流程"><span class="nav-number">1.1.</span> <span class="nav-text">SDL基本流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、安全设计核心原则"><span class="nav-number">2.</span> <span class="nav-text">二、安全设计核心原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-攻击面最小化"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 攻击面最小化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-基本隐私"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 基本隐私</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-权限最小化"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 权限最小化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-默认安全"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 默认安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-纵深防御"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 纵深防御</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-威胁建模"><span class="nav-number">2.6.</span> <span class="nav-text">2.6 威胁建模</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、STRIDE威胁建模"><span class="nav-number">3.</span> <span class="nav-text">三、STRIDE威胁建模</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-STRIDE介绍"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 STRIDE介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-STRIDE威胁建模流程"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 STRIDE威胁建模流程</span></a></li></ol></li></ol></div>
             
 
           </div>
