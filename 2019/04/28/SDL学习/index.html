@@ -110,7 +110,7 @@
 <meta property="og:image" content="http://yoursite.com/images/sdl_02.gif">
 <meta property="og:image" content="http://yoursite.com/images/stride.PNG">
 <meta property="og:image" content="http://yoursite.com/images/Data_Flow_Diagrams.PNG">
-<meta property="og:updated_time" content="2019-04-29T15:42:47.774Z">
+<meta property="og:updated_time" content="2019-04-29T18:52:31.973Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微软SDL（可信赖计算安全开发生命周期）">
 <meta name="twitter:description" content="一、SDL简介SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程">
@@ -416,7 +416,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2.7k
+                  7k
                 </span>
               
 
@@ -432,7 +432,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  9
+                  23
                 </span>
               
             </div>
@@ -664,8 +664,94 @@
 <td></td>
 <td>完整性校验</td>
 </tr>
+<tr>
+<td>抵赖（R）</td>
+<td>日志审计</td>
+<td>强认证</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>安全日志、审计</td>
+</tr>
+<tr>
+<td>信息泄露（I）</td>
+<td>保密性</td>
+<td>加密</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>访问控制列表</td>
+</tr>
+<tr>
+<td>拒绝服务（D）</td>
+<td>可用性</td>
+<td>访问控制列表</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>过滤</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>备份</td>
+</tr>
+<tr>
+<td>权限提升（E）</td>
+<td>授权认证</td>
+<td>输入校验</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>用户组管理</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>访问控制列表</td>
+</tr>
 </tbody>
 </table>
+<p>3.2.4 安全验证</p>
+<p>在威胁建模完成后，需要对整个过程进行回顾，不仅要确认缓解措施是否能够真正缓解潜在威胁，同时验证数据流图是否符合设计，代码实现是否符合与其设计，所有的威胁是否都有相应的缓解措施。最后将威胁建模报告留存档案，作为后续迭代开发、增量开发时威胁建模的参考依据。</p>
+<h2 id="四、安全开发生命周期流程"><a href="#四、安全开发生命周期流程" class="headerlink" title="四、安全开发生命周期流程"></a>四、安全开发生命周期流程</h2><h3 id="4-1-需求阶段"><a href="#4-1-需求阶段" class="headerlink" title="4.1 需求阶段"></a>4.1 需求阶段</h3><p>安全系统开发的一个基本原则时需要“自上而下”地考虑安全问题，尽管很多开发项目开发出的“后续版本”是建立在先前发布的版本基础上，但是新的发行版本的需求阶段和初始规划仍然为构建安全软件提供了好的机会。</p>
+<p>在需求阶段中，产品小组与中央安全小组联系，请求指派安全顾问，该安全顾问在进行规划时充当联络点，并提供资源和指导。安全顾问通过审核计划、提出建议和确保安全小组规划适当的资源来支持产品小组的日程，为产品小组提供协助。安全顾问在安全标准方面向产品小组提出建议，这些安全标准由项目规模、复杂程度和风险决定的。从项目开始到完成最终安全审核和软件发布，安全顾问始终充当产品小组与安全小组之间的联系点。安全顾问还充当安全小组和产品小组管理人员之间的联系人，向小组管理人员提供关于项目的安全要素是否正常工作的意见，以避免在流程的晚期出现安全方面的问题。</p>
+<p>在需求阶段中，产品小组应考虑如何在开发流程中集成安全性，找出关键的安全性对象，以及在尽量提升软件安全性的同时尽量减少对计划和日程的影响。在此过程中，产品小组需要考虑如何使软件的安全功能和保证措施与其他可能与该软件配合使用的软件相互集成。要满足用户将各个产品集成到安全系统的需要，考虑与其他软件的接口非常关键。产品小组关于安全目标、挑战和计划的整体构想必须反映到需求阶段中制作的规划文档中，虽然计划可能会随着项目的进行而变化，但是较早明确制订这些计划将有助于确保不会忽视任何需求或不会直接到最后一刻才发现它们。</p>
+<p>每个产品小组都应将安全性要求视为此阶段的重要组成部分，尽管有些安全性要求将在威胁建模过程中确定，但是用户需求可能要求根据客户的要求来考虑一些安全性。符合行业标准或认证过程的需要也可能提出一些安全性要求，作为正常规划流程的一部分，产品小组应认识到并反映这些要求。</p>
+<h3 id="4-2-设计阶段"><a href="#4-2-设计阶段" class="headerlink" title="4.2 设计阶段"></a>4.2 设计阶段</h3><p>设计阶段确定软件的总体需求和结构，从安全性的角度来看，设计阶段的关键要素包括：</p>
+<ul>
+<li>定义安全体系结构和设计指导原则：从安全性角度定义软件的总体结构，并确定对安全性起关键作用的组件（“可信赖计算基础”）。确定将在软件中全面应用的设计技巧，如分层、使用强类型语言、应用最低权限和使攻击面最小化。分层指的是将软件组织成精心定义的组件以避免组件之间出现循环依赖关系–将组件组织为层，高级层可以依赖低级层的服务，且禁止低级层依赖高级层的服务。体系结构中各要素的特点将在各自的设计规范中详细说明，而安全体系结构只是确定安全设计的总体构想。</li>
+<li>记录软件攻击面的要素。由于软件不可能绝对的安全，所以必须重视默认情况下应仅将大多数用户需要使用的功能对所有用户开放，且可以用尽可能最低的权限安装那些功能。对攻击面要素进行度量可为产品小组提供默认安全性的现行度量标准，使产品小组可以检测到令软件易受攻击的情况。尽管有些增加攻击面的情况可能是因为增加了产品功能或可用性导致的，但是在设计和实施过程中还是需要对每种这样的情况进行认真检测和研究，以确保软件交付时在默认配置下有最好的安全性。</li>
+<li>对威胁进行建模。产品小组逐个组件地对威胁进行建模，组件小组使用结构化的方法，确定软件必须管理的模块以及访问那些模块时使用的接口。威胁建模过程确定可能对每个模块造成损害的威胁以及导致损害的可能性（风险评估）。组件小组然后确定降低风险的对策–通过安全功能（如加密）或通过正确使用保护模块免受损害的软件。这样威胁建模可以帮助产品小组确定安全性需求，以及需要特别仔细地审核代码和进行安全测试的领域。应使用工具来支持威胁建模过程，该工具可以处理机器可读格式的威胁模型，并可以对其进行存储和更新。</li>
+<li>定义补充性交付标准。尽管应定义组织的基本安全交付标准，但是各个产品小组或软件版本也可以设计发布软件前必须符合的特定标准。例如正在开发一个准备交付用户使用并可能面临高强度攻击的软件更新版本的产品小组可以建立以下标准：在一段时间内外部没有发现新版本漏洞时才认定它已做好发布准备。（也就是说，开发过程应在漏洞被报告之前找到并消除这些漏洞，而不是在产品小组接到报告之后不得不修复这些漏洞）</li>
+</ul>
+<h3 id="4-3-实施阶段"><a href="#4-3-实施阶段" class="headerlink" title="4.3 实施阶段"></a>4.3 实施阶段</h3><p>在实施阶段，产品小组对软件进行编码、测试和集成。在此阶段将采取措施消除安全缺陷或防止引入安全缺陷的作用很大–这些措施将大大减少安全漏洞遗留到发布给用户的软件最终版本中的可能性。威胁建模的成果会为实施阶段提供重要指导，开发者应特别注意确保代码的正确性以消除高优先级威胁，测试者可集中对这些威胁进行测试以确保将其拦截或消除。</p>
+<p>在实施阶段中应用的SDL要素为：</p>
+<ul>
+<li>应用编码和测试标准。编码标准帮助开发者避免引入导致安全漏洞的缺陷。如使用更安全和更一致的字符串处理和缓冲区操纵结构有助于避免引入缓冲区溢出漏洞。测试标准和最佳做法有助于确保将测试重点放在检测潜在的安全漏洞上，而不仅仅是专注于测试软件功能的正确运行。</li>
+<li>应用包括模糊化工具在内的安全测试工具。“模糊化”为软件应用程序编程接口（API）和网络接口提供结构化但无效的输入，以使检测到可能导致软件漏洞的错误的可能性最大化。</li>
+<li>应用静态分析代码扫描工具。这些工具可检测出某些类型的可能导致漏洞的编码缺陷，包括缓冲区溢出、整数溢出和未初始化变量。Microsoft长期使用的两个这类工具使PREfix和PREfast。</li>
+<li>进行代码审核。作为自动化工具和测试的补充，将由接受过培训的开发人员进行代码审核，他们将检查源代码并检测和消除潜在的安全漏洞，这是开发流程中从软件中消除安全漏洞的关键步骤。</li>
+</ul>
+<h3 id="4-4-验证阶段"><a href="#4-4-验证阶段" class="headerlink" title="4.4 验证阶段"></a>4.4 验证阶段</h3><p>验证阶段是指软件已具备所有功能并进入用户试用版测试的阶段。在此阶段中对软件进行试用版测试时，产品小组进行安全推进，包括进行安全代码审核和集中式安全测试。</p>
+<p>在流程中引入安全推进有两个原因：</p>
+<ul>
+<li>有问题的软件版本已进入生命周期的验证阶段，此阶段最适合进行所需的集中式代码审核和测试。</li>
+<li>在验证阶段进行安全推进可确保代码审核和测试针对的是软件的完成版本，并提供了对实施阶段开发或更新的代码以及未修改的遗留代码进行全部审核的机会。</li>
+</ul>
+<h3 id="4-5-发布阶段"><a href="#4-5-发布阶段" class="headerlink" title="4.5 发布阶段"></a>4.5 发布阶段</h3><p>在发布阶段中，应对软件进行最终安全审核（FSR）。FSR的目标是确定从安全角度看，此软件是否已准备好交付给客户。一般在软件完成之前2到6个月进行FSR，具体时间根据软件的规模决定。在进行FSR之前，软件必须已处于稳定状态，且只剩一些很小的非安全性更改需要在发布前完成。<br>FSR是由组织的中央安全小组对软件进行的独立审核。在进行FSR之前，来自安全小组的安全顾问向产品小组建议软件所需进行FSR的范围，并为产品小组提供资源需求列表。产品小组为安全小组提供完成FSR所需的资源和信息。FSR开始时，产品小组需要填写一份问卷并与进行FSR的安全小组成员进行面谈。所有FSR将要求对最初标识为安全漏洞，但后来经过深入分析确定为对安全性没有影响的缺陷进行审核，以确保分析的正确性。FSR还包括审核软件是否能抵御最新报告的影响类似软件的漏洞。对主软件版本进行FSR时需要进行渗透测试，可能还需要利用外面的安全审核承包商来协助安全小组。<br>FSR不是简单的通过/失败测试，FSR的目标也不是找出软件中所有剩余漏洞，实际上FSR是为产品小组和组织的高层管理人员提供软件的安全水平以及软件发布给用户后抵御攻击的能力和总体状况。如果FSR发现某类剩余漏洞，正确的反应不仅要修复发现的漏洞，还要回到之前的阶段并采取其他针对性的措施解决根本原因（如提高培训质量和改进工具）。</p>
+<h3 id="4-6-支持和服务阶段"><a href="#4-6-支持和服务阶段" class="headerlink" title="4.6 支持和服务阶段"></a>4.6 支持和服务阶段</h3><p>尽管在开发过程中应用了SDL，最先进的开发方法仍无法保证软件完全消除漏洞。即使开发流程可以在交付之前从软件中消除所有漏洞，还是可能被发现新的攻击方式，因此产品小组必须准备好对交付给用户的软件中新发现的漏洞作出响应。<br>响应过程包括评估漏洞报告并在适当的适合发布安全建议和更新，还包括对已报告的漏洞进行事后检查及采取必要的措施。对漏洞采取的措施的范围很广：从为孤立的错误发布更新到更新代码扫描工具以重新对主要的子系统进行代码审核。响应阶段的目标是从错误中吸取教训，并使用漏洞报告中提供的信息帮助在软件投入使用前检测和消除深层漏洞，以免这些漏洞给用户带来危害。响应过程还有助于产品小组和安全小组对流程进行改造，以免将来犯类似错误。</p>
+<h2 id="五、应用安全开发生命周期的观察"><a href="#五、应用安全开发生命周期的观察" class="headerlink" title="五、应用安全开发生命周期的观察"></a>五、应用安全开发生命周期的观察</h2><h3 id="5-1-SDL各要素的有效性"><a href="#5-1-SDL各要素的有效性" class="headerlink" title="5.1 SDL各要素的有效性"></a>5.1 SDL各要素的有效性</h3><p>SDL由大量子流程组成，这些子流程分布整个软件开发生命周期内，威胁建模是SDL中最高优先级的子流程。威胁建模不能孤立的应用：威胁建模促进设计、代码审核和测试，一个流程如果只实施威胁建模但对模型不采取任何响应措施，将无法达到期望效果。威胁建模的主要作用在于确保不产生导致安全漏洞的缺陷。<br>FSR的要素之一–渗透测试并不是获得安全性的好方法，产品小组在整个生命周期中的活动主要集中在威胁建模、代码审核、自动化工具的使用以及模糊化测试，而不是渗透测试。这些措施在防止或消除安全缺陷方面比经典的特定渗透测试更加全面有效。FSR的渗透测试要素有助于判断软件是否已准备好可以发布，而不适合作为发现和修复安全缺陷的方法。如果在FSR阶段进行的渗透测试发现了大量的安全缺陷，则是因为早期阶段不够有效，正确的处理方法是重新检查那些阶段中所谓已完成的活动，而不是仅仅修复渗透测试缺陷就发布软件。</p>
+<h3 id="5-2-工具、测试和代码审核"><a href="#5-2-工具、测试和代码审核" class="headerlink" title="5.2 工具、测试和代码审核"></a>5.2 工具、测试和代码审核</h3><p>静态分析工具、模糊测试和代码审核的作用是互补性的，静态分析工具在发现许多会导致安全漏洞的编码错误（尤其是缓冲区溢出）方面很有效。但是SDL要求仍需要进行手动代码审核，一方面是为了检测到工具未发现的错误，另一方面是为确定可以在哪些方面改进这些工具。<br>模糊化测试对SDL流程能够产生非常积极的成果，与静态代码扫描工具不同，必须为要测试的每种文件格式和网络协议分别构建模糊化测试工具，因此通常可以发现静态分析工具遗漏的错误。威胁模型有助于产品小组划分要测试的接口和格式的优先级，模糊化测试的结构不是完全确定性的（这些工具只允许有限循环次数，无法确保发现所有漏洞），但是经验表明进行适当级别的模糊化测试可以发现一些软件缺陷，在某些情况下此类缺陷可能导致安全问题。</p>
+<h3 id="5-3-投资"><a href="#5-3-投资" class="headerlink" title="5.3 投资"></a>5.3 投资</h3><p>强制安全培训对多数公司来说会产生较高的资金投入，培训可分为现场培训和在线学习两种。现场培训对准备进行安全推进或其他关键活动的小组进行全员培训特别有效。</p>
+<h3 id="5-4-收益"><a href="#5-4-收益" class="headerlink" title="5.4 收益"></a>5.4 收益</h3><p>Microsoft的经验已经表明SDL在消除和减少软件漏洞方面产生相当好的效果，Microsoft还会评估外部报告的漏洞对正在开发的软件版本的影响。</p>
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>Microsoft的经验表明SDL在减少安全漏洞方面非常有效。实施组成SDL的要素越多，对安全性的提升也就越多，这也是视为有效流程的一个特征。SDL的核心理念是将安全考虑集成在软件开发的每个阶段：需求分析、设计、编码、测试和维护。从需求、设计到产品发布的每个阶段都增加相应的安全活动，以减少软件中漏洞的数量并将安全缺陷降低到最小程度。</p>
+<p>七、参考文献</p>
+<p>[1] <a href="https://docs.microsoft.com/zh-cn/previous-versions/ms995349(v=msdn.10)" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/previous-versions/ms995349(v=msdn.10)</a><br>[2] <a href="http://blog.nsfocus.net/sdl/" target="_blank" rel="noopener">http://blog.nsfocus.net/sdl/</a></p>
 
       
     </div>
@@ -861,7 +947,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、SDL简介"><span class="nav-number">1.</span> <span class="nav-text">一、SDL简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SDL基本流程"><span class="nav-number">1.1.</span> <span class="nav-text">SDL基本流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、安全设计核心原则"><span class="nav-number">2.</span> <span class="nav-text">二、安全设计核心原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-攻击面最小化"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 攻击面最小化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-基本隐私"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 基本隐私</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-权限最小化"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 权限最小化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-默认安全"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 默认安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-纵深防御"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 纵深防御</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-威胁建模"><span class="nav-number">2.6.</span> <span class="nav-text">2.6 威胁建模</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、STRIDE威胁建模"><span class="nav-number">3.</span> <span class="nav-text">三、STRIDE威胁建模</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-STRIDE介绍"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 STRIDE介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-STRIDE威胁建模流程"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 STRIDE威胁建模流程</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、SDL简介"><span class="nav-number">1.</span> <span class="nav-text">一、SDL简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SDL基本流程"><span class="nav-number">1.1.</span> <span class="nav-text">SDL基本流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、安全设计核心原则"><span class="nav-number">2.</span> <span class="nav-text">二、安全设计核心原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-攻击面最小化"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 攻击面最小化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-基本隐私"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 基本隐私</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-权限最小化"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 权限最小化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-默认安全"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 默认安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-纵深防御"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 纵深防御</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-威胁建模"><span class="nav-number">2.6.</span> <span class="nav-text">2.6 威胁建模</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、STRIDE威胁建模"><span class="nav-number">3.</span> <span class="nav-text">三、STRIDE威胁建模</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-STRIDE介绍"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 STRIDE介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-STRIDE威胁建模流程"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 STRIDE威胁建模流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、安全开发生命周期流程"><span class="nav-number">4.</span> <span class="nav-text">四、安全开发生命周期流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-需求阶段"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 需求阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-设计阶段"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 设计阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-实施阶段"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 实施阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-验证阶段"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 验证阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-发布阶段"><span class="nav-number">4.5.</span> <span class="nav-text">4.5 发布阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-支持和服务阶段"><span class="nav-number">4.6.</span> <span class="nav-text">4.6 支持和服务阶段</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、应用安全开发生命周期的观察"><span class="nav-number">5.</span> <span class="nav-text">五、应用安全开发生命周期的观察</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-SDL各要素的有效性"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 SDL各要素的有效性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-工具、测试和代码审核"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 工具、测试和代码审核</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-投资"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 投资</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-收益"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 收益</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、总结"><span class="nav-number">6.</span> <span class="nav-text">六、总结</span></a></li></ol></div>
             
 
           </div>
