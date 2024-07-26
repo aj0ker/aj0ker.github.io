@@ -6,7 +6,7 @@
 
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -102,19 +102,19 @@
 <meta name="keywords" content="安全开发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微软SDL（可信赖计算安全开发生命周期）">
-<meta property="og:url" content="http://yoursite.com/2019/04/28/SDL学习/index.html">
+<meta property="og:url" content="http://aJ0ker.github.io/2019/04/28/SDL学习/index.html">
 <meta property="og:site_name" content="陋室">
 <meta property="og:description" content="一、SDL简介SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/images/SDL.gif">
-<meta property="og:image" content="http://yoursite.com/images/sdl_02.gif">
-<meta property="og:image" content="http://yoursite.com/images/stride.png">
-<meta property="og:image" content="http://yoursite.com/images/Data_Flow_Diagrams.png">
-<meta property="og:updated_time" content="2019-04-29T19:03:22.113Z">
+<meta property="og:image" content="http://aj0ker.github.io/images/SDL.gif">
+<meta property="og:image" content="http://aj0ker.github.io/images/sdl_02.gif">
+<meta property="og:image" content="http://aj0ker.github.io/images/stride.png">
+<meta property="og:image" content="http://aj0ker.github.io/images/Data_Flow_Diagrams.png">
+<meta property="og:updated_time" content="2019-04-29T19:03:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微软SDL（可信赖计算安全开发生命周期）">
 <meta name="twitter:description" content="一、SDL简介SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程">
-<meta name="twitter:image" content="http://yoursite.com/images/SDL.gif">
+<meta name="twitter:image" content="http://aj0ker.github.io/images/SDL.gif">
 
 
 
@@ -144,7 +144,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/04/28/SDL学习/">
+  <link rel="canonical" href="http://aJ0ker.github.io/2019/04/28/SDL学习/">
 
 
 
@@ -164,7 +164,7 @@
   <script type="text/javascript" src="/js/src/love.js"></script>
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -174,7 +174,7 @@
   <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -316,20 +316,20 @@
   
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/28/SDL学习/">
+    <link itemprop="mainEntityOfPage" href="http://aJ0ker.github.io/2019/04/28/SDL学习/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aJ0ker">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content>
       <meta itemprop="image" content="/images/header.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="陋室">
     </span>
 
@@ -372,7 +372,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/软件安全设计/" itemprop="url" rel="index">
                     <span itemprop="name">软件安全设计</span>
                   </a>
@@ -455,7 +455,7 @@
       
         <h2 id="一、SDL简介"><a href="#一、SDL简介" class="headerlink" title="一、SDL简介"></a>一、SDL简介</h2><p>SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程中进行代码审核和安全测试。</p>
 <h3 id="SDL基本流程"><a href="#SDL基本流程" class="headerlink" title="SDL基本流程"></a>SDL基本流程</h3><p>Microsoft标准软件开发流程如下图所示，也是行业内的典型流程。该开发流程实际上是螺旋形的，在实施阶段可能需要经常重新考虑需求和设计问题。</p>
-<p><img src="/images/SDL.gif" alt=""></p>
+<p><img src="/images/SDL.gif" alt></p>
 <p>实际实施中软件安全性方面的经验已经为构建更安全的软件建立了一套高标准的原则，Microsoft将这些原则称作SD3+C，即设计安全、默认安全、部署安全和通信。</p>
 <ul>
 <li>设计安全：在架构、设计和实现软件时，应该在运行时能保护自身及其处理的信息，并能抵御攻击。</li>
@@ -465,7 +465,7 @@
 </ul>
 <p>SD3+C每个要素都对开发流程提出了要求，但设计安全和默认安全对软件安全性提升作用最大，设计安全改进流程以防止在第一阶段引入漏洞，默认安全则要求软件默认状态下暴露的攻击面最小。</p>
 <p>在现有开发流程中引入继承SD3+C方法的安全措施后的改进流程结构如下图所示。</p>
-<p><img src="/images/sdl_02.gif" alt=""></p>
+<p><img src="/images/sdl_02.gif" alt></p>
 <h2 id="二、安全设计核心原则"><a href="#二、安全设计核心原则" class="headerlink" title="二、安全设计核心原则"></a>二、安全设计核心原则</h2><p>SDL安全设计核心原则：</p>
 <ul>
 <li>Attack Surface Reduction：攻击面最小化</li>
@@ -593,10 +593,10 @@
 <li>提出缓解措施</li>
 <li>安全验证</li>
 </ul>
-<p><img src="/images/stride.png" alt=""></p>
+<p><img src="/images/stride.png" alt></p>
 <p>3.2.1 数据流图</p>
 <p>数据流图（Data Flow Diagrams）包含外部实体（External Entity）、处理过程（Process）、数据流（Data Flow）、数据存储（Data Store），安全人员与系统架构师及设计人员沟通，了解设计详情并画出数据流图后还需要标注信任边界（Trust Boundary），针对简单Web应用的数据流图如下：</p>
-<p><img src="/images/Data_Flow_Diagrams.png" alt=""></p>
+<p><img src="/images/Data_Flow_Diagrams.png" alt></p>
 <p>3.2.2 识别威胁</p>
 <p>STRIDE威胁建模方法明确了每个数据流图元素具有不同的威胁，其中外部实体只有仿冒和抵赖威胁，数据流只有篡改、信息泄露、拒绝服务威胁，处理过程有全部六种威胁，存储过程有篡改、信息泄露、拒绝服务威胁，但如果是日志类型存储则还有抵赖威胁。具体可以对照如下表格进行威胁识别：</p>
 <p>数据流图元素对应不同威胁</p>
@@ -823,6 +823,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/05/11/渗透测试小技巧积累/" rel="prev" title="渗透测试小技巧积累">
+                渗透测试小技巧积累 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -885,7 +889,7 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="aJ0ker">
             
@@ -900,7 +904,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -911,7 +915,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 
               </div>
@@ -922,7 +926,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -978,7 +982,7 @@
           </div>
         </section>
 		
-		<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="110" src="//music.163.com/outchain/player?type=0&id=2756100143&auto=1&height=90"></iframe>
+		<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="110" src="//music.163.com/outchain/player?type=0&id=38569050&auto=1&height=90"></iframe>
 
       <!--/noindex-->
       
@@ -997,7 +1001,7 @@
     <footer id="footer" class="footer">
       <div class="footer-inner">
         <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

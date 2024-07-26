@@ -6,7 +6,7 @@
 
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -102,18 +102,18 @@
 <meta name="keywords" content="Android安全">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入理解SQLite">
-<meta property="og:url" content="http://yoursite.com/2019/04/17/深入理解SQLite/index.html">
+<meta property="og:url" content="http://aJ0ker.github.io/2019/04/17/深入理解SQLite/index.html">
 <meta property="og:site_name" content="陋室">
 <meta property="og:description" content="SQLite是一款开源数据库，Android选择SQLite的原因是其内存占用较低。 深入理解SQLiteSQLite数据库在Android中默认存储在/data/data/[package name]/databases/位置，文件扩展名为.db。 分析使用SQLite的简单应用 运行应用程序，使其创建SQLite数据库。  使用adb shell访问数据库，可以使用SQLite浏览器访问SQL">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/images/sqlite3.PNG">
-<meta property="og:image" content="http://yoursite.com/images/drozer.PNG">
-<meta property="og:image" content="http://yoursite.com/images/injection.PNG">
-<meta property="og:updated_time" content="2019-04-18T19:14:04.043Z">
+<meta property="og:image" content="http://aj0ker.github.io/images/sqlite3.PNG">
+<meta property="og:image" content="http://aj0ker.github.io/images/drozer.PNG">
+<meta property="og:image" content="http://aj0ker.github.io/images/injection.PNG">
+<meta property="og:updated_time" content="2019-04-18T19:14:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解SQLite">
 <meta name="twitter:description" content="SQLite是一款开源数据库，Android选择SQLite的原因是其内存占用较低。 深入理解SQLiteSQLite数据库在Android中默认存储在/data/data/[package name]/databases/位置，文件扩展名为.db。 分析使用SQLite的简单应用 运行应用程序，使其创建SQLite数据库。  使用adb shell访问数据库，可以使用SQLite浏览器访问SQL">
-<meta name="twitter:image" content="http://yoursite.com/images/sqlite3.PNG">
+<meta name="twitter:image" content="http://aj0ker.github.io/images/sqlite3.PNG">
 
 
 
@@ -143,7 +143,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/04/17/深入理解SQLite/">
+  <link rel="canonical" href="http://aJ0ker.github.io/2019/04/17/深入理解SQLite/">
 
 
 
@@ -163,7 +163,7 @@
   <script type="text/javascript" src="/js/src/love.js"></script>
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -173,7 +173,7 @@
   <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -315,20 +315,20 @@
   
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/17/深入理解SQLite/">
+    <link itemprop="mainEntityOfPage" href="http://aJ0ker.github.io/2019/04/17/深入理解SQLite/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aJ0ker">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content>
       <meta itemprop="image" content="/images/header.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="陋室">
     </span>
 
@@ -371,7 +371,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Android安全/" itemprop="url" rel="index">
                     <span itemprop="name">Android安全</span>
                   </a>
@@ -465,7 +465,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlite3 [dbname]</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p><img src="/images/sqlite3.PNG" alt=""></p>
+<p><img src="/images/sqlite3.PNG" alt></p>
 <p>.databases：列出数据库名称。<br>.tables：列出数据库包含的表名称。<br>.schema：查看表。</p>
 <ol start="5">
 <li><p>使用<code>.output</code>命令将SQL查询输出自动保存至指定文件，方便后续将文件拉取到本地，如果设置<code>.output stdout</code>，查询输出将在终端打印结果并保存至文件。<code>.dump</code>命令将创建一个列表，该列表包含从数据库创建到现在所执行的全部SQL操作。</p>
@@ -486,10 +486,10 @@
 <li>在Drozer控制台使用<code>finduri</code>扫描器模块查看所有内容URI和可访问的URI。</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dz&gt; run scanner.provider.finduris -a [package_name]</span><br></pre></td></tr></table></figure>
-<p><img src="/images/drozer.PNG" alt=""></p>
+<p><img src="/images/drozer.PNG" alt></p>
 <p>3.使用Drozer中的注入扫描程序模块检查应用程序中的注入漏洞。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dz&gt; run scanner.provider.injection -a [package_name]</span><br></pre></td></tr></table></figure>
-<p><img src="/images/injection.PNG" alt=""></p>
+<p><img src="/images/injection.PNG" alt></p>
 <ol start="4">
 <li>使用参数查询这些内容供应器，如<code>1 = 1</code>将永远为<code>TRUE</code>。</li>
 </ol>
@@ -611,7 +611,7 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="aJ0ker">
             
@@ -626,7 +626,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -637,7 +637,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 
               </div>
@@ -648,7 +648,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -704,7 +704,7 @@
           </div>
         </section>
 		
-		<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="110" src="//music.163.com/outchain/player?type=0&id=2756100143&auto=1&height=90"></iframe>
+		<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="110" src="//music.163.com/outchain/player?type=0&id=38569050&auto=1&height=90"></iframe>
 
       <!--/noindex-->
       
@@ -723,7 +723,7 @@
     <footer id="footer" class="footer">
       <div class="footer-inner">
         <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

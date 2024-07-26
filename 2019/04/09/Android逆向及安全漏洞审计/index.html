@@ -6,7 +6,7 @@
 
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -102,18 +102,18 @@
 <meta name="keywords" content="Android安全">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android逆向及安全漏洞审计">
-<meta property="og:url" content="http://yoursite.com/2019/04/09/Android逆向及安全漏洞审计/index.html">
+<meta property="og:url" content="http://aJ0ker.github.io/2019/04/09/Android逆向及安全漏洞审计/index.html">
 <meta property="og:site_name" content="陋室">
 <meta property="og:description" content="Android应用程序文件结构apk程序文件结构一般.apk程序包括以下文件和文件夹：  Classes.dex （文件） AndroidManifest.xml （文件） META-INF （文件夹） resources.arsc （文件） res （文件夹） assets （文件夹） lib （文件夹）  Android 应用程序组件Android 应用程序由各种组件组成，它们一起创建可工作的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/images/JD-GUI.PNG">
-<meta property="og:image" content="http://yoursite.com/images/drozer%20server.PNG">
-<meta property="og:image" content="http://yoursite.com/images/app_provider_read.PNG">
-<meta property="og:updated_time" content="2019-04-09T23:22:24.103Z">
+<meta property="og:image" content="http://aj0ker.github.io/images/JD-GUI.PNG">
+<meta property="og:image" content="http://aj0ker.github.io/images/drozer%20server.PNG">
+<meta property="og:image" content="http://aj0ker.github.io/images/app_provider_read.PNG">
+<meta property="og:updated_time" content="2019-04-09T23:22:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android逆向及安全漏洞审计">
 <meta name="twitter:description" content="Android应用程序文件结构apk程序文件结构一般.apk程序包括以下文件和文件夹：  Classes.dex （文件） AndroidManifest.xml （文件） META-INF （文件夹） resources.arsc （文件） res （文件夹） assets （文件夹） lib （文件夹）  Android 应用程序组件Android 应用程序由各种组件组成，它们一起创建可工作的">
-<meta name="twitter:image" content="http://yoursite.com/images/JD-GUI.PNG">
+<meta name="twitter:image" content="http://aj0ker.github.io/images/JD-GUI.PNG">
 
 
 
@@ -143,7 +143,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/04/09/Android逆向及安全漏洞审计/">
+  <link rel="canonical" href="http://aJ0ker.github.io/2019/04/09/Android逆向及安全漏洞审计/">
 
 
 
@@ -163,7 +163,7 @@
   <script type="text/javascript" src="/js/src/love.js"></script>
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -173,7 +173,7 @@
   <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -315,20 +315,20 @@
   
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/09/Android逆向及安全漏洞审计/">
+    <link itemprop="mainEntityOfPage" href="http://aJ0ker.github.io/2019/04/09/Android逆向及安全漏洞审计/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="aJ0ker">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content>
       <meta itemprop="image" content="/images/header.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="陋室">
     </span>
 
@@ -371,7 +371,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Android安全/" itemprop="url" rel="index">
                     <span itemprop="name">Android安全</span>
                   </a>
@@ -473,7 +473,7 @@
 </ul>
 <h2 id="Android应用程序逆向"><a href="#Android应用程序逆向" class="headerlink" title="Android应用程序逆向"></a>Android应用程序逆向</h2><h3 id="Dex2jar逆向Android应用程序"><a href="#Dex2jar逆向Android应用程序" class="headerlink" title="Dex2jar逆向Android应用程序"></a>Dex2jar逆向Android应用程序</h3><p>dex2jar将字节码（如Classes.dex）转换为可读文件的工具，将.dex文件转换为.jar文件。.dex文件是由java字节码转换的Dalvik字节码。<br>从cmd转到dex2jar文件夹，运行以下命令使用dex2jar工具。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ d2j-dex2jar.bat <span class="string">"X:\..\abc.apk"</span></span><br><span class="line">  dex2jar X:\..\abc.apk -&gt; abc-dex2jar.jar</span><br></pre></td></tr></table></figure></p>
 <p>dex2jar将.apk的.dex文件转换为.jar文件后，就可以使用Java图形查看器（如JD-GUI）打开.jar文件。<br>微信7.0.3 for Android的java源代码。</p>
-<p><img src="/images/JD-GUI.PNG" alt=""></p>
+<p><img src="/images/JD-GUI.PNG" alt></p>
 <p>注意：如果应用程序开发人员使用一些防止反编译的保护，如 proguard 和 dex2jar，我们使用 dex2jar 或 Apktool 反编译应用程序时，不会看到准确的源代码，而是一堆不同的源文件，并不是原始源代码。</p>
 <h3 id="ApkTool逆向Android应用程序"><a href="#ApkTool逆向Android应用程序" class="headerlink" title="ApkTool逆向Android应用程序"></a>ApkTool逆向Android应用程序</h3><p>另一种Android逆向的方法是将.dex文件转换为smali文件，smali是一种文件格式，其语法跟Jasmine语言类似。<br>ApkTool的优点是操作是双向的，反编译一个程序后可以使用ApkTool重新编译，且编译生成一个新的.apk文件。</p>
 <p>ApkTool反编译apk程序</p>
@@ -493,7 +493,7 @@
 <p>安装后需要将代理组件agent.apk安装到模拟器，还需要在启动模拟器时转发一个特定端口31415建立连接。可以使用以下命令完成操作：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ adb install agent.apk</span><br><span class="line"></span><br><span class="line">$ adb forward tcp:31415 tcp:31415</span><br></pre></td></tr></table></figure>
 <p>启动drozer agent代理程序，单击”Embedded Server”&gt;”Disabled”启动服务器。</p>
-<p><img src="/images/drozer server.PNG" alt=""></p>
+<p><img src="/images/drozer server.PNG" alt></p>
 <p>在cmd启动Drozer终端连接到模拟器：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ drozer console connect</span><br></pre></td></tr></table></figure></p>
 <p>成功进入Drozer Console后，运行app.provider.finduri模块查找所有内容供应器。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dz&gt; run app.provider.finduri [URI of the content provider]</span><br></pre></td></tr></table></figure></p>
 <p>使用app.provider.query模块查询内容供应器URI，如果能够查询到来自内容供应器的数据，意味着内容供应器泄漏数据且存在漏洞，因为Drozer未被明确授予使用数据集的任何权限。</p>
@@ -504,7 +504,7 @@
 <h3 id="目录遍历或本地文件包含漏洞"><a href="#目录遍历或本地文件包含漏洞" class="headerlink" title="目录遍历或本地文件包含漏洞"></a>目录遍历或本地文件包含漏洞</h3><p>应用程序中的目录遍历漏洞允许攻击者使用漏洞读取其他系统文件，该漏洞可使用Drozer进行检测。</p>
 <p>通过分析Adobe Reader 10.3.1版本中存在的目录遍历漏洞，可以清晰地理解该漏洞利用方法。<br>1.使用<code>adb install adobe_reader_x_10.3.1_64606.apk</code>安装.apk程序。<br>2.启动Drozer，使用app.provider.finduri模块查找内容供应器URI。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dz&gt; run app.provider.finduri com.adobe.reader</span><br><span class="line">Scanning com.adobe.reader...</span><br><span class="line">content://com.adobe.reader.fileprovider/</span><br><span class="line">content://com.adobe.reader.fileprovider</span><br></pre></td></tr></table></figure></p>
 <p>3.使用app.provider.read利用查找到的URI，如尝试读取/proc/cpuinfo文件内容，该文件默认存在所有Android实例中。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dz&gt; run app.provider.read content://com.adobe.reader.fileprovider/../../../../proc/cpuinfo</span><br></pre></td></tr></table></figure></p>
-<p><img src="/images/app_provider_read.PNG" alt=""></p>
+<p><img src="/images/app_provider_read.PNG" alt></p>
 <h3 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h3><p>SQL注入与WEB端类似，都是因为开发人员未对用户输入和服务器端输出进行严格检查，Android使用的是SQLite数据库。<br>对SQL注入漏洞的利用，除与WEB端SQL注入漏洞类型利用方法外，还可以使用Drozer的app.provider.query模块利用SQL注入漏洞。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dz&gt; run app.provider.query [Content Provider URI] --projection <span class="string">"* FROM SQLITE_MASTER WHERE type='table';- -"</span></span><br></pre></td></tr></table></figure>
 <p>上述命令将返回SQLite数据库中全部表的列表，SQLITE_MASTER中保存数据库的基本信息。</p>
@@ -632,7 +632,7 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="aJ0ker">
             
@@ -647,7 +647,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -658,7 +658,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 
               </div>
@@ -669,7 +669,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -725,7 +725,7 @@
           </div>
         </section>
 		
-		<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="110" src="//music.163.com/outchain/player?type=0&id=2756100143&auto=1&height=90"></iframe>
+		<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="110" src="//music.163.com/outchain/player?type=0&id=38569050&auto=1&height=90"></iframe>
 
       <!--/noindex-->
       
@@ -744,7 +744,7 @@
     <footer id="footer" class="footer">
       <div class="footer-inner">
         <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
